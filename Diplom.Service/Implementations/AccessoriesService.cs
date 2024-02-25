@@ -48,7 +48,7 @@ namespace Diplom.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = null, string manufacturer = null, decimal? cost = null, string supplier = null)
+        public async Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", decimal? cost = null, string supplier = "")
         {
             try
             {

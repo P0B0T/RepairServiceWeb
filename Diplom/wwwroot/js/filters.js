@@ -20,7 +20,11 @@
                 arr.push('<div class="divRows">');
                 arr.push('<div style="width: 30em">');
                 arr.push(`<h3>${item.name}</h3>`);
-                arr.push(`<p>${item.description}</p>`);
+                if (item.description !== null) {
+                    arr.push(`<p>${item.description}</p>`);
+                } else {
+                    arr.push('<p></p>');
+                }
                 arr.push('</div>');
                 arr.push('<div style="margin-top: 2em; width: 16em">');
                 arr.push('<label>Производитель:</label>');
