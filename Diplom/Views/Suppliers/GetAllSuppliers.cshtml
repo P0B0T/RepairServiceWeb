@@ -1,0 +1,45 @@
+﻿@using Diplom.Domain.Entity
+
+@{
+    ViewData["Title"] = "Поставщики";
+}
+
+@model IEnumerable<Supplier>
+
+<h2>Список поставщиков</h2>
+
+
+<table class="table table-bordered">
+    <tr>
+        <td />
+        <td>Название компании</td>
+        <td>Контактное лицо</td>
+        <td>Номер телефона</td>
+        <td>Адрес</td>
+        <td>Электронная почта</td>
+        <td />
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.CompanyName</td>
+            <td>@item.ContactPerson</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Address</td>
+            <td>@item.Email</td>
+
+            <td>
+                <form>
+                    <button type="button" onclick="openModal({ url: ????,, data: '@item.Id', title: 'Информация о поставщике' })" data-toggle="ajax-modal" data-target="Modal">Посмотреть</button>
+                </form>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<form>
+    <button class="buttonAdd" type="button" onclick="openModal({ url: ????, title: 'Добавление поставщика' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+</form>

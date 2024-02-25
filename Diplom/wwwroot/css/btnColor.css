@@ -1,0 +1,25 @@
+﻿.red:hover {
+    background-color: red
+}
+
+.green:hover {
+    background-color: green
+}
+
+button:hover {
+    background-color: lightgray
+}
+
+@media (prefers-color-scheme: dark) {
+    .red:hover {
+        background-color: #41000b
+    }
+
+    .green:hover {
+        background-color: #0b3206
+    }
+
+    button:hover {
+        background-color: #2c2c2d
+    }
+}
