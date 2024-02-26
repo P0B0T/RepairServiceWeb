@@ -1,6 +1,4 @@
-﻿using Azure;
-using Diplom.DAL;
-using Diplom.Domain.Entity;
+﻿using Diplom.DAL;
 using Diplom.Domain.ViewModels;
 using Diplom.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +25,7 @@ namespace Diplom.Controllers
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return View(response.Data.ToList());
 
-            return View("Error", $"{response.Description}");
+            return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
         [HttpGet]
@@ -38,7 +36,7 @@ namespace Diplom.Controllers
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return PartialView(response.Data);
 
-            return View("Error", $"{response.Description}");
+            return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
         [HttpGet]
@@ -53,14 +51,14 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredAccessories(string Name, string manufacturer, decimal? cost, string supplier)
+        public async Task<JsonResult> GetFilteredAccessories(string Name = "", string manufacturer = "", decimal? cost = null, string supplier = "")
         {
             var response = await _accessoriesService.GetFiltered(Name, manufacturer, cost, supplier);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return Json(new { success = true, filteredData = response.Data });
 
-                return Json(new { success = false, error = $"{response.Description}" });
+            return Json(new { success = false, error = $"{response.Description}" });
         }
 
         public async Task<IActionResult> DeleteAccessories(int id)
@@ -70,7 +68,7 @@ namespace Diplom.Controllers
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return RedirectToAction("GetAllAccessories");
 
-            return View("Error", $"{response.Description}");
+            return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
 
@@ -87,7 +85,7 @@ namespace Diplom.Controllers
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return PartialView(response.Data);
 
-            return View("Error", $"{response.Description}");
+            return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
         [HttpPost]
@@ -95,7 +93,8 @@ namespace Diplom.Controllers
         {
             ViewBag.SuppliersList = new SelectList(_context.Suppliers.ToList(), "Id", "CompanyName");
 
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) 
+                return View(model);
 
             if (model.Id == 0)
                 await _accessoriesService.Create(model);

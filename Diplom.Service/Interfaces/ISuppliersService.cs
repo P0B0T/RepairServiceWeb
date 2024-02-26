@@ -11,5 +11,7 @@ namespace Diplom.Service.Interfaces
         Task<IBaseResponse<Supplier>> Create(SuppliersViewModel model);
 
         Task<IBaseResponse<Supplier>> Edit(int id, SuppliersViewModel model);
+
+        Task<IBaseResponse<IEnumerable<Supplier>>> GetFiltered(string address = "");
     }
 }

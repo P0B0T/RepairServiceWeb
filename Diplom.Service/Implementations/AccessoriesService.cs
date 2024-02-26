@@ -54,16 +54,16 @@ namespace Diplom.Service.Implementations
             {
                 var accessories = _accessoriesRepository.GetAll().Include(x => x.Supplier).ToList();
 
-                if (name != null)
+                if (name != "")
                     accessories = accessories.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToList();
 
-                if (manufacturer != null)
+                if (manufacturer != "")
                     accessories = accessories.Where(x => x.Manufacturer.ToLower().Contains(manufacturer.ToLower())).ToList();
 
                 if (cost != null)
                     accessories = accessories.Where(x => x.Cost == cost).ToList();
 
-                if (supplier != null)
+                if (supplier != "")
                     accessories = accessories.Where(x => x.Supplier.CompanyName.ToLower().Contains(supplier.ToLower())).ToList();
 
                 if (!accessories.Any())

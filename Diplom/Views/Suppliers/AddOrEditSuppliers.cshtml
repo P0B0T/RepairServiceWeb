@@ -1,0 +1,40 @@
+﻿@using Diplom.Domain.ViewModels
+
+@model SuppliersViewModel
+
+<div class="divCenter">
+    <form asp-action="AddOrEditSuppliers">
+
+        @if (Model != null)
+        {
+            <input hidden asp-for="@Model.Id" />
+        }
+
+        <div class="divLeft">
+
+            <label asp-for="@Model.Company_name"></label>
+            <input onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Company_name" />
+            <span asp-validation-for="@Model.Company_name"></span> <br />
+
+            <label asp-for="@Model.Contact_person"></label>
+            <input style="width: 15em" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Contact_person" />
+            <span asp-validation-for="@Model.Contact_person"></span> <br />
+
+            <label asp-for="@Model.Phone_number"></label>
+            <input onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Phone_number" />
+            <span asp-validation-for="@Model.Phone_number"></span> <br />
+            
+            <div class="divCenter" style="margin-top: 0">
+                <label asp-for="@Model.Address"></label> <br />
+                <textarea style="margin-bottom: 2em" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Address"></textarea> <br />
+            </div>
+
+            <label asp-for="@Model.Email"></label>
+            <input onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Email" />
+            <span asp-validation-for="@Model.Email"></span> <br />
+
+        </div> <br />
+
+        <button class="green">Сохранить</button>
+    </form>
+</div>

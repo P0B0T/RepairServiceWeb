@@ -8,38 +8,49 @@
 
 <h2>Список поставщиков</h2>
 
+<div class="divControl">
+    <form id="filterSuppliers" asp-action="GetFilteredSuppliers" method="get">
+        <input name="address" class="filterEl" type="text" placeholder="Введите адрес" />
+        <button style="width: 8em" class="filterEl" type="submit">Отфильтровать</button>
+    </form>
 
-<table class="table table-bordered">
-    <tr>
-        <td />
-        <td>Название компании</td>
-        <td>Контактное лицо</td>
-        <td>Номер телефона</td>
-        <td>Адрес</td>
-        <td>Электронная почта</td>
-        <td />
-    </tr>
+    <div>
+        <form class="search" asp-action="GetSuppliersByName" method="get">
+            <input class="searchEl" name="name" placeholder="Введите название" required type="text" />
+            <button class="searchEl" onclick="searchHighlight('/Suppliers/GetSuppliersByName')">Поиск</button>
+        </form>
+    </div>
+</div>
 
+<div id="divOutput">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.CompanyName</td>
-            <td>@item.ContactPerson</td>
-            <td>@item.PhoneNumber</td>
-            <td>@item.Address</td>
-            <td>@item.Email</td>
-
-            <td>
+        <div class="divRows">
+            <div style="width: 22em">
+                <h3>@item.CompanyName</h3>
+                <label>Контактное лицо:</label>
+                <label>@item.ContactPerson</label> <br />
+                <label>Номер телефона:</label>
+                <label>@item.PhoneNumber</label>
+            </div>
+            <div style="margin-top: 2em; width: 22em">
+                <label>Адрес:</label>
+                <label>@item.Address</label> <br />
+                <label>Email:</label>
+                <label>@item.Email</label>
+            </div>
+            <div>
                 <form>
-                    <button type="button" onclick="openModal({ url: ????,, data: '@item.Id', title: 'Информация о поставщике' })" data-toggle="ajax-modal" data-target="Modal">Посмотреть</button>
+                    <button type="button" onclick="openModal({ url: '/Suppliers/GetSuppliers', data: '@item.Id', title: 'Информация о поставщике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
                 </form>
-            </td>
-        </tr>
+            </div>
+        </div>
+        <hr />
     }
+</div>
 
-</table>
-
-<form>
-    <button class="buttonAdd" type="button" onclick="openModal({ url: ????, title: 'Добавление поставщика' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
-</form>
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" type="button" onclick="openModal({ url: '/Suppliers/AddOrEditSuppliers', title: 'Добавление поставщика' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>

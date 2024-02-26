@@ -48,6 +48,40 @@ namespace Diplom.Service.Implementations
             }
         }
 
+        public async Task<IBaseResponse<IEnumerable<Supplier>>> GetFiltered(string address = "")
+        {
+            try
+            {
+                var suppliers = _suppliersRepository.GetAll();
+
+                if (address != "")
+                    suppliers = suppliers.Where(x => x.Address.ToLower().Contains(address.ToLower()));
+
+                if (!suppliers.Any())
+                {
+                    return new BaseResponse<IEnumerable<Supplier>>()
+                    {
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+
+                return new BaseResponse<IEnumerable<Supplier>>()
+                {
+                    Data = suppliers,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Supplier>>()
+                {
+                    Description = $"[GetFiltered] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
         public async Task<IBaseResponse<SuppliersViewModel>> Get(int id)
         {
             try
@@ -93,7 +127,7 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.CompanyName == name);
+                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.CompanyName.ToLower().Contains(name.ToLower()));
 
                 if (suppliers == null)
                 {
