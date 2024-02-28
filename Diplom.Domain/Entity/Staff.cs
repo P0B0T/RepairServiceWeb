@@ -13,6 +13,8 @@ public partial class Staff
 
     public string? Patronymic { get; set; }
 
+    public string FullName => $"{Surname} {Name} {Patronymic}".Trim();
+
     public int? Experiance { get; set; }
 
     public string Post { get; set; } = null!;

@@ -48,7 +48,7 @@ namespace Diplom.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", decimal? cost = null, string supplier = "")
+        public async Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", string supplier = "")
         {
             try
             {
@@ -59,9 +59,6 @@ namespace Diplom.Service.Implementations
 
                 if (manufacturer != "")
                     accessories = accessories.Where(x => x.Manufacturer.ToLower().Contains(manufacturer.ToLower())).ToList();
-
-                if (cost != null)
-                    accessories = accessories.Where(x => x.Cost == cost).ToList();
 
                 if (supplier != "")
                     accessories = accessories.Where(x => x.Supplier.CompanyName.ToLower().Contains(supplier.ToLower())).ToList();
@@ -267,7 +264,7 @@ namespace Diplom.Service.Implementations
                 return new BaseResponse<Accessory>()
                 {
                     Data = accessories,
-                    StatusCode = StatusCode.OK,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)

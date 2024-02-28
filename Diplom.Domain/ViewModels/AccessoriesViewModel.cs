@@ -37,15 +37,6 @@ namespace Diplom.Domain.ViewModels
         //    //if (Manufacturer.Trim().Length < 2)
         //    //    errors.Add(new ValidationResult("В конце и в начале не должно быть пробелов.", new[] { nameof(Manufacturer) }));
 
-        //    //if (String.IsNullOrWhiteSpace(Name))
-        //    //    errors.Add(new ValidationResult("Хуй", new[] { nameof(Name) }));
-
-        //    //if (String.IsNullOrWhiteSpace(Description))
-        //    //    errors.Add(new ValidationResult("Хуй", new[] { nameof(Description) }));
-
-        //    //if (String.IsNullOrWhiteSpace(Manufacturer))
-        //    //    errors.Add(new ValidationResult("Хуй", new[] { nameof(Manufacturer) }));
-
         //    return errors;
         //}
     }

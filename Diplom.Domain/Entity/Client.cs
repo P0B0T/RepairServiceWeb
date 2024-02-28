@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Diplom.Domain.Entity;
+﻿namespace Diplom.Domain.Entity;
 
 public partial class Client
 {
@@ -12,6 +9,8 @@ public partial class Client
     public string Surname { get; set; } = null!;
 
     public string? Patronymic { get; set; }
+
+    public string FullName => $"{Surname} {Name} {Patronymic}".Trim();
 
     public string Address { get; set; } = null!;
 

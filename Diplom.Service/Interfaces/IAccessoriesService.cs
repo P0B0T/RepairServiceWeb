@@ -12,6 +12,6 @@ namespace Diplom.Service.Interfaces
 
         Task<IBaseResponse<Accessory>> Edit(int id, AccessoriesViewModel model);
 
-        Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", decimal? cost = null, string supplier = "");
+        Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", string supplier = "");
     }
 }

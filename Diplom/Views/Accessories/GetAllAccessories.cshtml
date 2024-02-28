@@ -33,11 +33,6 @@
             </li>
             <li>
                 <div>
-                    <input name="cost" class="filterEl" type="number" step="0.01" placeholder="Введите цену" />
-                </div>
-            </li>
-            <li>
-                <div>
                     <select name="supplier" class="filterEl">
                         <option value="">-Выберите поставщика-</option>
                             @foreach (var item in Model.Select(m => m.Supplier.CompanyName).Distinct())

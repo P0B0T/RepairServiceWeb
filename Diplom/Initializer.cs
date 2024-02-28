@@ -3,8 +3,6 @@ using Diplom.DAL.Repositories;
 using Diplom.Domain.Entity;
 using Diplom.Service.Implementations;
 using Diplom.Service.Interfaces;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Diplom
 {
@@ -25,6 +23,7 @@ namespace Diplom
         {
             services.AddScoped<IAccessoriesService, AccessoriesService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
+            services.AddScoped<IOrderAccessoriesService, OrderAccessoriesService>();
         }
     }
 }

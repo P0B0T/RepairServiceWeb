@@ -1,0 +1,108 @@
+﻿@using Diplom.Domain.Entity
+
+@{
+    ViewData["Title"] = "Заказы запчастей";
+}
+
+@model IEnumerable<OrderAccessory>
+
+<h2>Заказы запчастей</h2>
+
+<div class="divControl">
+    <div class="dropdown">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Фильтры
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <form id="filterOrderAccessories" asp-action="GetFilteredOrderAccessories" method="get">
+            <li>
+                <div>
+                    <select name="clientFullName" class="filterEl">
+                        <option value="">-Выберите клиента-</option>
+                            @foreach (var item in Model.Select(m => m.Client.FullName).Distinct())
+                            {
+                            <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <select name="accessoryName" class="filterEl">
+                        <option value="">-Выберите запчасть-</option>
+                            @foreach (var item in Model.Select(m => m.Accessories.Name).Distinct())
+                            {
+                            <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <input name="count" class="filterEl" type="number" placeholder="Введите количество (цифру)" />
+                </div>
+            </li>
+            <li>
+                <div>
+                    <input name="date" class="filterEl" type="date" placeholder="Введите дату" />
+                </div>
+            </li>
+            <li>
+                <div>
+                    <select name="status" class="filterEl">
+                        <option value="">-Выберите статус-</option>
+                            @foreach (var item in Model.Select(m => m.StatusOrder).Distinct())
+                            {
+                            <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <button class="filterEl" type="submit">Отфильтровать</button>
+            </li>
+            </form>
+        </ul>
+    </div>
+
+    <div>
+        <form class="search" asp-action="GetOrderAccessoriesByName" method="get">
+            <input style="width: 15em" class="searchEl" name="name" placeholder="Введите название запчасти" required type="text" />
+            <button class="searchEl" onclick="searchHighlight('/OrderAccessories/GetOrderAccessoriesByName')">Поиск</button>
+        </form>
+    </div>
+</div>
+
+<div id="divOutput">
+    @foreach (var item in Model)
+    {
+        <div class="divRows">
+            <div style="width: 30em">
+                <h3>@item.Accessories.Name</h3>
+                <p>Клиент: @item.Client.FullName</p>
+            </div>
+            <div style="margin-top: 2em; width: 12em">
+                <label>Количество:</label>
+                <label>@item.Count</label> <br />
+                <label>Цена:</label>
+                <label>@item.Cost.ToString("0.##") руб.</label> <br />
+                <label>Дата заказа:</label>
+                <label>@item.DateOrder</label> <br />
+                <label>Статус:</label>
+                <label>@item.StatusOrder</label>
+            </div>
+            <div>
+                <form>
+                    <button type="button" onclick="openModal({ url: '/OrderAccessories/GetOrderAccessories', data: '@item.Id', title: 'Информация о заказе' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" type="button" onclick="openModal({ url: '/OrderAccessories/AddOrEditOrderAccessories', title: 'Добавление заказа' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>

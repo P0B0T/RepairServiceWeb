@@ -51,9 +51,9 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredAccessories(string Name = "", string manufacturer = "", decimal? cost = null, string supplier = "")
+        public async Task<JsonResult> GetFilteredAccessories(string Name = "", string manufacturer = "", string supplier = "")
         {
-            var response = await _accessoriesService.GetFiltered(Name, manufacturer, cost, supplier);
+            var response = await _accessoriesService.GetFiltered(Name, manufacturer, supplier);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return Json(new { success = true, filteredData = response.Data });
