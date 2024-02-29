@@ -143,3 +143,50 @@ $('#filterOrderAccessories').on('submit', function (event) {
         }
     });
 });
+
+$('#filterClients').on('submit', function (event) {
+    event.preventDefault();
+
+    var fullName = $('input[name="fullName"]').val();
+    var address = $('input[name="address"]').val();
+
+    $.ajax({
+        url: '/Clients/GetFilteredClients',
+        method: 'GET',
+        data: { fullName: fullName, address: address },
+    }).done(function (data) {
+        if (data.success) {
+            $('#divOutput').empty();
+            var arr = [];
+
+            data.filteredData.forEach(function (item) {
+                arr.push('<div class="divRows">');
+                arr.push('<div style="width: 30em">');
+                arr.push(`<h3>${item.fullName}</h3>`);
+                arr.push('</div>');
+                arr.push('<div style="margin-top: 2em; width: 18em">');
+                arr.push('<label>Адрес:</label>');
+                arr.push(`<label>${item.address}</label> <br />`);
+                arr.push('<label>Номер телефона:</label>');
+                arr.push(`<label>${item.phoneNumber}</label> <br />`);
+                arr.push('<label>Email:</label>');
+                arr.push(`<label>${item.email}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div style="margin-top: 2em; width: 12em">');
+                arr.push('<label>Логин:</label>');
+                arr.push(`<label>${item.login}</label> <br />`);
+                arr.push('<label>Пароль:</label>');
+                arr.push(`<label>${item.password}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div>');
+                arr.push('<form>');
+                arr.push(`<button type="button" onclick="openModal({ url: '/Clients/GetClients', data: '${item.id}', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                arr.push('</form>');
+                arr.push('</div>');
+                arr.push('</div>');
+                arr.push('<hr />');
+            });
+            $('#divOutput').append(arr.join(' '));
+        }
+    });
+});

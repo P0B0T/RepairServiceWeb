@@ -11,23 +11,23 @@
         }
 
         <label asp-for="@Model.Name"></label> <br />
-        <textarea onchange="removeExtraSpaces(this)" style="height: 2em" required asp-for="@Model.Name"></textarea> <br />
+        <textarea placeholder="Введите название" onchange="removeExtraSpaces(this)" style="height: 2em" required asp-for="@Model.Name"></textarea> <br />
         <span asp-validation-for="@Model.Name"></span> <br />
 
         <label asp-for="@Model.Description"></label> <br />
-        <textarea onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Description"></textarea> <br />
+        <textarea placeholder="Введите описание" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Description"></textarea> <br />
         <span style="margin-bottom: 2em" asp-validation-for="@Model.Description"></span> <br />
 
         <div class="divLeft">
 
             <label asp-for="@Model.Manufacturer"></label>
-            <input onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Manufacturer" />
+            <input placeholder="Введите производителя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Manufacturer" />
             <span asp-validation-for="@Model.Manufacturer"></span> <br />
 
             <div style="margin-top: 0.1em" class="divCenter">
                 <div class="divLeft">
                     <label asp-for="@Model.Cost"></label>
-                    <input required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
+                    <input placeholder="Введите цену" required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
                     <span asp-validation-for="@Model.Cost"></span> <br />
 
                     <label asp-for="@Model.SupplierId"></label>

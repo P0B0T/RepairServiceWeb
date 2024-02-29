@@ -75,8 +75,7 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditOrderAccessories(int id)
         {
-            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
-            ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name");
+            FillViewBag();
 
             if (id == 0)
                 return PartialView();
@@ -92,8 +91,7 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditOrderAccessories(OrderAccessoriesViewModel model)
         {
-            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
-            ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name");
+            FillViewBag();
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -106,6 +104,12 @@ namespace Diplom.Controllers
             TempData["Successfully"] = "Успешно";
 
             return RedirectToAction("GetAllOrderAccessories");
+        }
+
+        private void FillViewBag()
+        {
+            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
+            ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name");
         }
     }
 }

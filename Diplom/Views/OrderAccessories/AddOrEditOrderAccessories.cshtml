@@ -22,23 +22,23 @@
             </select> <br />
 
             <label asp-for="@Model.Count"></label>
-            <input onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Count" />
+            <input placeholder="Введите количество" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Count" />
             <span asp-validation-for="@Model.Count"></span> <br />
 
             <label asp-for="@Model.Cost"></label>
-            <input required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
+            <input placeholder="Введите цену" required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
             <span asp-validation-for="@Model.Cost"></span> <br />
 
             <label asp-for="@Model.Date_order"></label>
-            <input required type="date" asp-for="@Model.Date_order" />
+            <input placeholder="Выберите дату" required type="date" asp-for="@Model.Date_order" />
             <span asp-validation-for="@Model.Date_order"></span> <br />
 
             <label asp-for="@Model.Status_order"></label>
-            <input onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Status_order" />
+            <input placeholder="Введите статус" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Status_order" />
         </div> <br />
 
         <button class="green">Сохранить</button>
     </form>
 </div>
 
-<div asp-validation-summary="All" class="text-danger"></div> @* Просмотр ошибок *@
+@* <div asp-validation-summary="All" class="text-danger"></div> *@ @* Просмотр ошибок *@

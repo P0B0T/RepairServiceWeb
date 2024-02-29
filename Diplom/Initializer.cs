@@ -24,6 +24,7 @@ namespace Diplom
             services.AddScoped<IAccessoriesService, AccessoriesService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<IOrderAccessoriesService, OrderAccessoriesService>();
+            services.AddScoped<IClientsService, ClientsService>();
         }
     }
 }

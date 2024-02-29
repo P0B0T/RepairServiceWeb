@@ -19,10 +19,17 @@
             <h1>Ремонт компьютерной техники</h1>
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="/Home">Home</a>
-                <a class="nav-item nav-link active" href="/Accessories/GetAllAccessories">Комплектующие (запчасти)</a>
-                <a class="nav-item nav-link active" href="/Suppliers/GetAllSuppliers">Поставщики</a>
-                <a class="nav-item nav-link" href="/OrderAccessories/GetAllOrderAccessories">Заказы комплектующих</a>
-                <a class="nav-item nav-link" href="#">Pricing</a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Всё о запчастях
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/OrderAccessories/GetAllOrderAccessories">Заказы комплектующих</a>
+                        <a class="dropdown-item" href="/Accessories/GetAllAccessories">Запчасти (комплектующие)</a>
+                        <a class="dropdown-item" href="/Suppliers/GetAllSuppliers">Поставщики</a>
+                    </div>
+                </div>
+                <a class="nav-item nav-link" href="/Clients/GetAllClients">Клиенты</a>
             </div>
         </nav>
     </header>

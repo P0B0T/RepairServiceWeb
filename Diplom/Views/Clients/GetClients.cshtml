@@ -1,0 +1,21 @@
+﻿@using Diplom.Domain.ViewModels
+
+@model ClientsViewModel
+
+<div class="card mb-3 mx-auto divGet">
+    <div class="card-body">
+        <h5 class="card-title text-center">@Model.FullName</h5>
+        <p class="card-text"><b>Адрес: </b>@Model.Address</p>
+        <p class="card-text"><b>Номер телефона: </b>@Model.Phone_number</p>
+        <p class="card-text"><b>Email: </b>@Model.Email</p>
+        <p class="card-text"><b>Логин: </b>@Model.Login</p>
+        <p class="card-text"><b>Пароль: </b>@Model.Password</p>
+    </div>
+</div>
+
+<div class="divCenter">
+    <form>
+        <button type="button" onclick="openModal({ url: '/Clients/AddOrEditClients', data: '@Model.Id', title: 'Редактирование клиента' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
+        <button type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/Clients/DeleteClients', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
+    </form>
+</div>

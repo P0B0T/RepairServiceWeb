@@ -11,7 +11,6 @@ namespace Diplom.Domain.ViewModels
         public string Company_name { get; set; } = null!;
 
         [Display(Name = "Контактное лицо:")]
-        [MinLength(10, ErrorMessage = "ФИО контактного лица должно быть от 10 символов")]
         public string? Contact_person { get; set; }
 
         [Display(Name = "Номер телефона:")]

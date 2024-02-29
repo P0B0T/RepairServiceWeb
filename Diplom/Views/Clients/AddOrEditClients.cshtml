@@ -1,0 +1,58 @@
+﻿@using Diplom.Domain.ViewModels
+
+@model ClientsViewModel
+
+<div class="divCenter">
+    <form asp-action="AddOrEditClients">
+
+        @if (@Model != null)
+        {
+            <input hidden asp-for="@Model.Id" />
+        }
+
+        <div class="divLeft">
+
+            <label asp-for="@Model.Name"></label>
+            <input placeholder="Введите имя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Name" />
+            <span asp-validation-for="@Model.Name"></span> <br />
+
+            <label asp-for="@Model.Surname"></label>
+            <input placeholder="Введите фамилию" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Surname" />
+            <span asp-validation-for="@Model.Surname"></span> <br />
+
+            <label asp-for="@Model.Patronymic"></label>
+            <input placeholder="Введите отчество" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Patronymic" />
+            <span asp-validation-for="@Model.Patronymic"></span> <br />
+
+            <div class="divCenter" style="margin-top: 0">
+                <label asp-for="@Model.Address"></label> <br />
+                <textarea placeholder="Введите адрес" style="margin-bottom: 2em" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Address"></textarea> <br />
+            </div>
+
+            <label asp-for="@Model.Phone_number"></label>
+            <input placeholder="Введите номер телефона" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
+            <span asp-validation-for="@Model.Phone_number"></span> <br />
+
+            <label asp-for="@Model.Email"></label>
+            <input placeholder="Введите Email" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Email" />
+            <span asp-validation-for="@Model.Email"></span> <br />
+
+            <label asp-for="@Model.Login"></label>
+            <input placeholder="Введите логин" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Login" />
+            <span asp-validation-for="@Model.Login"></span> <br />
+
+            <label asp-for="@Model.Password"></label>
+            <input placeholder="Введите пароль" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Password" /> <br />
+            <span asp-validation-for="@Model.Password"></span> <br />
+
+            <label asp-for="@Model.RepeatPassword"></label>
+            <input placeholder="Повторите пароль" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.RepeatPassword" />
+            <span asp-validation-for="@Model.RepeatPassword"></span> <br />
+
+        </div> <br />
+
+        <button class="green">Сохранить</button>
+    </form>
+</div>
+
+<div asp-validation-summary="All" class="text-danger"></div> @* Просмотр ошибок *@
