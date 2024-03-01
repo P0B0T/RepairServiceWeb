@@ -21,7 +21,9 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = _orderAccessoriesRepository.GetAll().Include(x => x.Client).Include(x => x.Accessories);
+                var orderAccessories = _orderAccessoriesRepository.GetAll()
+                                                                  .Include(x => x.Client)
+                                                                  .Include(x => x.Accessories);
 
                 if (!orderAccessories.Any())
                 {
@@ -52,22 +54,30 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = _orderAccessoriesRepository.GetAll().Include(x => x.Client).Include(x => x.Accessories).ToList();
+                var orderAccessories = _orderAccessoriesRepository.GetAll()
+                                                                  .Include(x => x.Client)
+                                                                  .Include(x => x.Accessories)
+                                                                  .ToList();
 
                 if (clientFullName != "")
-                    orderAccessories = orderAccessories.Where(x => x.Client.FullName.ToLower().Contains(clientFullName.ToLower())).ToList();
+                    orderAccessories = orderAccessories.Where(x => x.Client.FullName.ToLower().Contains(clientFullName.ToLower()))
+                                                       .ToList();
 
                 if (accessoryName != "")
-                    orderAccessories = orderAccessories.Where(x => x.Accessories.Name.ToLower().Contains(accessoryName.ToLower())).ToList();
+                    orderAccessories = orderAccessories.Where(x => x.Accessories.Name.ToLower().Contains(accessoryName.ToLower()))
+                                                       .ToList();
 
                 if (count != null)
-                    orderAccessories = orderAccessories.Where(x => x.Count.Contains(count.ToString())).ToList();
+                    orderAccessories = orderAccessories.Where(x => x.Count.Contains(count.ToString()))
+                                                       .ToList();
 
                 if (date != default)
-                    orderAccessories = orderAccessories.Where(x => x.DateOrder == date).ToList();
+                    orderAccessories = orderAccessories.Where(x => x.DateOrder == date)
+                                                       .ToList();
 
                 if (status != "")
-                    orderAccessories = orderAccessories.Where(x => x.StatusOrder.ToLower().Contains(status.ToLower())).ToList();
+                    orderAccessories = orderAccessories.Where(x => x.StatusOrder.ToLower().Contains(status.ToLower()))
+                                                       .ToList();
 
                 if (!orderAccessories.Any())
                 {
@@ -98,7 +108,10 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = await _orderAccessoriesRepository.GetAll().Include(x => x.Client).Include(x => x.Accessories).FirstOrDefaultAsync(x => x.Id == id);
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .Include(x => x.Client)
+                                                                        .Include(x => x.Accessories)
+                                                                        .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (orderAccessories == null)
                 {
@@ -142,7 +155,10 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = await _orderAccessoriesRepository.GetAll().Include(x => x.Client).Include(x => x.Accessories).FirstOrDefaultAsync(x => x.Accessories.Name.ToLower().Contains(name.ToLower()));
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .Include(x => x.Client)
+                                                                        .Include(x => x.Accessories)
+                                                                        .FirstOrDefaultAsync(x => x.Accessories.Name.ToLower().Contains(name.ToLower()));
 
                 if (orderAccessories == null)
                 {
@@ -186,7 +202,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = await _orderAccessoriesRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (orderAccessories == null)
                 {
@@ -254,7 +271,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var orderAccessories = await _orderAccessoriesRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (orderAccessories == null)
                 {

@@ -21,7 +21,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = _accessoriesRepository.GetAll().Include(x => x.Supplier);
+                var accessories = _accessoriesRepository.GetAll()
+                                                        .Include(x => x.Supplier);
 
                 if (!accessories.Any())
                 {
@@ -52,16 +53,21 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = _accessoriesRepository.GetAll().Include(x => x.Supplier).ToList();
+                var accessories = _accessoriesRepository.GetAll()
+                                                        .Include(x => x.Supplier)
+                                                        .ToList();
 
                 if (name != "")
-                    accessories = accessories.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToList();
+                    accessories = accessories.Where(x => x.Name.ToLower().Contains(name.ToLower()))
+                                             .ToList();
 
                 if (manufacturer != "")
-                    accessories = accessories.Where(x => x.Manufacturer.ToLower().Contains(manufacturer.ToLower())).ToList();
+                    accessories = accessories.Where(x => x.Manufacturer.ToLower().Contains(manufacturer.ToLower()))
+                                             .ToList();
 
                 if (supplier != "")
-                    accessories = accessories.Where(x => x.Supplier.CompanyName.ToLower().Contains(supplier.ToLower())).ToList();
+                    accessories = accessories.Where(x => x.Supplier.CompanyName.ToLower().Contains(supplier.ToLower()))
+                                             .ToList();
 
                 if (!accessories.Any())
                 {
@@ -92,7 +98,9 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = await _accessoriesRepository.GetAll().Include(x => x.Supplier).FirstOrDefaultAsync(x => x.Id == id);
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .Include(x => x.Supplier)
+                                                              .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (accessories == null)
                 {
@@ -134,7 +142,9 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = await _accessoriesRepository.GetAll().Include(x => x.Supplier).FirstOrDefaultAsync(x => x.Name.ToLower().Contains(name.ToLower()));
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .Include(x => x.Supplier)
+                                                              .FirstOrDefaultAsync(x => x.Name.ToLower().Contains(name.ToLower()));
 
                 if (accessories == null)
                 {
@@ -176,7 +186,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = await _accessoriesRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (accessories == null)
                 {
@@ -242,7 +253,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var accessories = await _accessoriesRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (accessories == null)
                 {

@@ -33,15 +33,11 @@ namespace Diplom.Domain.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            List<ValidationResult> errors = new List<ValidationResult>();
-
             DateOnly startOfYear = DateOnly.FromDateTime(DateTime.Today);
             startOfYear = new DateOnly(startOfYear.Year, 1, 1);
 
             if (Date_order < startOfYear || Date_order > DateOnly.FromDateTime(DateTime.Today))
-                errors.Add(new ValidationResult("Дата заказа должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_order) }));
-
-            return errors;
+                yield return new ValidationResult("Дата заказа должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_order) });
         }
     }
 }

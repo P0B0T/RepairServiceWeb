@@ -21,7 +21,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = _clientsRepository.GetAll().Include(x => x.Role);
+                var clients = _clientsRepository.GetAll()
+                                                .Include(x => x.Role);
 
                 if (!clients.Any())
                 {
@@ -52,13 +53,17 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = _clientsRepository.GetAll().Include(x => x.Role).ToList();
+                var clients = _clientsRepository.GetAll()
+                                                .Include(x => x.Role)
+                                                .ToList();
 
                 if (fullName != "")
-                    clients = clients.Where(x => x.FullName.ToLower().Contains(fullName.ToLower())).ToList();
+                    clients = clients.Where(x => x.FullName.ToLower().Contains(fullName.ToLower()))
+                                     .ToList();
 
                 if (address != "")
-                    clients = clients.Where(x => x.Address.ToLower().Contains(address.ToLower())).ToList();
+                    clients = clients.Where(x => x.Address.ToLower().Contains(address.ToLower()))
+                                     .ToList();
 
                 if (!clients.Any())
                 {
@@ -89,7 +94,9 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = await _clientsRepository.GetAll().Include(x => x.Role).FirstOrDefaultAsync(x => x.Id == id);
+                var clients = await _clientsRepository.GetAll()
+                                                      .Include(x => x.Role)
+                                                      .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (clients == null)
                 {
@@ -135,7 +142,10 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = (await _clientsRepository.GetAll().Include(x => x.Role).ToListAsync()).FirstOrDefault(x => x.FullName.ToLower().Contains(name.ToLower()));
+                var clients = (await _clientsRepository.GetAll()
+                                                       .Include(x => x.Role)
+                                                       .ToListAsync())
+                                                       .FirstOrDefault(x => x.FullName.ToLower().Contains(name.ToLower()));
 
                 if (clients == null)
                 {
@@ -181,7 +191,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = await _clientsRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var clients = await _clientsRepository.GetAll()
+                                                      .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (clients == null)
                 {
@@ -251,7 +262,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var clients = await _clientsRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var clients = await _clientsRepository.GetAll()
+                                                      .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (clients == null)
                 {

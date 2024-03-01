@@ -86,7 +86,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var suppliers = await _suppliersRepository.GetAll()
+                                                          .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (suppliers == null)
                 {
@@ -127,7 +128,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.CompanyName.ToLower().Contains(name.ToLower()));
+                var suppliers = await _suppliersRepository.GetAll()
+                                                          .FirstOrDefaultAsync(x => x.CompanyName.ToLower().Contains(name.ToLower()));
 
                 if (suppliers == null)
                 {
@@ -168,7 +170,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var suppliers = await _suppliersRepository.GetAll()
+                                                          .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (suppliers == null)
                 {
@@ -233,7 +236,8 @@ namespace Diplom.Service.Implementations
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
+                var suppliers = await _suppliersRepository.GetAll()
+                                                          .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (suppliers == null)
                 {
