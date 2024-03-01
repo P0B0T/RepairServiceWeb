@@ -1,0 +1,23 @@
+﻿@using Diplom.Domain.ViewModels
+
+@model RolesViewModel
+
+<div class="divCenter">
+    <form asp-action="AddOrEditRoles">
+
+        @if (@Model != null)
+        {
+            <input hidden asp-for="@Model.Id" />
+        }
+
+        <div class="divLeft">
+            <label asp-for="@Model.Role1"></label>
+            <input placeholder="Введите название" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Role1" />
+        </div> <br />
+
+        <label asp-for="@Model.Description"></label> <br />
+        <textarea style="margin-bottom: 2em" placeholder="Введите описание" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Description"></textarea> <br />
+
+        <button class="green">Сохранить</button>
+    </form>
+</div>

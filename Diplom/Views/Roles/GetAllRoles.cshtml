@@ -1,0 +1,33 @@
+﻿@using Diplom.Domain.Entity
+
+@{
+    ViewData["Title"] = "Роли";
+}
+
+@model IEnumerable<Role>
+
+<h2>Роли</h2>
+
+<div id="divOutput">
+    @foreach (var item in Model)
+    {
+        <div class="divRows">
+            <div style="width: 15em">
+                <h3>@item.Role1</h3>
+                <p>@item.Description</p>
+            </div>
+            <div>
+                <form>
+                    <button type="button" onclick="openModal({ url: '/Roles/GetRoles', data: '@item.Id', title: 'Информация о роли' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" type="button" onclick="openModal({ url: '/Roles/AddOrEditRoles', title: 'Добавление роли' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>

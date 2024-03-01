@@ -1,6 +1,5 @@
 ﻿using Diplom.DAL.Interfaces;
 using Diplom.Domain.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Diplom.DAL.Repositories
 {

@@ -1,5 +1,4 @@
-﻿using Diplom.Domain.Entity;
-using Diplom.Domain.Response;
+﻿using Diplom.Domain.Response;
 
 namespace Diplom.Service.Interfaces
 {

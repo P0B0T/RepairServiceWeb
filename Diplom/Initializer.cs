@@ -17,6 +17,7 @@ namespace Diplom
             services.AddScoped<IBaseRepository<Repair>, RepairsRepository>();
             services.AddScoped<IBaseRepository<Staff>, StaffRepositoty>();
             services.AddScoped<IBaseRepository<Supplier>, SuppliersRepository>();
+            services.AddScoped<IBaseRepository<Role>, RolesRepository>();
         }
 
         public static void InitializeServices(this IServiceCollection services)
@@ -25,6 +26,7 @@ namespace Diplom
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<IOrderAccessoriesService, OrderAccessoriesService>();
             services.AddScoped<IClientsService, ClientsService>();
+            services.AddScoped<IRolesService, RolesService>();
         }
     }
 }

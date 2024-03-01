@@ -96,7 +96,7 @@ namespace Diplom.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.Role = _context.Roles.FirstOrDefault(x => x.Role1 == "Клиент");
+            model.Role = _context.Roles.FirstOrDefault(x => x.Role1.ToLower() == "клиент" || x.Role1.ToLower() == "client");
 
             if (model.Id == 0)
                 await _clientsService.Create(model);

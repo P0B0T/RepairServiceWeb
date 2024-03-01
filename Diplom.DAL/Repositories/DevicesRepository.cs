@@ -1,11 +1,6 @@
 ﻿using Diplom.DAL.Interfaces;
 using Diplom.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diplom.DAL.Repositories
 {
