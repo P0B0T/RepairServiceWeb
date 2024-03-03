@@ -125,9 +125,11 @@ $('#filterOrderAccessories').on('submit', function (event) {
                 arr.push('<label>Количество:</label>');
                 arr.push(`<label>${item.count}</label> <br />`);
                 arr.push('<label>Цена:</label>');
-                arr.push(`<label>${item.cost}</label> <br />`);
+                arr.push(`<label>${item.cost} руб.</label> <br />`);
                 arr.push('<label>Дата заказа:</label>');
-                arr.push(`<label>${item.dateOrder}</label> <br />`);
+                var date = new Date(item.dateOrder);
+                var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                arr.push(`<label>${formattedDate}</label> <br />`);
                 arr.push('<label>Статус:</label>');
                 arr.push(`<label>${item.statusOrder}</label>`);
                 arr.push('</div>');
@@ -181,6 +183,57 @@ $('#filterClients').on('submit', function (event) {
                 arr.push('<div>');
                 arr.push('<form>');
                 arr.push(`<button type="button" onclick="openModal({ url: '/Clients/GetClients', data: '${item.id}', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                arr.push('</form>');
+                arr.push('</div>');
+                arr.push('</div>');
+                arr.push('<hr />');
+            });
+            $('#divOutput').append(arr.join(' '));
+        }
+    });
+});
+
+$('#filterStaff').on('submit', function (event) {
+    event.preventDefault();
+
+    var fullName = $('input[name="fullName"]').val();
+    var experiance = $('input[name="experiance"]').val();
+    var post = $('select[name="post"]').val();
+    var role = $('select[name="role"]').val();
+
+    $.ajax({
+        url: '/Staff/GetFilteredStaff',
+        method: 'GET',
+        data: { fullName: fullName, experiance: experiance, post: post, role: role },
+    }).done(function (data) {
+        if (data.success) {
+            $('#divOutput').empty();
+            var arr = [];
+
+            data.filteredData.forEach(function (item) {
+                arr.push('<div class="divRows">');
+                arr.push('<div style="width: 27em">');
+                if (item.photo != null) {
+                    arr.push(`<img src="/images/StaffPhoto/${item.photo}" alt="Фото сотрудника">`);
+                }
+                arr.push('</div>');
+                arr.push('<div style="width: 19em">');
+                arr.push(`<h3>${item.fullName}</h3>`);
+                arr.push(`<p>${item.post}</p>`)
+                arr.push('<label>Опыт:</label>');
+                arr.push(`<label>${item.experianceWithWord}</label> <br />`);
+                arr.push('<label>Зар. плата:</label>');
+                arr.push(`<label>${item.salary} руб.</label> <br />`);
+                arr.push('<label>Дата принятия на работу:</label>');
+                var date = new Date(item.dateOfEmployment);
+                var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                arr.push(`<label>${formattedDate}</label> <br />`);
+                arr.push('<label>Роль:</label>');
+                arr.push(`<label>${item.role.role1}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div>');
+                arr.push('<form>');
+                arr.push(`<button type="button" onclick="openModal({ url: '/Staff/GetStaff', data: '${item.id}', title: 'Информация о сотруднике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');

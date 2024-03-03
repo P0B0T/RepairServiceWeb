@@ -1,9 +1,9 @@
 ﻿@using Diplom.Domain.ViewModels
 
-@model ClientsViewModel
+@model StaffViewModel
 
 <div class="divCenter">
-    <form asp-action="AddOrEditClients">
+    <form asp-action="AddOrEditStaff" enctype="multipart/form-data">
 
         @if (@Model != null)
         {
@@ -11,6 +11,9 @@
         }
 
         <div class="divLeft">
+
+            <label asp-for="@Model.Photo"></label>
+            <input name="file" asp-for="@Model.Photo" type="file" accept="image/*"> <br />
 
             <label asp-for="@Model.Name"></label>
             <input placeholder="Введите имя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Name" /> <br />
@@ -21,18 +24,26 @@
             <label asp-for="@Model.Patronymic"></label>
             <input placeholder="Введите отчество" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Patronymic" /> <br />
 
-            <div class="divCenter" style="margin-top: 0">
-                <label asp-for="@Model.Address"></label> <br />
-                <textarea placeholder="Введите адрес" style="margin-bottom: 2em" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Address"></textarea> <br />
-            </div>
+            <label asp-for="@Model.Experiance"></label>
+            <input placeholder="Введите стаж" onchange="removeExtraSpaces(this)" type="number" asp-for="@Model.Experiance" />
+            <span asp-validation-for="@Model.Experiance"></span> <br />
 
-            <label asp-for="@Model.Phone_number"></label>
-            <input placeholder="Введите номер телефона" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
-            <span asp-validation-for="@Model.Phone_number"></span> <br />
+            <label asp-for="@Model.Post"></label>
+            <input placeholder="Введите должность" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Post" />
+            <span asp-validation-for="@Model.Post"></span> <br />
 
-            <label asp-for="@Model.Email"></label>
-            <input placeholder="Введите Email" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Email" />
-            <span asp-validation-for="@Model.Email"></span> <br />
+            <label asp-for="@Model.Salary"></label>
+            <input placeholder="Введите зар. плату" onchange="removeExtraSpaces(this)" required type="number" asp-format="{0:0.##}" asp-for="@Model.Salary" />
+            <span asp-validation-for="@Model.Salary"></span> <br />
+
+            <label asp-for="@Model.Date_of_employment"></label>
+            <input placeholder="Выберите дату" onchange="removeExtraSpaces(this)" required type="date" asp-for="@Model.Date_of_employment" />
+            <span asp-validation-for="@Model.Date_of_employment"></span> <br />
+
+            <label asp-for="@Model.RoleId"></label>
+            <select required asp-items="ViewBag.RolesList" asp-for="@Model.RoleId">
+                <option value="">-Выберите роль-</option>
+            </select> <br />
 
             <label asp-for="@Model.Login"></label>
             <input placeholder="Введите логин" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Login" /> <br />

@@ -33,6 +33,8 @@ p, a, label {
 button {
     font-size: 1em;
     border: 0.1em solid black;
+    border-radius: 0.3em;
+    background-color: transparent
 }
 
 h2 {
@@ -91,11 +93,6 @@ span {
 .buttonAdd {
     font-size: 1.4em;
     border: 0.1em solid black;
-    border-radius: 0.3em;
-    background-color: transparent
-}
-
-button {
     border-radius: 0.3em;
     background-color: transparent
 }
@@ -210,6 +207,17 @@ hr {
     margin: 0
 }
 
+img {
+    width: 25em;
+    height: 20em
+}
+
+input[type=file]::file-selector-button {
+    font-size: 1em;
+    background-color: transparent;
+    border-right: 0.1em solid black
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1c1c1c
@@ -280,5 +288,10 @@ hr {
 
     .filterEl option {
         background-color: #1c1c1c
+    }
+
+    input[type=file]::file-selector-button {
+        color: gray;
+        border-right: 0.1em solid gray
     }
 }

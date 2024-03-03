@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Diplom.Domain.ViewModels
 {
-    public class AccessoriesViewModel /*: IValidatableObject*/
+    public class AccessoriesViewModel
     {
         public int Id { get; set; }
 
@@ -26,18 +26,5 @@ namespace Diplom.Domain.ViewModels
         public int SupplierId { get; set; }
 
         public virtual Supplier? Supplier { get; set; }
-
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    List<ValidationResult> errors = new List<ValidationResult>();
-
-        //    //if (Name.Trim().Length < 5)
-        //    //    errors.Add(new ValidationResult("В конце и в начале не должно быть пробелов.", new[] { nameof(Name) }));
-
-        //    //if (Manufacturer.Trim().Length < 2)
-        //    //    errors.Add(new ValidationResult("В конце и в начале не должно быть пробелов.", new[] { nameof(Manufacturer) }));
-
-        //    return errors;
-        //}
     }
 }

@@ -21,7 +21,7 @@
                         <option value="">-Выберите клиента-</option>
                             @foreach (var item in Model.Select(m => m.Client.FullName).Distinct())
                             {
-                            <option value="@item">@item</option>
+                                <option value="@item">@item</option>
                             }
                     </select>
                 </div>
@@ -32,7 +32,7 @@
                         <option value="">-Выберите запчасть-</option>
                             @foreach (var item in Model.Select(m => m.Accessories.Name).Distinct())
                             {
-                            <option value="@item">@item</option>
+                                <option value="@item">@item</option>
                             }
                     </select>
                 </div>

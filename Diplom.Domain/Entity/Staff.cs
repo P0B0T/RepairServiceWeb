@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Diplom.Domain.Entity;
+﻿namespace Diplom.Domain.Entity;
 
 public partial class Staff
 {
@@ -34,4 +31,26 @@ public partial class Staff
     public virtual ICollection<Repair> Repairs { get; set; } = new List<Repair>();
 
     public virtual Role Role { get; set; } = null!;
+
+    public string ExperianceWithWord
+    {
+        get
+        {
+            if (Experiance.HasValue)
+            {
+                int lastDigit = Experiance.Value % 10;
+
+                if (Experiance.Value > 10 && Experiance.Value < 20)
+                    return $"{Experiance} лет";
+                else if (lastDigit == 1)
+                    return $"{Experiance} год";
+                else if (lastDigit > 1 && lastDigit < 5)
+                    return $"{Experiance} года";
+                else
+                    return $"{Experiance} лет";
+            }
+            else
+                return "";
+        }
+    }
 }
