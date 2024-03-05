@@ -34,7 +34,9 @@
             <span asp-validation-for="@Model.Date_order"></span> <br />
 
             <label asp-for="@Model.Status_order"></label>
-            <input placeholder="Введите статус" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Status_order" />
+            <select required asp-items="ViewBag.StatusList" asp-for="@Model.Status_order">
+                <option value="">-Выберите статус-</option>
+            </select> <br />
         </div> <br />
 
         <button class="green">Сохранить</button>

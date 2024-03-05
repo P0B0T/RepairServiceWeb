@@ -1,5 +1,4 @@
-﻿using Azure;
-using Diplom.DAL;
+﻿using Diplom.DAL;
 using Diplom.Domain.ViewModels;
 using Diplom.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,15 @@ namespace Diplom.Controllers
     {
         private readonly IOrderAccessoriesService _orderAccessoriesService;
         private readonly ApplicationDbContext _context;
+
+        List<string> statusList = new List<string>()
+        {
+            "Создан",
+            "В сборке",
+            "В пути",
+            "Ожидает получения",
+            "Получен"
+        };
 
         public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context)
         {
@@ -110,6 +118,7 @@ namespace Diplom.Controllers
         {
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
             ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name");
+            ViewBag.StatusList = new SelectList(statusList);
         }
     }
 }
