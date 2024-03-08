@@ -8,6 +8,7 @@
         ClientsNotFound,
         RoleNotFound,
         StaffNotFound,
+        DevicesNotFound,
 
         OK = 200,
         InternalServerError = 500

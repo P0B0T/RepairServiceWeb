@@ -243,3 +243,55 @@ $('#filterStaff').on('submit', function (event) {
         }
     });
 });
+
+$('#filterDevices').on('submit', function (event) {
+    event.preventDefault();
+
+    var manufacturer = $('select[name="manufacturer"]').val();
+    var type = $('input[name="type"]').val();
+    var clientFullName = $('input[name="clientFullName"]').val();
+
+    $.ajax({
+        url: '/Devices/GetFilteredDevices',
+        method: 'GET',
+        data: { manufacturer: manufacturer, type: type, clientFullName: clientFullName },
+    }).done(function (data) {
+        if (data.success) {
+            $('#divOutput').empty();
+            var arr = [];
+
+            data.filteredData.forEach(function (item) {
+                arr.push('<div class="divRows">');
+                arr.push('<div style="width: 27em">');
+                if (item.photo != null) {
+                    arr.push(`<img src="/images/DevicesPhoto/${item.photo}">`);
+                }
+                arr.push('</div>');
+                arr.push('<div style="width: 19em">');
+                arr.push(`<h3>${item.model}</h3>`);
+                arr.push('<label>Производитель:</label>');
+                arr.push(`<label>${item.manufacturer}</label> <br />`);
+                arr.push('<label>Тип:</label>');
+                arr.push(`<label>${item.type}</label> <br />`);
+                arr.push('<label>Год производства:</label>');
+                arr.push(`<label>${item.yearOfRelease}</label> <br />`);
+                if (item.serialNumber != null) {
+                    arr.push('<label>Серийный номер:</label>');
+                    arr.push(`<label>${item.serialNumber}</label> <br />`);
+                }
+                arr.push('<br />');
+                arr.push('<label>Клиент:</label>');
+                arr.push(`<label>${item.client.fullName}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div>');
+                arr.push('<form>');
+                arr.push(`<button type="button" onclick="openModal({ url: '/Devices/GetDevices', data: '${item.id}', title: 'Информация об устройстве' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                arr.push('</form>');
+                arr.push('</div>');
+                arr.push('</div>');
+                arr.push('<hr />');
+            });
+            $('#divOutput').append(arr.join(' '));
+        }
+    });
+});

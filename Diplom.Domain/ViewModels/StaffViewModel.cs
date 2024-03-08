@@ -44,7 +44,7 @@ namespace Diplom.Domain.ViewModels
 
         [Display(Name = "Пароль:")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$",
-            ErrorMessage = "Пароль должен содержать как минимум 8 символов, включая хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ.")]
+            ErrorMessage = "Пароль должен содержать как минимум 10 символов, включая хотя бы одну заглавную букву (en), одну строчную букву (en), одну цифру и один специальный символ.")]
         public string Password { get; set; } = null!;
 
         [Display(Name = "Повторите пароль:")]
@@ -86,6 +86,9 @@ namespace Diplom.Domain.ViewModels
 
             if (Date_of_employment < startOfYear || Date_of_employment > DateOnly.FromDateTime(DateTime.Today))
                 errors.Add(new ValidationResult("Дата приёма на работу должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_of_employment) }));
+
+            if (errors.Count > 0)
+                errors.Add(new ValidationResult("Выберите фото повторно (если оно нужно).", new[] { nameof(Photo) }));
 
             return errors;
         }
