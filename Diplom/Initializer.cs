@@ -29,6 +29,7 @@ namespace Diplom
             services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IDevicesService, DevicesService>();
+            services.AddScoped<IRepairsService, RepairsService>();
         }
     }
 }

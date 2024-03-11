@@ -18,7 +18,7 @@ namespace Diplom.Domain.ViewModels
         public string Count { get; set; } = null!;
 
         [Display(Name = "Стоимость:")]
-        [Range(1, 1000000, ErrorMessage = "Стоимость ремонта должна быть больше 0 и меньше 1 000 000.")]
+        [Range(1, 1000000, ErrorMessage = "Стоимость заказа должна быть больше 0 и меньше 1 000 000.")]
         public decimal Cost { get; set; }
 
         [Display(Name = "Дата заказа:")]

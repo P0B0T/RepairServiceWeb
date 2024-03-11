@@ -9,6 +9,7 @@
         RoleNotFound,
         StaffNotFound,
         DevicesNotFound,
+        RepairsNotFound,
 
         OK = 200,
         InternalServerError = 500

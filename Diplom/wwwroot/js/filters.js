@@ -295,3 +295,58 @@ $('#filterDevices').on('submit', function (event) {
         }
     });
 });
+
+$('#filterRepairs').on('submit', function (event) {
+    event.preventDefault();
+
+    var clientFullName = $('select[name="clientFullName"]').val();
+    var staffFullName = $('select[name="staffFullName"]').val();
+
+    $.ajax({
+        url: '/Repairs/GetFilteredRepairs',
+        method: 'GET',
+        data: { clientFullName: clientFullName, staffFullName: staffFullName },
+    }).done(function (data) {
+        if (data.success) {
+            $('#divOutput').empty();
+            var arr = [];
+
+            data.filteredData.forEach(function (item) {
+                arr.push('<div class="divRows">');
+                arr.push('<div style="width: 20em">');
+                arr.push(`<h3>${item.device.model}</h3>`);
+                arr.push('<label>Клиент:</label>');
+                arr.push(`<label>${item.device.client.fullName}</label> <br />`);
+                arr.push('<label>Сотрудник:</label>');
+                arr.push(`<label>${item.staff.fullName}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div style="margin-top: 2em; width: 15em">');
+                arr.push('<label>Дата поступления:</label>');
+                var date = new Date(item.dateOfAdmission);
+                var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                arr.push(`<label>${formattedDate}</label> <br />`);
+                arr.push('<label>Дата завершения:</label>');
+                var date = new Date(item.endDate);
+                var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                arr.push(`<label>${formattedDate}</label> <br />`);
+                arr.push('<label>Цена:</label>');
+                arr.push(`<label>${item.cost} руб.</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div style="margin-top: 2em; width: 40em">');
+                arr.push('<label>Описание проблемы:</label>');
+                arr.push(`<label>${item.descriptionOfProblem}</label> <br />`);
+                arr.push('<label>Описание проделанной работы:</label>');
+                arr.push(`<label>${item.descriprionOfWorkDone}</label> <br />`);
+                arr.push('</div>');
+                arr.push('<div>');
+                arr.push('<form>');
+                arr.push(`<button type="button" onclick="openModal({ url: '/Repairs/GetRepairs', data: '${item.id}', title: 'Информация о ремонте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                arr.push('</form>');
+                arr.push('</div>');
+                arr.push('</div>');
+                arr.push('<hr />');
+            });
+            $('#divOutput').append(arr.join(' '));
+        }
+    });
+});
