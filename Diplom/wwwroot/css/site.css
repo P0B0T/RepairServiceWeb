@@ -1,15 +1,14 @@
-﻿nav, main {
+﻿nav {
+    background-color: #666669;
     padding-left: 2em;
     padding-right: 2em
-}
-
-nav {
-    background-color: #666669
 }
 
 main {
     flex: 1;
     padding-bottom: 2em;
+    padding-left: 2em;
+    padding-right: 2em
 }
 
 body, .modalBackground {
@@ -226,12 +225,20 @@ span {
     margin: 0 auto;
 }
 
+.dropdown-menu {
+    background-color: #666669
+}
+
+.nav-item, .dropdown-item {
+    font-weight: 700
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1c1c1c
     }
 
-    nav, footer {
+    nav, footer, .dropdown-menu {
         background-color: #4e4e51
     }
 
