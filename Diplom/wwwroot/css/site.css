@@ -218,6 +218,14 @@ input[type=file]::file-selector-button {
     border-right: 0.1em solid black
 }
 
+span {
+    display: block;
+    width: 20em;
+    overflow-wrap: break-word;
+    white-space: normal;
+    margin: 0 auto;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1c1c1c

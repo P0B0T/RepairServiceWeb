@@ -27,7 +27,7 @@
             </div>
 
             <label asp-for="@Model.Phone_number"></label>
-            <input title="+7 (***) ***-**-**" placeholder="Введите номер телефона" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
+            <input title="*7(***)***-**-** или 8(***)***-**-**" placeholder="Введите номер телефона" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
             <span asp-validation-for="@Model.Phone_number"></span> <br />
 
             <label asp-for="@Model.Email"></label>

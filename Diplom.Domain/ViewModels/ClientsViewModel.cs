@@ -22,7 +22,7 @@ namespace Diplom.Domain.ViewModels
         public string Address { get; set; } = null!;
 
         [Display(Name = "Номер телефона:")]
-        [RegularExpression(@"^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$", ErrorMessage = "Неверный формат номера телефона")]
+        [RegularExpression(@"^(\+7|8)\(\d{3}\)\d{3}-\d{2}-\d{2}$", ErrorMessage = "Неверный формат номера телефона")]
         public string Phone_number { get; set; } = null!;
 
         [Display(Name = "Email:")]

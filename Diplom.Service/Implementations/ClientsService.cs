@@ -283,7 +283,6 @@ namespace Diplom.Service.Implementations
                 clients.RoleId = clientsViewModel.RoleId;
                 clients.Login = clientsViewModel.Login;
                 clients.Password = clientsViewModel.Password;
-                clients.Role = clientsViewModel.Role;
 
                 await _clientsRepository.Update(clients);
 
