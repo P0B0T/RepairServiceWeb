@@ -1,7 +1,8 @@
 ﻿nav {
     background-color: #666669;
     padding-left: 2em;
-    padding-right: 2em
+    padding-right: 2em;
+    font-family: Allods Regular Cyr
 }
 
 main {
@@ -25,7 +26,16 @@ h1 {
     font-size: 1.7em
 }
 
-p, a, label {
+.nav-item, .dropdown-item {
+    color: black;
+    font-size: 1.3em
+}
+
+.nav-item:hover {
+    color: #9b9b9a;
+}
+
+p, a, label, #navbarDropdown {
     color: black
 }
 
@@ -38,7 +48,9 @@ button {
 
 h2 {
     margin: 1em 0em 1em 0em;
-    text-align: center
+    text-align: center;
+    font-family: Allods Regular Cyr;
+    font-weight: 700
 }
 
 html, body {
