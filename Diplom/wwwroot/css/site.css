@@ -11,7 +11,7 @@ main {
     padding-right: 2em
 }
 
-body, .modalBackground {
+body, modalBackground {
     background-color: #9b9b9a
 }
 

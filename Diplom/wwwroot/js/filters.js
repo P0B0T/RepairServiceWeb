@@ -220,7 +220,7 @@ $('#filterStaff').on('submit', function (event) {
                 arr.push('<div style="width: 19em">');
                 arr.push(`<h3>${item.fullName}</h3>`);
                 arr.push(`<p>${item.post}</p>`)
-                arr.push('<label>Опыт:</label>');
+                arr.push('<label>Стаж:</label>');
                 arr.push(`<label>${item.experianceWithWord}</label> <br />`);
                 arr.push('<label>Зар. плата:</label>');
                 arr.push(`<label>${item.salary} руб.</label> <br />`);
@@ -229,7 +229,11 @@ $('#filterStaff').on('submit', function (event) {
                 var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
                 arr.push(`<label>${formattedDate}</label> <br />`);
                 arr.push('<label>Роль:</label>');
-                arr.push(`<label>${item.role.role1}</label> <br />`);
+                arr.push(`<label>${item.role.role1}</label> <br /> <br />`);
+                arr.push('<label>Логин:</label>');
+                arr.push(`<label>${item.login}</label> <br />`);
+                arr.push('<label>Пароль:</label>');
+                arr.push(`<label>${item.password}</label> <br />`);
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
