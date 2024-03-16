@@ -45,3 +45,14 @@ function openConfirm(parameters) {
         });
     });
 }
+
+function openAutorization(parameters) {
+    const modal = $('#autorization');
+
+    $.ajax({
+        type: 'GET',
+        success: function (responce) {
+            modal.modal('show')
+        }
+    })
+}

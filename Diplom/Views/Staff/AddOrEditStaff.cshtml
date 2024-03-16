@@ -14,7 +14,7 @@
 
             <label asp-for="@Model.Photo"></label>
             <input name="file" asp-for="@Model.Photo" type="file" accept="image/*">
-            <span asp-validation-for="@Model.Photo"></span> <br />
+            <span>@Html.ValidationMessage("Error")</span> <br />
 
             <label asp-for="@Model.Name"></label>
             <input placeholder="Введите имя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Name" /> <br />

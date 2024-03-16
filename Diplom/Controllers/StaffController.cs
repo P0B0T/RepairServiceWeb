@@ -93,7 +93,11 @@ namespace Diplom.Controllers
             GetRolesNoClient();
 
             if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Error", "Выберите фото повторно (если оно нужно).");
+
                 return View(model);
+            }
 
             if (model.Id == 0)
                 await _staffService.Create(model, file);

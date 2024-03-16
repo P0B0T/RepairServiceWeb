@@ -41,7 +41,7 @@
                 <a class="nav-item nav-link" href="/Roles/GetAllRoles">Роли</a>
                 <a class="nav-item nav-link" href="/Staff/GetAllStaff">Сотрудники</a>
             </div>
-            <a style="margin-left: auto" class="nav-item nav-link" href="#">
+            <a type="button" onclick="openAutorization()" data-toggle="ajax-modal" data-target="#Modal" style="margin-left: auto" class="nav-item nav-link">
                 <svg style="margin-left: 0.25em" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
@@ -91,6 +91,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="autorization">
+        <div class="modal-dialog modal-dialog-scrollable" style="width: 22em">
+            <div class="modal-content modalBackground borderBlack">
+                <div class="modal-header" style="height: 4em">
+                        <h2 class="modal-title" id="modalTitle">Авторизация</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="divCenter">
+                        <span id="error-message"></span>
+                        <form id="autorizationForm" asp-action="Enter">
+                            <div class="divLeft">
+                                    <label>Логин:</label> <br />
+                                    <input name="login" placeholder="Введите логин" onchange="removeExtraSpaces(this)" required type="text" /> <br />
+
+                                    <label>Пароль:</label> <br />
+                                    <input name="password" placeholder="Введите пароль" onchange="removeExtraSpaces(this)" required type="text" />
+                            </div> <br />
+
+                            <button style="margin-right: 2em" class="green">Войти</button>
+                            <button class="red" type="button" data-bs-dismiss="modal">Отмена</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p class="pFooter">&copy; Ремонт компьютерной техники 2024</p>
         <p class="pFooter">Разработчик: <a href="https://t.me/P0B0T">Телеграмм</a></p>
@@ -100,12 +128,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script src="~/js/modal.js"></script>
-    <script src="~/js/successfully.js"></script>
-    <script src="~/js/trim.js"></script>
-    <script src="~/js/search.js"></script>
-    <script src="~/js/filters.js"></script>
-    <script src="~/js/fillSelect.js"></script>
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="~/js/successfully.js" asp-append-version="true"></script>
+    <script src="~/js/trim.js" asp-append-version="true"></script>
+    <script src="~/js/search.js" asp-append-version="true"></script>
+    <script src="~/js/filters.js" asp-append-version="true"></script>
+    <script src="~/js/fillSelect.js" asp-append-version="true"></script>
+    <script src="~/js/autorization.js" asp-append-version="true"></script>
+    <script src="~/js/clearSelect.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

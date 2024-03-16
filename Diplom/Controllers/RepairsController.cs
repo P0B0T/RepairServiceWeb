@@ -102,7 +102,14 @@ namespace Diplom.Controllers
             FillViewBag();
 
             if (!ModelState.IsValid)
+            {
+                ModelState.Remove("DeviceId");
+                model.DeviceId = 0;
+
+                ModelState.AddModelError("Error", "Выберите клиента ещё раз.");
+
                 return View(model);
+            }
 
             if (model.Id == 0)
                 await _repairsService.Create(model);

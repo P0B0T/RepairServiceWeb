@@ -1,6 +1,5 @@
 ﻿using Diplom.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace Diplom.DAL
 {

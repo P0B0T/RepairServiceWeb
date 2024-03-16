@@ -35,15 +35,8 @@ namespace Diplom.Domain.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            List<ValidationResult> errors = new List<ValidationResult>();
-
             if (Year_of_release > DateOnly.FromDateTime(DateTime.Today).Year || Year_of_release < 1950)
-                errors.Add(new ValidationResult("Год производства должен быть не раньше текущего года и не позднее 1950 года.", new[] { nameof(Year_of_release) }));
-
-            if (errors.Count > 0)
-                errors.Add(new ValidationResult("Выберите фото повторно (если оно нужно).", new[] { nameof(Photo) }));
-
-            return errors;
+                yield return (new ValidationResult("Год производства должен быть не раньше текущего года и не позднее 1950 года.", new[] { nameof(Year_of_release) }));
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Diplom.Domain.Entity;
+﻿using Diplom.Domain.Interfaces;
 
-public partial class Client
+namespace Diplom.Domain.Entity;
+
+public partial class Client : IUser
 {
     public int Id { get; set; }
 

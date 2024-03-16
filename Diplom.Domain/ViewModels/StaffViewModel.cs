@@ -87,9 +87,6 @@ namespace Diplom.Domain.ViewModels
             if (Date_of_employment < startOfYear || Date_of_employment > DateOnly.FromDateTime(DateTime.Today))
                 errors.Add(new ValidationResult("Дата приёма на работу должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_of_employment) }));
 
-            if (errors.Count > 0)
-                errors.Add(new ValidationResult("Выберите фото повторно (если оно нужно).", new[] { nameof(Photo) }));
-
             return errors;
         }
     }

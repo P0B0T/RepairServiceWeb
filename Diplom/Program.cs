@@ -1,5 +1,8 @@
+using Diplom.Controllers;
 using Diplom.DAL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 
 namespace Diplom
@@ -10,15 +13,33 @@ namespace Diplom
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connection = builder.Configuration.GetConnectionString("MSSQLSERVER");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connection));
+                    options.UseSqlServer(connection));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.InitializeRepositories();
             builder.Services.InitializeServices();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = AutorizationOptions.ISSUER,
+                        ValidAudience = AutorizationOptions.AUDIENCE,
+
+                        IssuerSigningKey = AutorizationOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -33,13 +54,13 @@ namespace Diplom
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Autorization}/{action=Index}/{id?}");
 
             app.Run();
         }

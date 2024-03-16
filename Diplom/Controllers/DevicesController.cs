@@ -93,7 +93,11 @@ namespace Diplom.Controllers
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
 
             if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Error", "Выберите фото повторно (если оно нужно).");
+
                 return View(model);
+            }
 
             if (model.Id == 0)
                 await _deviceService.Create(model, file);

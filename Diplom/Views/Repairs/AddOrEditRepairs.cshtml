@@ -3,7 +3,7 @@
 @model RepairsViewModel
 
 <div class="divCenter">
-    <form asp-action="AddOrEditRepairs">
+    <form id="addOrEditRepairsForm" asp-action="AddOrEditRepairs">
 
         @if (@Model != null)
         {
@@ -14,7 +14,8 @@
             <label>Клиент:</label>
             <select id="selectClient" required asp-items="ViewBag.ClientsList" asp-for="@Model.DeviceId">
                 <option value="">-Выберите клиента-</option>
-            </select> <br />
+            </select>
+            <span>@Html.ValidationMessage("Error")</span> <br />
 
             <label asp-for="@Model.DeviceId"></label>
             <select id="selectDevice" required asp-for="@Model.DeviceId" asp-items="ViewBag.DevicesList"></select> <br />

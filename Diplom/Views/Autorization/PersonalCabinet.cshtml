@@ -1,0 +1,72 @@
+﻿@using Diplom.Domain.Interfaces
+@using Diplom.Domain.Entity
+
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+@model IUser
+
+@if (Model is Client client)
+{
+    <div style="margin-top: 2em">
+        <h3>@client.FullName</h3>
+        <div class="divRows">
+            <div style="margin-top: 2em; width: 18em">
+                <label>Адрес:</label>
+                <label>@client.Address</label> <br />
+                <label>Номер телефона:</label>
+                <label>@client.PhoneNumber</label> <br />
+                <label>Email:</label>
+                <label>@client.Email</label> <br />
+            </div>
+            <div style="margin-top: 2em; width: 12em">
+                <label>Логин:</label>
+                <label>@client.Login</label> <br />
+                <label>Пароль:</label>
+                <label>@client.Password</label> <br />
+            </div>
+            <div>
+                <form>
+                    <button type="button" onclick="openModal({ url: '/Clients/AddOrEditClients', data: '@client.Id', title: 'Редактирование лк' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
+                    <button>Выход</button>
+                </form>
+            </div>
+        </div> <br /> <br />
+        <div>
+            <form>
+                <button>Мои ремонты</button>
+            </form>
+        </div>
+        <div id="divOutput">
+
+        </div>
+    </div>
+}
+else if (Model is Staff staff)
+{
+    <div style="margin-top: 2em" class="divRows">
+        <div style="width: 27em">
+            @if (staff.Photo != null)
+            {
+                <img src="~/images/StaffPhoto/@staff.Photo">
+            }
+        </div>
+        <div style="width: 19em">
+            <h3>@staff.FullName</h3>
+            <p>@staff.Post</p>
+            <label>Стаж:</label>
+            <label>@staff.ExperianceWithWord</label> <br />
+            <label>Зар. плата:</label>
+            <label>@staff.Salary.ToString("0.##") руб.</label> <br />
+            <label>Дата принятия на работу:</label>
+            <label>@staff.DateOfEmployment</label> <br />
+            <label>Роль:</label>
+            <label>@staff.Role.Role1</label> <br /> <br />
+            <label>Логин:</label>
+            <label>@staff.Login</label> <br />
+            <label>Пароль:</label>
+            <label>@staff.Password</label>
+        </div>
+    </div>
+}

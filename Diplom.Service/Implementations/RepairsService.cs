@@ -6,8 +6,6 @@ using Diplom.Domain.Response;
 using Diplom.Domain.ViewModels;
 using Diplom.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Diplom.Service.Implementations
 {

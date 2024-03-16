@@ -1,6 +1,8 @@
-﻿namespace Diplom.Domain.Entity;
+﻿using Diplom.Domain.Interfaces;
 
-public partial class Staff
+namespace Diplom.Domain.Entity;
+
+public partial class Staff : IUser
 {
     public int Id { get; set; }
 
