@@ -1,0 +1,21 @@
+﻿@using RepairServiceWeb.Domain.ViewModels
+
+@model OrderAccessoriesViewModel
+
+<div class="card mb-3 mx-auto divGet">
+    <div class="card-body">
+        <h5 class="card-title text-center">@Model.Accessories.Name</h5>
+        <p class="card-text"><b>Клиет: </b>@Model.Client.FullName</p>
+        <p class="card-text"><b>Количество: </b>@Model.Count</p>
+        <p class="card-text"><b>Стоимость: </b>@Model.Cost.ToString("0.##") руб.</p>
+        <p class="card-text"><b>Дата заказа: </b>@Model.Date_order</p>
+        <p class="card-text"><b>Статус: </b>@Model.Status_order</p>
+    </div>
+</div>
+
+<div class="divCenter">
+    <form>
+        <button type="button" onclick="openModal({ url: '/OrderAccessories/AddOrEditOrderAccessories', data: '@Model.Id', title: 'Редактирование заказа' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
+        <button type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/OrderAccessories/DeleteOrderAccessories', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
+    </form>
+</div>

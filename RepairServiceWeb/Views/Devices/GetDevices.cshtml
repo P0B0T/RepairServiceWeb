@@ -1,0 +1,25 @@
+﻿@using RepairServiceWeb.Domain.ViewModels
+
+@model DevicesViewModel
+
+<div class="card mb-3 mx-auto divGet">
+    <div class="card-body">
+        @if (Model.Photo != null)
+        {
+            <img class="card-img" src="~/images/DevicesPhoto/@Model.Photo">
+        }
+        <h5 class="card-title text-center">@Model.ModelDevice</h5>
+        <p class="card-text"><b>Производитель: </b>@Model.Manufacturer</p>
+        <p class="card-text"><b>Тип: </b>@Model.Type</p>
+        <p class="card-text"><b>Год производства: </b>@Model.Year_of_release</p>
+        <p class="card-text"><b>Серийный номер: </b>@Model.Serial_number</p>
+        <p class="card-text"><b>Клиент: </b>@Model.Client.FullName</p>
+    </div>
+</div>
+
+<div class="divCenter">
+    <form>
+        <button type="button" onclick="openModal({ url: '/Devices/AddOrEditDevices', data: '@Model.Id', title: 'Редактирование устройства' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
+        <button type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/Devices/DeleteDevices', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
+    </form>
+</div>

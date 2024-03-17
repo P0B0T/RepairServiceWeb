@@ -1,0 +1,90 @@
+﻿@using RepairServiceWeb.Domain.Entity
+
+@{
+    ViewData["Title"] = "Запчасти (комплектующие)";
+}
+
+@model IEnumerable<Accessory>
+
+<h2>Список запчастей (комплектующих)</h2>
+
+<div class="divControl">
+    <div class="dropdown">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Фильтры
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <form id="filterAccessories" asp-action="GetFilteredAccessories" method="get">
+            <li>
+                <div>
+                    <input name="Name" class="filterEl" type="text" placeholder="Введите название" />
+                </div>
+            </li>
+            <li>
+                <div>
+                    <select name="manufacturer" class="filterEl">
+                        <option value="">-Выберите производителя-</option>
+                            @foreach (var item in Model.Select(m => m.Manufacturer).Distinct())
+                            {
+                                <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <select name="supplier" class="filterEl">
+                        <option value="">-Выберите поставщика-</option>
+                            @foreach (var item in Model.Select(m => m.Supplier.CompanyName).Distinct())
+                            {
+                                <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <button class="filterEl" type="submit">Отфильтровать</button>
+            </li>
+            </form>
+        </ul>
+    </div>
+
+    <div>
+        <form class="search" asp-action="GetAccessoriesByName" method="get">
+            <input class="searchEl" name="name" placeholder="Введите название" required type="text" />
+            <button class="searchEl" onclick="searchHighlight('/Accessories/GetAccessoriesByName')">Поиск</button>
+        </form>
+    </div>
+</div>
+
+<div id="divOutput">
+    @foreach (var item in Model)
+    {
+        <div class="divRows">
+            <div style="width: 30em">
+                <h3>@item.Name</h3>
+                <p>@item.Description</p>
+            </div>
+            <div style="margin-top: 2em; width: 16em">
+                <label>Производитель:</label>
+                <label>@item.Manufacturer</label> <br />
+                <label>Цена:</label>
+                <label>@item.Cost.ToString("0.##") руб.</label> <br />
+                <label>Поставщик:</label>
+                <label>@item.Supplier.CompanyName</label>
+            </div>
+            <div>
+                <form>
+                    <button class="buttonInf" type="button" onclick="openModal({ url: '/Accessories/GetAccessories', data: '@item.Id', title: 'Информация о запчасти' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" type="button" onclick="openModal({ url: '/Accessories/AddOrEditAccessories', title: 'Добавление запчасти' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>

@@ -1,0 +1,94 @@
+﻿@using RepairServiceWeb.Domain.Entity
+
+@{
+    ViewData["Title"] = "Ремонты";
+}
+
+@model IEnumerable<Repair>
+
+<h2>Список ремонтов</h2>
+
+<div class="divControl">
+    <div class="dropdown">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Фильтры
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <form id="filterRepairs" asp-action="GetFilteredRepairs" method="get">
+            <li>
+                <div>
+                    <select name="clientFullName" class="filterEl">
+                        <option value="">-Выберите клиента-</option>
+                            @foreach (var item in Model.Select(m => m.Device.Client.FullName).Distinct())
+                            {
+                                <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <select name="staffFullName" class="filterEl">
+                        <option value="">-Выберите сотрудника-</option>
+                            @foreach (var item in Model.Select(m => m.Staff.FullName).Distinct())
+                            {
+                                <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <button class="filterEl" type="submit">Отфильтровать</button>
+            </li>
+            </form>
+        </ul>
+    </div>
+
+    <div>
+        <form class="search" asp-action="GetRepairsByName" method="get">
+            <input class="searchEl" name="name" placeholder="Введите модель" required type="text" />
+            <button class="searchEl" onclick="searchHighlight('/Repairs/GetRepairsByName')">Поиск</button>
+        </form>
+    </div>
+</div>
+
+<div id="divOutput">
+    @foreach (var item in Model)
+    {
+        <div class="divRows">
+            <div style="width: 20em">
+                <h3>@item.Device.Model</h3>
+                <label>Клиент:</label>
+                <label>@item.Device.Client.FullName</label> <br />
+                <label>Сотрудник:</label>
+                <label>@item.Staff.FullName</label> <br />
+            </div>
+            <div style="margin-top: 2em; width: 15em">
+                <label>Дата поступления:</label>
+                <label>@item.DateOfAdmission</label> <br />
+                <label>Дата завершения:</label>
+                <label>@item.EndDate</label> <br />
+                <label>Стоимость:</label>
+                <label>@item.Cost.ToString("0.##") руб.</label> <br />
+            </div>
+            <div style="margin-top: 2em; width: 40em">
+                <label>Описание проблемы:</label>
+                <label>@item.DescriptionOfProblem</label> <br />
+                <label>Описание проделанной работы:</label>
+                <label>@item.DescriprionOfWorkDone</label> <br />
+            </div>
+            <div>
+                <form>
+                    <button class="buttonInf" type="button" onclick="openModal({ url: '/Repairs/GetRepairs', data: '@item.Id', title: 'Информация о ремонте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" type="button" onclick="openModal({ url: '/Repairs/AddOrEditRepairs', title: 'Добавление ремонта' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>

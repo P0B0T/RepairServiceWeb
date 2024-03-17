@@ -1,0 +1,23 @@
+﻿@using RepairServiceWeb.Domain.ViewModels
+
+@model RepairsViewModel
+
+<div class="card mb-3 mx-auto divGet">
+    <div class="card-body">
+        <h5 class="card-title text-center">@Model.Device.Model</h5>
+        <p class="card-text"><b>Клиент: </b>@Model.Device.Client.FullName</p>
+        <p class="card-text"><b>Сотрудник: </b>@Model.Staff.FullName</p>
+        <p class="card-text"><b>Дата поступления: </b>@Model.Date_of_admission</p>
+        <p class="card-text"><b>Дата окончания: </b>@Model.End_date</p>
+        <p class="card-text"><b>Стоимость: </b>@Model.Cost.ToString("0.##") руб.</p>
+        <p class="card-text"><b>Описание проблемы: </b>@Model.Description_of_problem</p>
+        <p class="card-text"><b>Описание проделанной работы: </b>@Model.Descriprion_of_work_done</p>
+    </div>
+</div>
+
+<div class="divCenter">
+    <form>
+        <button type="button" onclick="openModal({ url: '/Repairs/AddOrEditRepairs', data: '@Model.Id', title: 'Редактирование ремонта' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
+        <button type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/Repairs/DeleteRepairs', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
+    </form>
+</div>

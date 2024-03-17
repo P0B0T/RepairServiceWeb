@@ -1,0 +1,46 @@
+﻿@using RepairServiceWeb.Domain.ViewModels
+
+@model AccessoriesViewModel
+
+<div class="divCenter">
+    <form asp-action="AddOrEditAccessories">
+
+        @if (@Model != null)
+        {
+            <input hidden asp-for="@Model.Id" />
+        }
+
+        <label asp-for="@Model.Name"></label> <br />
+        <textarea placeholder="Введите название" onchange="removeExtraSpaces(this)" style="height: 2em" required asp-for="@Model.Name"></textarea>
+        <span asp-validation-for="@Model.Name"></span> <br />
+
+        <label asp-for="@Model.Description"></label> <br />
+        <textarea placeholder="Введите описание" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Description"></textarea>
+        <span style="margin-bottom: 2em" asp-validation-for="@Model.Description"></span> <br />
+
+        <div class="divLeft">
+
+            <label asp-for="@Model.Manufacturer"></label>
+            <input placeholder="Введите производителя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Manufacturer" />
+            <span asp-validation-for="@Model.Manufacturer"></span> <br />
+
+            <div style="margin-top: 0.1em" class="divCenter">
+                <div class="divLeft">
+                    <label asp-for="@Model.Cost"></label>
+                    <input placeholder="Введите цену" required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
+                    <span asp-validation-for="@Model.Cost"></span> <br />
+
+                    <label asp-for="@Model.SupplierId"></label>
+                    <select required asp-items="ViewBag.SuppliersList" asp-for="@Model.SupplierId">
+                        <option value="">-Выберите поставщика-</option>
+                    </select>
+                </div>
+            </div>
+
+        </div> <br />
+
+        <button class="green">Сохранить</button>
+    </form>
+</div>
+
+@* <div asp-validation-summary="All" class="text-danger"></div> *@ @* Просмотр ошибок *@

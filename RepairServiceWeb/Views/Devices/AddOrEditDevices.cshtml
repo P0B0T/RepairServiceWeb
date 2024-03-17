@@ -1,0 +1,49 @@
+﻿@using RepairServiceWeb.Domain.ViewModels
+
+@model DevicesViewModel
+
+<div class="divCenter">
+    <form asp-action="AddOrEditDevices" enctype="multipart/form-data">
+
+        @if (@Model != null)
+        {
+            <input hidden asp-for="@Model.Id" />
+        }
+
+        <div class="divLeft">
+
+            <label asp-for="@Model.Photo"></label>
+            <input name="file" asp-for="@Model.Photo" type="file" accept="image/*">
+            <span>@Html.ValidationMessage("Error")</span> <br />
+
+            <label asp-for="@Model.ModelDevice"></label>
+            <input placeholder="Введите модель" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.ModelDevice" /> <br />
+            <span asp-validation-for="@Model.ModelDevice"></span> <br />
+
+            <label asp-for="@Model.Manufacturer"></label>
+            <input placeholder="Введите производителя" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Manufacturer" /> <br />
+            <span asp-validation-for="@Model.Manufacturer"></span> <br />
+
+            <label asp-for="@Model.Type"></label>
+            <input placeholder="Введите тип" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Type" /> <br />
+            <span asp-validation-for="@Model.Type"></span> <br />
+
+            <label asp-for="@Model.Year_of_release"></label>
+            <input style="width:13em" placeholder="Введите год производства" onchange="removeExtraSpaces(this)" required type="number" asp-for="@Model.Year_of_release" /> <br />
+            <span asp-validation-for="@Model.Year_of_release"></span> <br />
+
+            <label asp-for="@Model.Serial_number"></label>
+            <input style="width:13em" placeholder="Введите серийный номер" onchange="removeExtraSpaces(this)" type="text" asp-for="@Model.Serial_number" /> <br />
+
+            <label asp-for="@Model.ClientId"></label>
+            <select required asp-items="ViewBag.ClientsList" asp-for="@Model.ClientId">
+                <option value="">-Выберите клиента-</option>
+            </select> <br />
+
+        </div> <br />
+
+        <button class="green">Сохранить</button>
+    </form>
+</div>
+
+@* <div asp-validation-summary="All" class="text-danger"></div> *@ @* Просмотр ошибок *@

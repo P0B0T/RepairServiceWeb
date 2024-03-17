@@ -1,0 +1,94 @@
+﻿@using RepairServiceWeb.Domain.Entity
+
+@{
+    ViewData["Title"] = "Устройства";
+}
+
+@model IEnumerable<Device>
+
+<h2>Список устройств</h2>
+
+<div class="divControl">
+    <div class="dropdown">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Фильтры
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <form id="filterDevices" asp-action="GetFilteredDevices" method="get">
+            <li>
+                <div>
+                    <select name="manufacturer" class="filterEl">
+                        <option value="">-Выберите производителя-</option>
+                            @foreach (var item in Model.Select(m => m.Manufacturer).Distinct())
+                            {
+                                <option value="@item">@item</option>
+                            }
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <input name="type" class="filterEl" type="text" placeholder="Введите тип устройства" />
+                </div>
+            </li>
+            <li>
+                <div>
+                    <input name="clientFullName" class="filterEl" type="text" placeholder="Введите ФИО клиента" />
+                </div>
+            </li>
+            <li>
+                <button class="filterEl" type="submit">Отфильтровать</button>
+            </li>
+            </form>
+        </ul>
+    </div>
+
+    <div>
+        <form class="search" asp-action="GetDevicesByName" method="get">
+            <input class="searchEl" name="name" placeholder="Введите модель" required type="text" />
+            <button class="searchEl" onclick="searchHighlight('/Devices/GetDevicesByName')">Поиск</button>
+        </form>
+    </div>
+</div>
+
+<div id="divOutput">
+    @foreach (var item in Model)
+    {
+        <div class="divRows">
+            <div style="width: 27em">
+                @if (item.Photo != null)
+                {
+                    <img src="~/images/DevicesPhoto/@item.Photo">
+                }
+            </div>
+            <div style="width: 19em">
+                <h3>@item.Model</h3>
+                <label>Производитель:</label>
+                <label>@item.Manufacturer</label> <br />
+                <label>Тип:</label>
+                <label>@item.Type</label> <br />
+                <label>Год производства:</label>
+                <label>@item.YearOfRelease</label> <br />
+                @if (item.SerialNumber != null)
+                {
+                    <label>Серийный номер:</label>
+                    <label>@item.SerialNumber</label> <br />
+                } <br />
+                <label>Клиент:</label>
+                <label>@item.Client.FullName</label> <br />
+            </div>
+            <div>
+                <form>
+                    <button class="buttonInf" type="button" onclick="openModal({ url: '/Devices/GetDevices', data: '@item.Id', title: 'Информация об устройстве' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+<div class="form-container">
+    <form>
+        <button class="buttonAdd" style="display: block" type="button" onclick="openModal({ url: '/Devices/AddOrEditDevices', title: 'Добавление устройства' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+    </form>
+</div>
