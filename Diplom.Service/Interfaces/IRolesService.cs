@@ -15,5 +15,7 @@ namespace Diplom.Service.Interfaces
         Task<IBaseResponse<Role>> Create(RolesViewModel model);
 
         Task<IBaseResponse<Role>> Edit(int id, RolesViewModel model);
+
+        Task<IBaseResponse<string>> GetRoleName(int? permissionId);
     }
 }

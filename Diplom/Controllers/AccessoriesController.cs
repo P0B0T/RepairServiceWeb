@@ -9,17 +9,38 @@ namespace Diplom.Controllers
     public class AccessoriesController : Controller
     {
         private readonly IAccessoriesService _accessoriesService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public AccessoriesController(IAccessoriesService accessoriesService, ApplicationDbContext context)
+        public AccessoriesController(IAccessoriesService accessoriesService, ApplicationDbContext context, IRolesService rolesService)
         {
             _accessoriesService = accessoriesService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAccessories()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _accessoriesService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -31,6 +52,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _accessoriesService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -40,8 +65,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetAccessoriesByName(string name)
+        public async Task<IActionResult> GetAccessoriesByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _accessoriesService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -51,8 +80,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredAccessories(string Name = "", string manufacturer = "", string supplier = "")
+        public async Task<IActionResult> GetFilteredAccessories(string Name = "", string manufacturer = "", string supplier = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _accessoriesService.GetFiltered(Name, manufacturer, supplier);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -63,6 +96,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _accessoriesService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -75,6 +112,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             ViewBag.SuppliersList = new SelectList(_context.Suppliers.ToList(), "Id", "CompanyName");
 
             if (id == 0)
@@ -91,9 +132,13 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditAccessories(AccessoriesViewModel model)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             ViewBag.SuppliersList = new SelectList(_context.Suppliers.ToList(), "Id", "CompanyName");
 
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
                 return View(model);
 
             if (model.Id == 0)

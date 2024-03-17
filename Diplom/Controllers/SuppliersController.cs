@@ -9,15 +9,36 @@ namespace Diplom.Controllers
     public class SuppliersController : Controller
     {
         private readonly ISuppliersService _suppliersService;
+        private readonly IRolesService _rolesService;
 
-        public SuppliersController(ISuppliersService suppliersService)
+        public SuppliersController(ISuppliersService suppliersService, IRolesService rolesService)
         {
             _suppliersService = suppliersService;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllSuppliers()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var responce = await _suppliersService.GetAll();
 
             if (responce.StatusCode == Domain.Enum.StatusCode.OK)
@@ -29,6 +50,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSuppliers(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _suppliersService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -38,8 +63,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetSuppliersByName(string name)
+        public async Task<IActionResult> GetSuppliersByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _suppliersService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -49,8 +78,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredSuppliers(string address = "")
+        public async Task<IActionResult> GetFilteredSuppliers(string address = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _suppliersService.GetFiltered(address);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -61,6 +94,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteSuppliers(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _suppliersService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -72,6 +109,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditSuppliers(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             if (id == 0)
                 return PartialView();
 
@@ -86,6 +127,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditSuppliers(SuppliersViewModel model)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             if (!ModelState.IsValid)
                 return View(model);
 

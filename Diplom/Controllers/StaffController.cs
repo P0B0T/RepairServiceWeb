@@ -9,17 +9,38 @@ namespace Diplom.Controllers
     public class StaffController : Controller
     {
         private readonly IStaffService _staffService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public StaffController(IStaffService staffService, ApplicationDbContext context)
+        public StaffController(IStaffService staffService, ApplicationDbContext context, IRolesService rolesService)
         {
             _staffService = staffService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("human resources department") && !data.Contains("отдел кадров"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllStaff()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _staffService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -31,6 +52,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStaff(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _staffService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -40,8 +65,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetStaffByName(string name)
+        public async Task<IActionResult> GetStaffByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _staffService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -51,8 +80,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredStaff(string fullName = "", int? experiance = null, string post = "", string role = null)
+        public async Task<IActionResult> GetFilteredStaff(string fullName = "", int? experiance = null, string post = "", string role = null)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _staffService.GetFiltered(fullName, experiance, post, role);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -63,6 +96,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteStaff(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _staffService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -74,6 +111,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditStaff(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             GetRolesNoClient();
 
             if (id == 0)
@@ -90,6 +131,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditStaff(StaffViewModel model, IFormFile? file = null)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             GetRolesNoClient();
 
             if (!ModelState.IsValid)

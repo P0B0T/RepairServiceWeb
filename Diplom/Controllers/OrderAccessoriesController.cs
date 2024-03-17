@@ -9,6 +9,7 @@ namespace Diplom.Controllers
     public class OrderAccessoriesController : Controller
     {
         private readonly IOrderAccessoriesService _orderAccessoriesService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
         List<string> statusList = new List<string>()
@@ -20,15 +21,35 @@ namespace Diplom.Controllers
             "Получен"
         };
 
-        public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context)
+        public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context, IRolesService rolesService)
         {
             _orderAccessoriesService = orderAccessoriesService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrderAccessories()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _orderAccessoriesService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -40,6 +61,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrderAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _orderAccessoriesService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -49,8 +74,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetOrderAccessoriesByName(string name)
+        public async Task<IActionResult> GetOrderAccessoriesByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _orderAccessoriesService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -60,8 +89,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredOrderAccessories(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "")
+        public async Task<IActionResult> GetFilteredOrderAccessories(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _orderAccessoriesService.GetFiltered(clientFullName, accessoryName, count, date, status);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -72,6 +105,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteOrderAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _orderAccessoriesService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -83,6 +120,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditOrderAccessories(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             FillViewBag();
 
             if (id == 0)
@@ -99,6 +140,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditOrderAccessories(OrderAccessoriesViewModel model)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             FillViewBag();
 
             if (!ModelState.IsValid)

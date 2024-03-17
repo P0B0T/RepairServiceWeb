@@ -105,7 +105,8 @@ span {
     font-size: 1.4em;
     border: 0.1em solid black;
     border-radius: 0.3em;
-    background-color: transparent
+    background-color: transparent;
+    display: none
 }
 
 .pFooter {
@@ -243,6 +244,10 @@ span {
 
 .nav-item, .dropdown-item {
     font-weight: 700
+}
+
+.buttonInf, .staffInf, .elemInf {
+    display: none
 }
 
 @media (prefers-color-scheme: dark) {

@@ -63,7 +63,7 @@
             </div>
             <div>
                 <form>
-                    <button type="button" onclick="openModal({ url: '/Clients/GetClients', data: '@item.Id', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
+                    <button class="buttonInf" type="button" onclick="openModal({ url: '/Clients/GetClients', data: '@item.Id', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>
                 </form>
             </div>
         </div>
@@ -73,6 +73,6 @@
 
 <div class="form-container">
     <form>
-        <button class="buttonAdd" type="button" onclick="openModal({ url: '/Clients/AddOrEditClients', title: 'Добавление клиента' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
+        <button class="buttonAdd" style="display: block" type="button" onclick="openModal({ url: '/Clients/AddOrEditClients', title: 'Добавление клиента' })" data-toggle="ajax-modal" data-target="Modal">Добавить</button>
     </form>
 </div>

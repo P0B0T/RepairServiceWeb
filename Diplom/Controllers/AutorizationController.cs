@@ -1,9 +1,11 @@
+using Azure;
 using Diplom.DAL;
 using Diplom.Domain.Entity;
+using Diplom.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security;
 using System.Security.Claims;
@@ -12,17 +14,16 @@ namespace Diplom.Controllers
 {
     public class AutorizationController : Controller
     {
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public AutorizationController(ApplicationDbContext context)
+        public AutorizationController(ApplicationDbContext context, IRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         public async Task<IActionResult> Enter(string login, string password)
         {
@@ -67,8 +68,11 @@ namespace Diplom.Controllers
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        public async Task<IActionResult> PersonalCabinet(int userId)
+        public async Task<IActionResult> PersonalCabinet(int? userId)
         {
+            if (userId == null)
+                return Redirect("/");
+
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == userId);
 
             var staff = new Staff();
@@ -78,6 +82,16 @@ namespace Diplom.Controllers
                                             .FirstOrDefaultAsync(x => x.Id == userId);
 
             return View((client != null) ? client : staff);
+        }
+
+        public async Task<JsonResult> GetRoleName(int? permissionId)
+        {
+            var response = await _rolesService.GetRoleName(permissionId);
+
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return Json(new { success = true, data = response.Data });
+
+            return Json(new { success = false });
         }
     }
 }

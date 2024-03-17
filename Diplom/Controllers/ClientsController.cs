@@ -10,17 +10,38 @@ namespace Diplom.Controllers
     public class ClientsController : Controller
     {
         public readonly IClientsService _clientsService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public ClientsController(IClientsService clientsService, ApplicationDbContext context)
+        public ClientsController(IClientsService clientsService, ApplicationDbContext context, IRolesService rolesService)
         {
             _clientsService = clientsService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllClients()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _clientsService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -32,6 +53,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClients(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _clientsService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -41,8 +66,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetClientsByName(string name)
+        public async Task<IActionResult> GetClientsByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _clientsService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -52,8 +81,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredClients(string fullName = "", string address = "")
+        public async Task<IActionResult> GetFilteredClients(string fullName = "", string address = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _clientsService.GetFiltered(fullName, address);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -64,6 +97,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteClients(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _clientsService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -75,6 +112,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditClients(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             if (id == 0)
                 return PartialView();
 
@@ -89,6 +130,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditClients(ClientsViewModel model)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             if (!ModelState.IsValid)
                 return View(model);
 

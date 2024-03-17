@@ -29,7 +29,7 @@
             <div>
                 <form>
                     <button type="button" onclick="openModal({ url: '/Clients/AddOrEditClients', data: '@client.Id', title: 'Редактирование лк' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
-                    <button>Выход</button>
+                    <button id="exitButton">Выход</button>
                 </form>
             </div>
         </div> <br /> <br />
@@ -67,6 +67,11 @@ else if (Model is Staff staff)
             <label>@staff.Login</label> <br />
             <label>Пароль:</label>
             <label>@staff.Password</label>
+        </div>
+        <div>
+            <form>
+                <button id="exitButton">Выход</button>
+            </form>
         </div>
     </div>
 }

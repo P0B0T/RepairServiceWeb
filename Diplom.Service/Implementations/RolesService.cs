@@ -1,11 +1,11 @@
 ﻿using Diplom.DAL.Interfaces;
-using Diplom.DAL.Repositories;
 using Diplom.Domain.Entity;
 using Diplom.Domain.Enum;
 using Diplom.Domain.Response;
 using Diplom.Domain.ViewModels;
 using Diplom.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Diplom.Service.Implementations
 {
@@ -183,6 +183,37 @@ namespace Diplom.Service.Implementations
                 return new BaseResponse<Role>()
                 {
                     Description = $"[Edit] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<string>> GetRoleName(int? permissionId)
+        {
+            try
+            {
+                var roles = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Id == permissionId);
+
+                if (roles == null)
+                {
+                    return new BaseResponse<string>()
+                    {
+                        Description = "Элемент не найден",
+                        StatusCode = StatusCode.RoleNotFound
+                    };
+                }
+
+                return new BaseResponse<string>()
+                {
+                    Data = roles.Role1,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>()
+                {
+                    Description = $"[GetRoleName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
                 };
             }

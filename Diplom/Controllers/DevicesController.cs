@@ -9,17 +9,38 @@ namespace Diplom.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService _deviceService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public DevicesController(IDevicesService deviceService, ApplicationDbContext context)
+        public DevicesController(IDevicesService deviceService, ApplicationDbContext context, IRolesService rolesService)
         {
             _deviceService = deviceService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllDevices()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _deviceService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -31,6 +52,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDevices(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _deviceService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -40,8 +65,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetDevicesByName(string name)
+        public async Task<IActionResult> GetDevicesByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _deviceService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -51,8 +80,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredDevices(string manufacturer = "", string type = "", string clientFullName = "")
+        public async Task<IActionResult> GetFilteredDevices(string manufacturer = "", string type = "", string clientFullName = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _deviceService.GetFiltered(manufacturer, type, clientFullName);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -63,6 +96,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteDevices(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _deviceService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -74,6 +111,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditDevices(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
 
             if (id == 0)
@@ -90,6 +131,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditDevices(DevicesViewModel model, IFormFile? file = null)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
 
             if (!ModelState.IsValid)

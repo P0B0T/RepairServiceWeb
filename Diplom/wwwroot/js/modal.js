@@ -46,13 +46,19 @@ function openConfirm(parameters) {
     });
 }
 
-function openAutorization(parameters) {
-    const modal = $('#autorization');
+function openAutorization() {
+    var userId = getCookie('userId');
 
-    $.ajax({
-        type: 'GET',
-        success: function (responce) {
-            modal.modal('show')
-        }
-    })
+    if (userId) {
+        window.location.href = '/Autorization/PersonalCabinet?userId=' + userId;
+    } else {
+        const modal = $('#autorization');
+
+        $.ajax({
+            type: 'GET',
+            success: function (response) {
+                modal.modal('show');
+            }
+        });
+    }
 }

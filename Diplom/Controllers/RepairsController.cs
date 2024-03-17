@@ -10,17 +10,38 @@ namespace Diplom.Controllers
     public class RepairsController : Controller
     {
         private readonly IRepairsService _repairsService;
+        private readonly IRolesService _rolesService;
         private readonly ApplicationDbContext _context;
 
-        public RepairsController(IRepairsService repairsService, ApplicationDbContext context)
+        public RepairsController(IRepairsService repairsService, ApplicationDbContext context, IRolesService rolesService)
         {
             _repairsService = repairsService;
             _context = context;
+            _rolesService = rolesService;
+        }
+
+        private async Task<StatusCodeResult> CheckRole()
+        {
+            var permissionId = int.Parse(Request.Cookies["permissions"]);
+
+            var responce = await _rolesService.GetRoleName(permissionId);
+
+            string data = responce.Data.ToLower();
+
+            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                    return Unauthorized();
+
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllRepairs()
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _repairsService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -32,6 +53,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRepairs(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _repairsService.Get(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -41,8 +66,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetRepairsByName(string name)
+        public async Task<IActionResult> GetRepairsByName(string name)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _repairsService.GetByName(name);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -52,8 +81,12 @@ namespace Diplom.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetFilteredRepairs(string clientFullName = "", string staffFullName = "")
+        public async Task<IActionResult> GetFilteredRepairs(string clientFullName = "", string staffFullName = "")
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _repairsService.GetFiltered(clientFullName, staffFullName);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -64,6 +97,10 @@ namespace Diplom.Controllers
 
         public async Task<IActionResult> DeleteRepairs(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var response = await _repairsService.Delete(id);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -75,6 +112,10 @@ namespace Diplom.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditRepairs(int id)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             FillViewBag();
 
             if (id == 0)
@@ -99,6 +140,10 @@ namespace Diplom.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditRepairs(RepairsViewModel model)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             FillViewBag();
 
             if (!ModelState.IsValid)
@@ -121,8 +166,12 @@ namespace Diplom.Controllers
             return RedirectToAction("GetAllRepairs");
         }
 
-        public async Task<JsonResult> GetDevices(int clientId)
+        public async Task<IActionResult> GetDevices(int clientId)
         {
+            var result = await CheckRole();
+            if (result is UnauthorizedResult)
+                return Redirect("/");
+
             var devices = _context.Devices.Where(d => d.ClientId == clientId).ToList();
 
             return Json(devices);
