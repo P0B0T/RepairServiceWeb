@@ -98,24 +98,24 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clientsrepairs = _repairsRepository.GetAll()
-                                                      .Include(x => x.Staff)
-                                                      .Include(x => x.Device)
-                                                      .Include(x => x.Device.Client)
-                                                      .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password);
+                var clientsRepairs = _repairsRepository.GetAll()
+                                                       .Include(x => x.Staff)
+                                                       .Include(x => x.Device)
+                                                       .Include(x => x.Device.Client)
+                                                       .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password);
 
-                var staffrepairs = _repairsRepository.GetAll();
+                var staffRepairs = (IQueryable<Repair>)null;
 
-                if (!clientsrepairs.Any())
+                if (!clientsRepairs.Any())
                 {
-                    staffrepairs = _repairsRepository.GetAll()
-                                                          .Include(x => x.Staff)
-                                                          .Include(x => x.Device)
-                                                          .Include(x => x.Device.Client)
-                                                          .Where(x => x.Staff.Id == userId && x.Staff.Login == login && x.Staff.Password == password);
+                    staffRepairs = _repairsRepository.GetAll()
+                                                     .Include(x => x.Staff)
+                                                     .Include(x => x.Device)
+                                                     .Include(x => x.Device.Client)
+                                                     .Where(x => x.Staff.Id == userId && x.Staff.Login == login && x.Staff.Password == password);
                 }
 
-                if (!clientsrepairs.Any() && !staffrepairs.Any())
+                if (!clientsRepairs.Any() && !staffRepairs.Any())
                 {
                     return new BaseResponse<IEnumerable<Repair>>()
                     {
@@ -126,7 +126,7 @@ namespace RepairServiceWeb.Service.Implementations
 
                 return new BaseResponse<IEnumerable<Repair>>()
                 {
-                    Data = !clientsrepairs.Any() ? clientsrepairs : staffrepairs,
+                    Data = clientsRepairs.Any() ? clientsRepairs : staffRepairs,
                     StatusCode = StatusCode.OK
                 };
             }

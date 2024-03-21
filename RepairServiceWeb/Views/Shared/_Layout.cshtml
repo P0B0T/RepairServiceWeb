@@ -19,6 +19,8 @@
             <h1><b>Ремонт компьютерной техники</b></h1>
             <div style="margin-left: 2em" class="navbar-nav">
                 <a class="nav-item nav-link elemInf" href="/Repairs/GetAllRepairs">Ремонты</a>
+                <a class="dropdown-item" id="infAccessories" href="/Accessories/GetAllAccessories">Запчасти (комплектующие)</a>
+                <a class="dropdown-item" id="infDevice" href="/Devices/GetAllDevices">Устройства</a>
                 <div class="nav-item dropdown elemInf">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Всё о запчастях
@@ -126,7 +128,6 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="~/js/modal.js" asp-append-version="true"></script>
     <script src="~/js/successfully.js" asp-append-version="true"></script>
@@ -139,6 +140,8 @@
     <script src="~/js/Autorization and enter/getCookie.js" asp-append-version="true"></script>
     <script src="~/js/Autorization and enter/exit.js" asp-append-version="true"></script>
     <script src="~/js/Autorization and enter/showEl.js" asp-append-version="true"></script>
+    <script src="~/js/PersonalCabinet/adjustMargin.js" asp-append-version="true"></script>
+    <script src="~/js/PersonalCabinet/getInf.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

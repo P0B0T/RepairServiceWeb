@@ -13,5 +13,7 @@ namespace RepairServiceWeb.Service.Interfaces
         Task<IBaseResponse<OrderAccessory>> Edit(int id, OrderAccessoriesViewModel model);
 
         Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetFiltered(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "");
+
+        Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetFilteredByUser(int? userId, string login = "", string password = "");
     }
 }

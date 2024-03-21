@@ -35,14 +35,12 @@
         </div> <br /> <br />
         <div>
             <form>
-                <button>Мои ремонты</button>
-                <button>Мои устройства</button>
-                <button>Мои заказы запчастей</button>
+                <button class="myRepairsButton">Мои ремонты</button>
+                <button id="myDevicesButton">Мои устройства</button>
+                <button id="myOrderAccessories">Мои заказы запчастей</button>
             </form>
         </div>
-        <div id="divOutput">
-
-        </div>
+        <div style="margin-top: 2em" id="divOutput"></div>
     </div>
 }
 else if (Model is Staff staff)
@@ -77,12 +75,13 @@ else if (Model is Staff staff)
                 <button class="red" id="exitButton">Выход</button>
             </form>
         </div>
-        <div id="workersEl">
-            <form>
-                <button>Заказы</button>
-                <button>Устройства</button>
-                <button>Запчасти</button>
-            </form>
-        </div>
     </div>
+    <br />
+    <br />
+    <div id="workersEl">
+        <form>
+            <button class="myRepairsButton">Заказы</button>
+        </form>
+    </div>
+    <div style="margin-top: 2em" id="divOutput"></div>
 }

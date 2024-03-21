@@ -28,7 +28,7 @@ namespace RepairServiceWeb.Controllers
             string data = responce.Data.ToLower();
 
             if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception") && !data.Contains("сотрудник") && !data.Contains("staff"))
                     return Unauthorized();
 
             return Ok();

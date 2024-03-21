@@ -14,5 +14,7 @@ namespace RepairServiceWeb.Service.Interfaces
         Task<IBaseResponse<Device>> Edit(int id, DevicesViewModel model, IFormFile? file = null);
 
         Task<IBaseResponse<IEnumerable<Device>>> GetFiltered(string manufacturer = "", string type = "", string clientFullName = "");
+
+        Task<IBaseResponse<IEnumerable<Device>>> GetFilteredByUser(int? userId, string login = "", string password = "");
     }
 }

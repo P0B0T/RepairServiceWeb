@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RepairServiceWeb.DAL.Interfaces;
+using RepairServiceWeb.DAL.Repositories;
 using RepairServiceWeb.Domain.Entity;
 using RepairServiceWeb.Domain.Enum;
 using RepairServiceWeb.Domain.Response;
@@ -87,6 +88,39 @@ namespace RepairServiceWeb.Service.Implementations
                 return new BaseResponse<IEnumerable<Device>>()
                 {
                     Description = $"[GetFiltered] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<IEnumerable<Device>>> GetFilteredByUser(int? userId, string login = "", string password = "")
+        {
+            try
+            {
+                var clientsDevice = _devicesRepository.GetAll()
+                                                      .Include(x => x.Client)
+                                                      .Where(x => x.Client.Id == userId && x.Client.Login == login && x.Client.Password == password);
+
+                if (!clientsDevice.Any())
+                {
+                    return new BaseResponse<IEnumerable<Device>>()
+                    {
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+
+                return new BaseResponse<IEnumerable<Device>>()
+                {
+                    Data = clientsDevice,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Device>>()
+                {
+                    Description = $"[GetFilteredByUser] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
                 };
             }
