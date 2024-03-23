@@ -9,7 +9,7 @@ namespace RepairServiceWeb.Controllers
     public class OrderAccessoriesController : Controller
     {
         private readonly IOrderAccessoriesService _orderAccessoriesService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
         List<string> statusList = new List<string>()
@@ -21,34 +21,22 @@ namespace RepairServiceWeb.Controllers
             "Получен"
         };
 
-        public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context, IRolesService rolesService)
+        public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _orderAccessoriesService = orderAccessoriesService;
             _context = context;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrderAccessories()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _orderAccessoriesService.GetAll();
 
@@ -61,8 +49,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrderAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _orderAccessoriesService.Get(id);
@@ -76,9 +65,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrderAccessoriesByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _orderAccessoriesService.GetByName(name);
 
@@ -91,9 +83,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredOrderAccessories(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "")
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _orderAccessoriesService.GetFiltered(clientFullName, accessoryName, count, date, status);
 
@@ -105,8 +100,9 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteOrderAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _orderAccessoriesService.Delete(id);
@@ -120,8 +116,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditOrderAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             FillViewBag();
@@ -140,8 +137,9 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditOrderAccessories(OrderAccessoriesViewModel model)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             FillViewBag();

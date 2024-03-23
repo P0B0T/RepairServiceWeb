@@ -43,6 +43,8 @@ $('.myRepairsButton').click(function (e) {
                     arr.push('<label>Описание проделанной работы:</label>');
                     arr.push(`<label>${item.descriprionOfWorkDone}</label> <br />`);
                     arr.push('</div>');
+                    arr.push('<div>');
+                    arr.push('</div>');
                     arr.push('</div>');
                     arr.push('<hr />');
                 });
@@ -117,12 +119,9 @@ $('#myOrderAccessories').click(function (e) {
                 var arr = [];
 
                 data.filteredData.forEach(function (item) {
-                    arr.push('<div class="divRows">');
-                    arr.push('<div style="width: 30em">');
                     arr.push(`<h3>${item.accessories.name}</h3>`);
-                    arr.push(`<p>Клиент: ${item.client.fullName}</p>`)
-                    arr.push('</div>');
-                    arr.push('<div style="margin-top: 2em; width: 12em">');
+                    arr.push('<div class="divRows">');
+                    arr.push('<div style="width: 12em">');
                     arr.push('<label>Количество:</label>');
                     arr.push(`<label>${item.count}</label> <br />`);
                     arr.push('<label>Цена:</label>');

@@ -9,37 +9,27 @@ namespace RepairServiceWeb.Controllers
     public class AccessoriesController : Controller
     {
         private readonly IAccessoriesService _accessoriesService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
-        public AccessoriesController(IAccessoriesService accessoriesService, ApplicationDbContext context, IRolesService rolesService)
+        public AccessoriesController(IAccessoriesService accessoriesService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _accessoriesService = accessoriesService;
             _context = context;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception") && !data.Contains("сотрудник") && !data.Contains("staff"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAccessories()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _accessoriesService.GetAll();
 
@@ -52,8 +42,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _accessoriesService.Get(id);
@@ -67,9 +58,14 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAccessoriesByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _accessoriesService.GetByName(name);
 
@@ -82,9 +78,14 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredAccessories(string Name = "", string manufacturer = "", string supplier = "")
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _accessoriesService.GetFiltered(Name, manufacturer, supplier);
 
@@ -96,8 +97,9 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _accessoriesService.Delete(id);
@@ -112,8 +114,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditAccessories(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             ViewBag.SuppliersList = new SelectList(_context.Suppliers.ToList(), "Id", "CompanyName");
@@ -132,8 +135,9 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditAccessories(AccessoriesViewModel model)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             ViewBag.SuppliersList = new SelectList(_context.Suppliers.ToList(), "Id", "CompanyName");

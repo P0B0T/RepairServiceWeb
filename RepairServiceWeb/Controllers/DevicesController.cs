@@ -9,37 +9,27 @@ namespace RepairServiceWeb.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService _deviceService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
-        public DevicesController(IDevicesService deviceService, ApplicationDbContext context, IRolesService rolesService)
+        public DevicesController(IDevicesService deviceService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _deviceService = deviceService;
             _context = context;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception") && !data.Contains("сотрудник") && !data.Contains("staff"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllDevices()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _deviceService.GetAll();
 
@@ -52,8 +42,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDevices(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _deviceService.Get(id);
@@ -67,9 +58,14 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDevicesByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _deviceService.GetByName(name);
 
@@ -82,9 +78,14 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredDevices(string manufacturer = "", string type = "", string clientFullName = "")
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultStaff is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _deviceService.GetFiltered(manufacturer, type, clientFullName);
 
@@ -96,8 +97,9 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteDevices(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _deviceService.Delete(id);
@@ -111,14 +113,22 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditDevices(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
 
             if (id == 0)
+            {
+                if (resultAdmin is UnauthorizedResult)
+                    if (resultReception is UnauthorizedResult)
+                        return Redirect("/");
+
                 return PartialView();
+            }
+            else
+                if (resultAdmin is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _deviceService.Get(id);
 
@@ -131,9 +141,12 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditDevices(DevicesViewModel model, IFormFile? file = null)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
 

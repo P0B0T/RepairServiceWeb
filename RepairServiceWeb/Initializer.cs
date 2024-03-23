@@ -30,6 +30,7 @@ namespace RepairServiceWeb
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IDevicesService, DevicesService>();
             services.AddScoped<IRepairsService, RepairsService>();
+            services.AddScoped<IRoleCheckerService, RoleCheckerService>();
         }
     }
 }

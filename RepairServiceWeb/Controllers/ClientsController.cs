@@ -8,37 +8,25 @@ namespace RepairServiceWeb.Controllers
     public class ClientsController : Controller
     {
         public readonly IClientsService _clientsService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
-        public ClientsController(IClientsService clientsService, ApplicationDbContext context, IRolesService rolesService)
+        public ClientsController(IClientsService clientsService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _clientsService = clientsService;
             _context = context;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllClients()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _clientsService.GetAll();
 
@@ -51,8 +39,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClients(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _clientsService.Get(id);
@@ -66,9 +55,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClientsByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _clientsService.GetByName(name);
 
@@ -81,9 +73,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredClients(string fullName = "", string address = "")
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _clientsService.GetFiltered(fullName, address);
 
@@ -95,8 +90,9 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteClients(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _clientsService.Delete(id);
@@ -107,30 +103,25 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
-        private async Task<StatusCodeResult> CheckRoleClients()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception") && !data.Contains("client") && !data.Contains("клиент"))
-                    return Unauthorized();
-
-            return Ok();
-        }
-
         [HttpGet]
         public async Task<IActionResult> AddOrEditClients(int id)
         {
-            var result = await CheckRoleClients();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultClient = await _roleCheckerService.Check(Request, "client", "клиент");
 
             if (id == 0)
+            {
+                if (resultAdmin is UnauthorizedResult)
+                    if (resultReception is UnauthorizedResult)
+                        return Redirect("/");
+
                 return PartialView();
+            }
+            else
+                if (resultAdmin is UnauthorizedResult)
+                    if (resultClient is UnauthorizedResult)
+                        return Redirect("/");
 
             var response = await _clientsService.Get(id);
 
@@ -143,9 +134,14 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditClients(ClientsViewModel model)
         {
-            var result = await CheckRoleClients();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultClient = await _roleCheckerService.Check(Request, "client", "клиент");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    if (resultClient is UnauthorizedResult)
+                        return Redirect("/");
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -155,7 +151,12 @@ namespace RepairServiceWeb.Controllers
             if (model.Id == 0)
                 await _clientsService.Create(model);
             else
+            {
                 await _clientsService.Edit(model.Id, model);
+
+                if (resultClient is OkResult)
+                    return RedirectToAction("PersonalCabinet", "PersonalCabinet", new { userId = model.Id, login = model.Login, password = model.Password });
+            }
 
             TempData["Successfully"] = "Успешно";
 

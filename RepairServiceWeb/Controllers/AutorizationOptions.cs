@@ -7,7 +7,7 @@ namespace RepairServiceWeb.Controllers
     {
         public const string ISSUER = "Server";
         public const string AUDIENCE = "Client";
-        const string KEY = "mysupersecret_secretsecretsecretkey!123";
+        const string KEY = "cegthctrhtnysqrk.x100ghwtynjd,tpjgfcyjcnb";
         public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }

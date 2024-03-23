@@ -9,37 +9,25 @@ namespace RepairServiceWeb.Controllers
     public class StaffController : Controller
     {
         private readonly IStaffService _staffService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
-        public StaffController(IStaffService staffService, ApplicationDbContext context, IRolesService rolesService)
+        public StaffController(IStaffService staffService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _staffService = staffService;
             _context = context;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("human resources department") && !data.Contains("отдел кадров"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllStaff()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _staffService.GetAll();
 
@@ -52,9 +40,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStaff(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _staffService.Get(id);
 
@@ -67,9 +58,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStaffByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _staffService.GetByName(name);
 
@@ -82,9 +76,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredStaff(string fullName = "", int? experiance = null, string post = "", string role = null)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _staffService.GetFiltered(fullName, experiance, post, role);
 
@@ -96,9 +93,12 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteStaff(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _staffService.Delete(id);
 
@@ -111,9 +111,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditStaff(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             GetRolesNoClient();
 
@@ -131,9 +134,12 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditStaff(StaffViewModel model, IFormFile? file = null)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             GetRolesNoClient();
 

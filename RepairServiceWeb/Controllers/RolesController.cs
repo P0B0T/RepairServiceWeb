@@ -7,10 +7,12 @@ namespace RepairServiceWeb.Controllers
     public class RolesController : Controller
     {
         private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
 
-        public RolesController(IRolesService rolesService)
+        public RolesController(IRolesService rolesService, IRoleCheckerService roleCheckerService)
         {
             _rolesService = rolesService;
+            _roleCheckerService = roleCheckerService;
         }
 
         private async Task<StatusCodeResult> CheckRole()
@@ -31,9 +33,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRoles()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _rolesService.GetAll();
 
@@ -46,9 +51,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRoles(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _rolesService.Get(id);
 
@@ -60,9 +68,12 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteRoles(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _rolesService.Delete(id);
 
@@ -75,9 +86,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditRoles(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             if (id == 0)
                 return PartialView();
@@ -93,9 +107,12 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditRoles(RolesViewModel model)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultHumanResourceDepartment is UnauthorizedResult)
+                    return Redirect("/");
 
             if (!ModelState.IsValid)
                 return View(model);

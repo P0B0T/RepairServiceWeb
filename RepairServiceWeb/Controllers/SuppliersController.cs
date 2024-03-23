@@ -7,35 +7,23 @@ namespace RepairServiceWeb.Controllers
     public class SuppliersController : Controller
     {
         private readonly ISuppliersService _suppliersService;
-        private readonly IRolesService _rolesService;
+        private readonly IRoleCheckerService _roleCheckerService;
 
-        public SuppliersController(ISuppliersService suppliersService, IRolesService rolesService)
+        public SuppliersController(ISuppliersService suppliersService, IRoleCheckerService roleCheckerService)
         {
             _suppliersService = suppliersService;
-            _rolesService = rolesService;
-        }
-
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("ресепшен") && !data.Contains("reception"))
-                    return Unauthorized();
-
-            return Ok();
+            _roleCheckerService = roleCheckerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllSuppliers()
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var responce = await _suppliersService.GetAll();
 
@@ -48,8 +36,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSuppliers(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _suppliersService.Get(id);
@@ -63,9 +52,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSuppliersByName(string name)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _suppliersService.GetByName(name);
 
@@ -78,9 +70,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFilteredSuppliers(string address = "")
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
-                return Redirect("/");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+
+            if (resultAdmin is UnauthorizedResult)
+                if (resultReception is UnauthorizedResult)
+                    return Redirect("/");
 
             var response = await _suppliersService.GetFiltered(address);
 
@@ -92,8 +87,9 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> DeleteSuppliers(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _suppliersService.Delete(id);
@@ -107,8 +103,9 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditSuppliers(int id)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             if (id == 0)
@@ -125,8 +122,9 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditSuppliers(SuppliersViewModel model)
         {
-            var result = await CheckRole();
-            if (result is UnauthorizedResult)
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+
+            if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
             if (!ModelState.IsValid)
