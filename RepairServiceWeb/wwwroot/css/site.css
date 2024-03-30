@@ -12,7 +12,16 @@ main {
     padding-right: 2em
 }
 
-body, modalBackground {
+.modalBackground {
+    background-color: #9b9b9a
+}
+
+.modal-header {
+    border-bottom: 0.1em solid black
+}
+
+body {
+    counter-reset: counter;
     background-color: #9b9b9a
 }
 
@@ -188,6 +197,21 @@ span {
     justify-content: center
 }
 
+.counter::before {
+    counter-increment: counter;
+    content: counter(counter);
+    font-size: 2em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 0.5em;
+    border: 0.1em solid black;
+    border-radius: 50%;
+    padding: 0.2em 0.5em;
+    height: 1.8em
+}
+
 hr {
     margin-top: 0;
     margin-bottom: 3em;
@@ -329,7 +353,7 @@ span {
         border-top: solid gray
     }
 
-    .dropdown-menu li:last-child {
+    .dropdown-menu li:last-child, .modal-header {
         border-bottom: solid gray
     }
 
@@ -340,5 +364,10 @@ span {
     input[type=file]::file-selector-button {
         color: gray;
         border-right: 0.1em solid gray
+    }
+
+    .divRows::before {
+        color: gray;
+        border: 0.1em solid gray;
     }
 }

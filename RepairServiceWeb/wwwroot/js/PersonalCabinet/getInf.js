@@ -19,7 +19,7 @@ $('.myRepairsButton').click(function (e) {
                 var arr = [];
 
                 data.filteredData.forEach(function (item) {
-                    arr.push('<div class="divRows">');
+                    arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 20em">');
                     arr.push(`<h3>${item.device.model}</h3>`);
                     arr.push('<label>Сотрудник:</label>');
@@ -71,7 +71,7 @@ $('#myDevicesButton').click(function (e) {
                 var arr = [];
 
                 data.filteredData.forEach(function (item) {
-                    arr.push('<div class="divRows">');
+                    arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 27em">');
                     if (item.photo != null) {
                         arr.push(`<img src="/images/DevicesPhoto/${item.photo}">`);
@@ -120,7 +120,7 @@ $('#myOrderAccessories').click(function (e) {
 
                 data.filteredData.forEach(function (item) {
                     arr.push(`<h3>${item.accessories.name}</h3>`);
-                    arr.push('<div class="divRows">');
+                    arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 12em">');
                     arr.push('<label>Количество:</label>');
                     arr.push(`<label>${item.count}</label> <br />`);

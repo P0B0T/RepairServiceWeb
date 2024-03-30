@@ -16,7 +16,7 @@
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 30em">');
                 arr.push(`<h3>${item.name}</h3>`);
                 if (item.description !== null) {
@@ -62,7 +62,7 @@ $('#filterSuppliers').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 22em">');
                 arr.push(`<h3>${item.companyName}</h3>`);
                 if (item.contactPerson != null) {
@@ -116,7 +116,7 @@ $('#filterOrderAccessories').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 30em">');
                 arr.push(`<h3>${item.accessories.name}</h3>`);
                 arr.push(`<p>Клиент: ${item.client.fullName}</p>`)
@@ -162,7 +162,7 @@ $('#filterClients').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 30em">');
                 arr.push(`<h3>${item.fullName}</h3>`);
                 arr.push('</div>');
@@ -211,7 +211,7 @@ $('#filterStaff').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 27em">');
                 if (item.photo != null) {
                     arr.push(`<img src="/images/StaffPhoto/${item.photo}" alt="Фото сотрудника">`);
@@ -265,7 +265,7 @@ $('#filterDevices').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 27em">');
                 if (item.photo != null) {
                     arr.push(`<img src="/images/DevicesPhoto/${item.photo}">`);
@@ -316,7 +316,7 @@ $('#filterRepairs').on('submit', function (event) {
             var arr = [];
 
             data.filteredData.forEach(function (item) {
-                arr.push('<div class="divRows">');
+                arr.push('<div class="divRows counter">');
                 arr.push('<div style="width: 20em">');
                 arr.push(`<h3>${item.device.model}</h3>`);
                 arr.push('<label>Клиент:</label>');
