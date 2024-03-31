@@ -24,7 +24,7 @@ namespace RepairServiceWeb.Controllers
             string data = responce.Data.ToLower();
 
             if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("human resources department") && !data.Contains("отдел кадров"))
+                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("human resources") && !data.Contains("отдел кадров"))
                     return Unauthorized();
 
             return Ok();
@@ -34,7 +34,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetAllRoles()
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -52,7 +52,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetRoles(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -69,7 +69,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> DeleteRoles(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -87,7 +87,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> AddOrEditRoles(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -108,7 +108,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> AddOrEditRoles(RolesViewModel model)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)

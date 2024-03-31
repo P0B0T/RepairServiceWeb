@@ -27,7 +27,7 @@
             </div>
 
             <label asp-for="@Model.Phone_number"></label>
-            <input title="*7(***)***-**-** или 8(***)***-**-**" placeholder="Введите номер телефона" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
+            <input style="width: 16em" placeholder="+7(***)***-**-** или 8(***)***-**-**" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Phone_number" />
             <span asp-validation-for="@Model.Phone_number"></span> <br />
 
             <label asp-for="@Model.Email"></label>
@@ -36,6 +36,7 @@
 
             <label asp-for="@Model.Login"></label>
             <input placeholder="Введите логин" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Login" /> <br />
+            <span>@Html.ValidationMessage("Login")</span> <br />
 
             <label asp-for="@Model.Password"></label>
             <input placeholder="Введите пароль" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Password" /> <br />

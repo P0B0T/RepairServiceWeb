@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepairServiceWeb.DAL;
 using RepairServiceWeb.Domain.ViewModels;
 using RepairServiceWeb.Service.Interfaces;
@@ -142,6 +143,11 @@ namespace RepairServiceWeb.Controllers
                 if (resultReception is UnauthorizedResult)
                     if (resultClient is UnauthorizedResult)
                         return Redirect("/");
+
+            var loginCheck = await _context.Clients.FirstOrDefaultAsync(x => x.Login == model.Login);
+
+            if (loginCheck != null)
+                ModelState.AddModelError("Login", "Пользователь с таким логином уже существует.");
 
             if (!ModelState.IsValid)
                 return View(model);

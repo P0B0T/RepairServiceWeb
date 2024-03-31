@@ -24,7 +24,7 @@
             $('.elemInf').show();
             $('#addDevicesButton').show();
         }
-        else if (permissionValue.includes('human resources department') || permissionValue.includes('отдел кадров')) {
+        else if (permissionValue.includes('human resources') || permissionValue.includes('отдел кадров')) {
             $('.navbar-nav').show();
             $('.staffInf').show();
             $('.buttonAdd').show();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RepairServiceWeb.DAL;
 using RepairServiceWeb.Domain.ViewModels;
 using RepairServiceWeb.Service.Interfaces;
@@ -23,7 +24,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetAllStaff()
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -41,7 +42,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetStaff(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -59,7 +60,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetStaffByName(string name)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -77,7 +78,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> GetFilteredStaff(string fullName = "", int? experiance = null, string post = "", string role = null)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -94,7 +95,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> DeleteStaff(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -112,7 +113,7 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> AddOrEditStaff(int id)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
@@ -135,13 +136,18 @@ namespace RepairServiceWeb.Controllers
         public async Task<IActionResult> AddOrEditStaff(StaffViewModel model, IFormFile? file = null)
         {
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
-            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources department", "отдел кадров");
+            var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
             if (resultAdmin is UnauthorizedResult)
                 if (resultHumanResourceDepartment is UnauthorizedResult)
                     return Redirect("/");
 
             GetRolesNoClient();
+
+            var loginCheck = await _context.Staff.FirstOrDefaultAsync(x => x.Login == model.Login);
+
+            if (loginCheck != null)
+                ModelState.AddModelError("Login", "Пользователь с таким логином уже существует.");
 
             if (!ModelState.IsValid)
             {

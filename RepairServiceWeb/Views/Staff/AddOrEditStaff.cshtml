@@ -48,6 +48,7 @@
 
             <label asp-for="@Model.Login"></label>
             <input placeholder="Введите логин" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Login" /> <br />
+            <span>@Html.ValidationMessage("Login")</span> <br />
 
             <label asp-for="@Model.Password"></label>
             <input placeholder="Введите пароль" onchange="removeExtraSpaces(this)" required type="text" asp-for="@Model.Password" /> <br />
