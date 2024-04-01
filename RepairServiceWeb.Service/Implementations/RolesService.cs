@@ -21,7 +21,8 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var roles = _roleRepository.GetAll();
+                var roles = await _roleRepository.GetAll()
+                                                 .ToListAsync();
 
                 if (!roles.Any())
                 {
@@ -155,7 +156,7 @@ namespace RepairServiceWeb.Service.Implementations
             try
             {
                 var roles = await _roleRepository.GetAll()
-                                           .FirstOrDefaultAsync(x => x.Id == id);
+                                                 .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (roles == null)
                 {
@@ -191,7 +192,8 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var roles = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Id == permissionId);
+                var roles = await _roleRepository.GetAll()
+                                                 .FirstOrDefaultAsync(x => x.Id == permissionId);
 
                 if (roles == null)
                 {

@@ -36,6 +36,11 @@
         <form class="search" asp-action="GetClientsByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите ФИО" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Clients/GetClientsByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -48,18 +53,18 @@
                 <h3>@item.FullName</h3>
             </div>
             <div style="margin-top: 2em; width: 18em">
-                <label>Адрес:</label>
+                <label><b>Адрес:</b></label>
                 <label>@item.Address</label> <br />
-                <label>Номер телефона:</label>
+                <label><b>Номер телефона:</b></label>
                 <label>@item.PhoneNumber</label> <br />
-                <label>Email:</label>
+                <label><b>Email:</b></label>
                 <label>@item.Email</label> <br />
             </div>
             <div style="margin-top: 2em; width: 12em">
                 <div class="confInf">
-                    <label>Логин:</label>
+                    <label><b>Логин:</b></label>
                     <label>@item.Login</label> <br />
-                    <label>Пароль:</label>
+                    <label><b>Пароль:</b></label>
                     <label>@item.Password</label> <br />
                 </div>
             </div>

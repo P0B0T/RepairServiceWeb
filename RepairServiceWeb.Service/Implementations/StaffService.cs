@@ -22,8 +22,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var staff = _staffRepository.GetAll()
-                                            .Include(x => x.Role);
+                var staff = await _staffRepository.GetAll()
+                                                  .Include(x => x.Role)
+                                                  .ToListAsync();
 
                 if (!staff.Any())
                 {
@@ -54,9 +55,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var staff = _staffRepository.GetAll()
-                                            .Include(x => x.Role)
-                                            .ToList();
+                var staff = await _staffRepository.GetAll()
+                                                  .Include(x => x.Role)
+                                                  .ToListAsync();
 
                 if (fullName != "")
                     staff = staff.Where(x => x.FullName.ToLower().Contains(fullName.ToLower()))
@@ -149,50 +150,33 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Staff>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Staff>>> GetByName(string name)
         {
             try
             {
                 var staff = (await _staffRepository.GetAll()
                                                   .Include(x => x.Role)
                                                   .ToListAsync())
-                                                  .FirstOrDefault(x => x.FullName.ToLower().Contains(name.ToLower()));
+                                                  .Where(x => x.FullName.ToLower().Contains(name.ToLower()));
 
-                if (staff == null)
+                if (!staff.Any())
                 {
-                    return new BaseResponse<Staff>()
+                    return new BaseResponse<IEnumerable<Staff>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.StaffNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Staff()
+                return new BaseResponse<IEnumerable<Staff>>()
                 {
-                    Id = staff.Id,
-                    Name = staff.Name,
-                    Surname = staff.Surname,
-                    Patronymic = staff.Patronymic,
-                    Experiance = staff.Experiance,
-                    Post = staff.Post,
-                    Salary = staff.Salary,
-                    DateOfEmployment = staff.DateOfEmployment,
-                    Photo = staff.Photo,
-                    RoleId = staff.RoleId,
-                    Login = staff.Login,
-                    Password = staff.Password,
-                    Role = staff.Role
-                };
-
-                return new BaseResponse<Staff>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = staff,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Staff>()
+                return new BaseResponse<IEnumerable<Staff>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

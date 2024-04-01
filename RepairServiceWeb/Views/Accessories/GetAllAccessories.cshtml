@@ -53,6 +53,11 @@
         <form class="search" asp-action="GetAccessoriesByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите название" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Accessories/GetAccessoriesByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -66,11 +71,11 @@
                 <p>@item.Description</p>
             </div>
             <div style="margin-top: 2em; width: 16em">
-                <label>Производитель:</label>
+                <label><b>Производитель:</b></label>
                 <label>@item.Manufacturer</label> <br />
-                <label>Цена:</label>
+                <label><b>Цена:</b></label>
                 <label>@item.Cost.ToString("0.##") руб.</label> <br />
-                <label>Поставщик:</label>
+                <label><b>Поставщик:</b></label>
                 <label>@item.Supplier.CompanyName</label>
             </div>
             <div>

@@ -58,6 +58,11 @@
         <form class="search" asp-action="GetStaffByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите ФИО" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Staff/GetStaffByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -75,18 +80,18 @@
             <div style="width: 19em">
                 <h3>@item.FullName</h3>
                 <p>@item.Post</p>
-                <label>Стаж:</label>
+                <label><b>Стаж:</b></label>
                 <label>@item.ExperianceWithWord</label> <br />
-                <label>Зар. плата:</label>
+                <label><b>Зар. плата:</b></label>
                 <label>@item.Salary.ToString("0.##") руб.</label> <br />
-                <label>Дата принятия на работу:</label>
+                <label><b>Дата принятия на работу:</b></label>
                 <label>@item.DateOfEmployment</label> <br />
-                <label>Роль:</label>
+                <label><b>Роль:</b></label>
                 <label>@item.Role.Role1</label> <br /> <br />
                 <div class="confInf">
-                    <label>Логин:</label>
+                    <label><b>Логин:</b></label>
                     <label>@item.Login</label> <br />
-                    <label>Пароль:</label>
+                    <label><b>Пароль:</b></label>
                     <label>@item.Password</label>
                 </div>
             </div>

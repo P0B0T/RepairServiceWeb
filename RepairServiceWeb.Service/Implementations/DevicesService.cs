@@ -23,8 +23,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var devices = _devicesRepository.GetAll()
-                                                .Include(x => x.Client);
+                var devices = await _devicesRepository.GetAll()
+                                                      .Include(x => x.Client)
+                                                      .ToListAsync();
 
                 if (!devices.Any())
                 {
@@ -55,9 +56,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var devices = _devicesRepository.GetAll()
-                                                .Include(x => x.Client)
-                                                .ToList();
+                var devices = await _devicesRepository.GetAll()
+                                                      .Include(x => x.Client)
+                                                      .ToListAsync();
 
                 if (manufacturer != "")
                     devices = devices.Where(x => x.Manufacturer.ToLower().Contains(manufacturer.ToLower())).ToList();
@@ -97,9 +98,10 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clientsDevice = _devicesRepository.GetAll()
-                                                      .Include(x => x.Client)
-                                                      .Where(x => x.Client.Id == userId && x.Client.Login == login && x.Client.Password == password);
+                var clientsDevice = (await _devicesRepository.GetAll()
+                                                             .Include(x => x.Client)
+                                                             .ToListAsync())
+                                                             .Where(x => x.Client.Id == userId && x.Client.Login == login && x.Client.Password == password);
 
                 if (!clientsDevice.Any())
                 {
@@ -172,45 +174,33 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Device>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Device>>> GetByName(string name)
         {
             try
             {
-                var devices = await _devicesRepository.GetAll()
-                                                      .Include(x => x.Client)
-                                                      .FirstOrDefaultAsync(x => x.Model.ToLower().Contains(name.ToLower()));
+                var devices = (await _devicesRepository.GetAll()
+                                                       .Include(x => x.Client)
+                                                       .ToListAsync())
+                                                       .Where(x => x.Model.ToLower().Contains(name.ToLower()));
 
-                if (devices == null)
+                if (!devices.Any())
                 {
-                    return new BaseResponse<Device>()
+                    return new BaseResponse<IEnumerable<Device>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.DevicesNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Device()
+                return new BaseResponse<IEnumerable<Device>>()
                 {
-                    Id = devices.Id,
-                    Model = devices.Model,
-                    Manufacturer = devices.Manufacturer,
-                    Type = devices.Type,
-                    YearOfRelease = devices.YearOfRelease,
-                    SerialNumber = devices.SerialNumber,
-                    ClientId = devices.ClientId,
-                    Photo = devices.Photo,
-                    Client = devices.Client
-                };
-
-                return new BaseResponse<Device>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = devices,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Device>()
+                return new BaseResponse<IEnumerable<Device>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

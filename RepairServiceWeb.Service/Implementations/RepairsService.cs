@@ -21,10 +21,11 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var repairs = _repairsRepository.GetAll()
-                                                .Include(x => x.Staff)
-                                                .Include(x => x.Device)
-                                                .Include(x => x.Device.Client);
+                var repairs = await _repairsRepository.GetAll()
+                                                      .Include(x => x.Staff)
+                                                      .Include(x => x.Device)
+                                                      .Include(x => x.Device.Client)
+                                                      .ToListAsync();
 
                 if (!repairs.Any())
                 {
@@ -55,11 +56,11 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var repairs = _repairsRepository.GetAll()
-                                                .Include(x => x.Staff)
-                                                .Include(x => x.Device)
-                                                .Include(x => x.Device.Client)
-                                                .ToList();
+                var repairs = await _repairsRepository.GetAll()
+                                                      .Include(x => x.Staff)
+                                                      .Include(x => x.Device)
+                                                      .Include(x => x.Device.Client)
+                                                      .ToListAsync();
 
                 if (clientFullName != "")
                     repairs = repairs.Where(x => x.Device.Client.FullName.ToLower().Contains(clientFullName.ToLower()))
@@ -98,11 +99,12 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clientsRepairs = _repairsRepository.GetAll()
-                                                       .Include(x => x.Staff)
-                                                       .Include(x => x.Device)
-                                                       .Include(x => x.Device.Client)
-                                                       .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password);
+                var clientsRepairs = (await _repairsRepository.GetAll()
+                                                              .Include(x => x.Staff)
+                                                              .Include(x => x.Device)
+                                                              .Include(x => x.Device.Client)
+                                                              .ToListAsync())
+                                                              .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password);
 
                 var staffRepairs = (IQueryable<Repair>)null;
 
@@ -189,48 +191,35 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Repair>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Repair>>> GetByName(string name)
         {
             try
             {
-                var repairs = await _repairsRepository.GetAll()
-                                                      .Include(x => x.Staff)
-                                                      .Include(x => x.Device)
-                                                      .Include(x => x.Device.Client)
-                                                      .FirstOrDefaultAsync(x => x.Device.Model.ToLower().Contains(name.ToLower()));
+                var repairs = (await _repairsRepository.GetAll()
+                                                       .Include(x => x.Staff)
+                                                       .Include(x => x.Device)
+                                                       .Include(x => x.Device.Client)
+                                                       .ToListAsync())
+                                                       .Where(x => x.Device.Model.ToLower().Contains(name.ToLower()));
 
-                if (repairs == null)
+                if (!repairs.Any())
                 {
-                    return new BaseResponse<Repair>()
+                    return new BaseResponse<IEnumerable<Repair>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.RepairsNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Repair()
+                return new BaseResponse<IEnumerable<Repair>>()
                 {
-                    Id = repairs.Id,
-                    DeviceId = repairs.DeviceId,
-                    StaffId = repairs.StaffId,
-                    DateOfAdmission = repairs.DateOfAdmission,
-                    EndDate = repairs.EndDate,
-                    Cost = repairs.Cost,
-                    DescriptionOfProblem = repairs.DescriptionOfProblem,
-                    DescriprionOfWorkDone = repairs.DescriprionOfWorkDone,
-                    Staff = repairs.Staff,
-                    Device = repairs.Device
-                };
-
-                return new BaseResponse<Repair>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = repairs,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Repair>()
+                return new BaseResponse<IEnumerable<Repair>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

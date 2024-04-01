@@ -69,6 +69,11 @@
         <form class="search" asp-action="GetOrderAccessoriesByName" method="get">
             <input style="width: 15em" class="searchEl" name="name" placeholder="Введите название запчасти" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/OrderAccessories/GetOrderAccessoriesByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -79,16 +84,16 @@
         <div class="divRows counter">
             <div style="width: 30em">
                 <h3>@item.Accessories.Name</h3>
-                <p>Клиент: @item.Client.FullName</p>
+                <p><b>Клиент:</b> @item.Client.FullName</p>
             </div>
             <div style="margin-top: 2em; width: 12em">
-                <label>Количество:</label>
+                <label><b>Количество:</b></label>
                 <label>@item.Count</label> <br />
-                <label>Цена:</label>
+                <label><b>Цена:</b></label>
                 <label>@item.Cost.ToString("0.##") руб.</label> <br />
-                <label>Дата заказа:</label>
+                <label><b>Дата заказа:</b></label>
                 <label>@item.DateOrder</label> <br />
-                <label>Статус:</label>
+                <label><b>Статус:</b></label>
                 <label>@item.StatusOrder</label>
             </div>
             <div>

@@ -18,6 +18,11 @@
         <form class="search" asp-action="GetSuppliersByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите название" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Suppliers/GetSuppliersByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -28,15 +33,15 @@
         <div class="divRows counter">
             <div style="width: 22em">
                 <h3>@item.CompanyName</h3>
-                <label>Контактное лицо:</label>
+                <label><b>Контактное лицо:</b></label>
                 <label>@item.ContactPerson</label> <br />
-                <label>Номер телефона:</label>
+                <label><b>Номер телефона:</b></label>
                 <label>@item.PhoneNumber</label>
             </div>
             <div style="margin-top: 2em; width: 22em">
-                <label>Адрес:</label>
+                <label><b>Адрес:</b></label>
                 <label>@item.Address</label> <br />
-                <label>Email:</label>
+                <label><b>Email:</b></label>
                 <label>@item.Email</label>
             </div>
             <div>

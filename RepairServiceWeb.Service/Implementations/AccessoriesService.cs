@@ -21,8 +21,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var accessories = _accessoriesRepository.GetAll()
-                                                        .Include(x => x.Supplier);
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .Include(x => x.Supplier)
+                                                              .ToListAsync();
 
                 if (!accessories.Any())
                 {
@@ -53,9 +54,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var accessories = _accessoriesRepository.GetAll()
-                                                        .Include(x => x.Supplier)
-                                                        .ToList();
+                var accessories = await _accessoriesRepository.GetAll()
+                                                              .Include(x => x.Supplier)
+                                                              .ToListAsync();
 
                 if (name != "")
                     accessories = accessories.Where(x => x.Name.ToLower().Contains(name.ToLower()))
@@ -138,43 +139,33 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Accessory>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Accessory>>> GetByName(string name)
         {
             try
             {
-                var accessories = await _accessoriesRepository.GetAll()
-                                                              .Include(x => x.Supplier)
-                                                              .FirstOrDefaultAsync(x => x.Name.ToLower().Contains(name.ToLower()));
+                var accessories = (await _accessoriesRepository.GetAll()
+                                                               .Include(x => x.Supplier)
+                                                               .ToListAsync())
+                                                               .Where(x => x.Name.ToLower().Contains(name.ToLower()));
 
-                if (accessories == null)
+                if (!accessories.Any())
                 {
-                    return new BaseResponse<Accessory>()
+                    return new BaseResponse<IEnumerable<Accessory>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.AccessoriesNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Accessory()
+                return new BaseResponse<IEnumerable<Accessory>>()
                 {
-                    Id = accessories.Id,
-                    Name = accessories.Name,
-                    Description = accessories.Description,
-                    Manufacturer = accessories.Manufacturer,
-                    Cost = accessories.Cost,
-                    SupplierId = accessories.SupplierId,
-                    Supplier = accessories.Supplier
-                };
-
-                return new BaseResponse<Accessory>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = accessories,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Accessory>()
+                return new BaseResponse<IEnumerable<Accessory>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

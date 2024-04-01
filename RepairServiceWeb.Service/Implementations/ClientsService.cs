@@ -21,8 +21,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clients = _clientsRepository.GetAll()
-                                                .Include(x => x.Role);
+                var clients = await _clientsRepository.GetAll()
+                                                      .Include(x => x.Role)
+                                                      .ToListAsync();
 
                 if (!clients.Any())
                 {
@@ -53,9 +54,9 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clients = _clientsRepository.GetAll()
-                                                .Include(x => x.Role)
-                                                .ToList();
+                var clients = await _clientsRepository.GetAll()
+                                                      .Include(x => x.Role)
+                                                      .ToListAsync();
 
                 if (fullName != "")
                     clients = clients.Where(x => x.FullName.ToLower().Contains(fullName.ToLower()))
@@ -138,48 +139,33 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Client>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Client>>> GetByName(string name)
         {
             try
             {
                 var clients = (await _clientsRepository.GetAll()
                                                        .Include(x => x.Role)
                                                        .ToListAsync())
-                                                       .FirstOrDefault(x => x.FullName.ToLower().Contains(name.ToLower()));
+                                                       .Where(x => x.FullName.ToLower().Contains(name.ToLower()));
 
-                if (clients == null)
+                if (!clients.Any())
                 {
-                    return new BaseResponse<Client>()
+                    return new BaseResponse<IEnumerable<Client>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.ClientsNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Client()
+                return new BaseResponse<IEnumerable<Client>>()
                 {
-                    Id = clients.Id,
-                    Name = clients.Name,
-                    Surname = clients.Surname,
-                    Patronymic = clients.Patronymic,
-                    Address = clients.Address,
-                    PhoneNumber = clients.PhoneNumber,
-                    Email = clients.Email,
-                    RoleId = clients.RoleId,
-                    Login = clients.Login,
-                    Password = clients.Password,
-                    Role = clients.Role
-                };
-
-                return new BaseResponse<Client>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = clients,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Client>()
+                return new BaseResponse<IEnumerable<Client>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

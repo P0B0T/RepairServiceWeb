@@ -289,6 +289,12 @@ span {
     font-family: Allods Regular Cyr
 }
 
+.divSearch {
+    position: fixed;
+    bottom: 6em;
+    right: 2em;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #1c1c1c

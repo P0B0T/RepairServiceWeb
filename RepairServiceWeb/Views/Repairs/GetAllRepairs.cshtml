@@ -48,6 +48,11 @@
         <form class="search" asp-action="GetRepairsByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите модель" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Repairs/GetRepairsByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -58,23 +63,23 @@
         <div class="divRows counter">
             <div style="width: 20em">
                 <h3>@item.Device.Model</h3>
-                <label>Клиент:</label>
+                <label><b>Клиент:</b></label>
                 <label>@item.Device.Client.FullName</label> <br />
-                <label>Сотрудник:</label>
+                <label><b>Сотрудник:</b></label>
                 <label>@item.Staff.FullName</label> <br />
             </div>
             <div style="margin-top: 2em; width: 15em">
-                <label>Дата поступления:</label>
+                <label><b>Дата поступления:</b></label>
                 <label>@item.DateOfAdmission</label> <br />
-                <label>Дата завершения:</label>
+                <label><b>Дата завершения:</b></label>
                 <label>@item.EndDate</label> <br />
-                <label>Стоимость:</label>
+                <label><b>Стоимость:</b></label>
                 <label>@item.Cost.ToString("0.##") руб.</label> <br />
             </div>
-            <div style="margin-top: 2em; width: 40em">
-                <label>Описание проблемы:</label>
+            <div style="margin-top: 2em; width: 20em">
+                <label><b>Описание проблемы:</b></label>
                 <label>@item.DescriptionOfProblem</label> <br />
-                <label>Описание проделанной работы:</label>
+                <label><b>Описание проделанной работы:</b></label>
                 <label>@item.DescriprionOfWorkDone</label> <br />
             </div>
             <div>

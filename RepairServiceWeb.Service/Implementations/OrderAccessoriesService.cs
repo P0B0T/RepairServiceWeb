@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairServiceWeb.DAL.Interfaces;
-using RepairServiceWeb.DAL.Repositories;
 using RepairServiceWeb.Domain.Entity;
 using RepairServiceWeb.Domain.Enum;
 using RepairServiceWeb.Domain.Response;
@@ -22,9 +21,10 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var orderAccessories = _orderAccessoriesRepository.GetAll()
-                                                                  .Include(x => x.Client)
-                                                                  .Include(x => x.Accessories);
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .Include(x => x.Client)
+                                                                        .Include(x => x.Accessories)
+                                                                        .ToListAsync();
 
                 if (!orderAccessories.Any())
                 {
@@ -55,10 +55,10 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var orderAccessories = _orderAccessoriesRepository.GetAll()
-                                                                  .Include(x => x.Client)
-                                                                  .Include(x => x.Accessories)
-                                                                  .ToList();
+                var orderAccessories = await _orderAccessoriesRepository.GetAll()
+                                                                        .Include(x => x.Client)
+                                                                        .Include(x => x.Accessories)
+                                                                        .ToListAsync();
 
                 if (clientFullName != "")
                     orderAccessories = orderAccessories.Where(x => x.Client.FullName.ToLower().Contains(clientFullName.ToLower()))
@@ -109,9 +109,10 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var clientsOrder = _orderAccessoriesRepository.GetAll()
+                var clientsOrder = (await _orderAccessoriesRepository.GetAll()
                                                               .Include(x => x.Accessories)
                                                               .Include(x => x.Client)
+                                                              .ToListAsync())
                                                               .Where(x => x.Client.Id == userId && x.Client.Login == login && x.Client.Password == password);
 
                 if (!clientsOrder.Any())
@@ -186,46 +187,34 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<OrderAccessory>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetByName(string name)
         {
             try
             {
-                var orderAccessories = await _orderAccessoriesRepository.GetAll()
-                                                                        .Include(x => x.Client)
-                                                                        .Include(x => x.Accessories)
-                                                                        .FirstOrDefaultAsync(x => x.Accessories.Name.ToLower().Contains(name.ToLower()));
+                var orderAccessories = (await _orderAccessoriesRepository.GetAll()
+                                                                         .Include(x => x.Client)
+                                                                         .Include(x => x.Accessories)
+                                                                         .ToListAsync())
+                                                                         .Where(x => x.Accessories.Name.ToLower().Contains(name.ToLower()));
 
-                if (orderAccessories == null)
+                if (!orderAccessories.Any())
                 {
-                    return new BaseResponse<OrderAccessory>()
+                    return new BaseResponse<IEnumerable<OrderAccessory>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.OrderAccessoriesNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new OrderAccessory()
+                return new BaseResponse<IEnumerable<OrderAccessory>>()
                 {
-                    Id = orderAccessories.Id,
-                    ClientId = orderAccessories.ClientId,
-                    AccessoriesId = orderAccessories.Id,
-                    Count = orderAccessories.Count,
-                    Cost = orderAccessories.Cost,
-                    DateOrder = orderAccessories.DateOrder,
-                    StatusOrder = orderAccessories.StatusOrder,
-                    Client = orderAccessories.Client,
-                    Accessories = orderAccessories.Accessories
-                };
-
-                return new BaseResponse<OrderAccessory>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = orderAccessories,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<OrderAccessory>()
+                return new BaseResponse<IEnumerable<OrderAccessory>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

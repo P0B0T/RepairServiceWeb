@@ -6,7 +6,7 @@ namespace RepairServiceWeb.Service.Interfaces
     {
         Task<IBaseResponse<IEnumerable<T>>> GetAll();
 
-        Task<IBaseResponse<T>> GetByName(string name);
+        Task<IBaseResponse<IEnumerable<T>>> GetByName(string name);
 
         Task<IBaseResponse<bool>> Delete(int id);
     }

@@ -21,7 +21,8 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var suppliers = _suppliersRepository.GetAll();
+                var suppliers = await _suppliersRepository.GetAll()
+                                                          .ToListAsync();
 
                 if (!suppliers.Any())
                 {
@@ -52,10 +53,12 @@ namespace RepairServiceWeb.Service.Implementations
         {
             try
             {
-                var suppliers = _suppliersRepository.GetAll();
+                var suppliers = await _suppliersRepository.GetAll()
+                                                         .ToListAsync();
 
                 if (address != "")
-                    suppliers = suppliers.Where(x => x.Address.ToLower().Contains(address.ToLower()));
+                    suppliers = suppliers.Where(x => x.Address.ToLower().Contains(address.ToLower()))
+                                         .ToList();
 
                 if (!suppliers.Any())
                 {
@@ -124,41 +127,32 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Supplier>> GetByName(string name)
+        public async Task<IBaseResponse<IEnumerable<Supplier>>> GetByName(string name)
         {
             try
             {
-                var suppliers = await _suppliersRepository.GetAll()
-                                                          .FirstOrDefaultAsync(x => x.CompanyName.ToLower().Contains(name.ToLower()));
+                var suppliers = (await _suppliersRepository.GetAll()
+                                                           .ToListAsync())
+                                                           .Where(x => x.CompanyName.ToLower().Contains(name.ToLower()));
 
-                if (suppliers == null)
+                if (!suppliers.Any())
                 {
-                    return new BaseResponse<Supplier>()
+                    return new BaseResponse<IEnumerable<Supplier>>()
                     {
-                        Description = "Элемент не найден",
-                        StatusCode = StatusCode.SuppliersNotFound
+                        Description = "Элементы не найдены",
+                        StatusCode = StatusCode.OK
                     };
                 }
 
-                var data = new Supplier()
+                return new BaseResponse<IEnumerable<Supplier>>()
                 {
-                    Id = suppliers.Id,
-                    CompanyName = suppliers.CompanyName,
-                    ContactPerson = suppliers.ContactPerson,
-                    PhoneNumber = suppliers.PhoneNumber,
-                    Address = suppliers.Address,
-                    Email = suppliers.Email
-                };
-
-                return new BaseResponse<Supplier>()
-                {
-                    StatusCode = StatusCode.OK,
-                    Data = data
+                    Data = suppliers,
+                    StatusCode = StatusCode.OK
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Supplier>()
+                return new BaseResponse<IEnumerable<Supplier>>()
                 {
                     Description = $"[GetByName] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError

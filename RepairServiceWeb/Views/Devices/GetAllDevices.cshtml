@@ -47,6 +47,11 @@
         <form class="search" asp-action="GetDevicesByName" method="get">
             <input class="searchEl" name="name" placeholder="Введите модель" required type="text" />
             <button class="searchEl" onclick="searchHighlight('/Devices/GetDevicesByName')">Поиск</button>
+            <div class="divSearch">
+                <button id="downButton">&#8595</button>
+                <button id="upButton">&#8593</button>
+                <label id="counter"></label>
+            </div>
         </form>
     </div>
 </div>
@@ -63,18 +68,18 @@
             </div>
             <div style="width: 19em">
                 <h3>@item.Model</h3>
-                <label>Производитель:</label>
+                <label><b>Производитель:</b></label>
                 <label>@item.Manufacturer</label> <br />
-                <label>Тип:</label>
+                <label><b>Тип:</b></label>
                 <label>@item.Type</label> <br />
-                <label>Год производства:</label>
+                <label><b>Год производства:</b></label>
                 <label>@item.YearOfRelease</label> <br />
                 @if (item.SerialNumber != null)
                 {
-                    <label>Серийный номер:</label>
+                    <label><b>Серийный номер:</b></label>
                     <label>@item.SerialNumber</label> <br />
                 } <br />
-                <label>Клиент:</label>
+                <label><b>Клиент:</b></label>
                 <label>@item.Client.FullName</label> <br />
             </div>
             <div>
