@@ -144,10 +144,13 @@ namespace RepairServiceWeb.Controllers
                     if (resultClient is UnauthorizedResult)
                         return Redirect("/");
 
-            var loginCheck = await _context.Clients.FirstOrDefaultAsync(x => x.Login == model.Login);
+            if (model.Id == 0)
+            {
+                var loginCheck = await _context.Clients.FirstOrDefaultAsync(x => x.Login == model.Login);
 
-            if (loginCheck != null)
-                ModelState.AddModelError("Login", "Пользователь с таким логином уже существует.");
+                if (loginCheck != null)
+                    ModelState.AddModelError("Login", "Пользователь с таким логином уже существует.");
+            }
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -161,7 +164,11 @@ namespace RepairServiceWeb.Controllers
                 await _clientsService.Edit(model.Id, model);
 
                 if (resultClient is OkResult)
+                {
+                    TempData["Successfully"] = "Успешно";
+
                     return RedirectToAction("PersonalCabinet", "PersonalCabinet", new { userId = model.Id, login = model.Login, password = model.Password });
+                }
             }
 
             TempData["Successfully"] = "Успешно";

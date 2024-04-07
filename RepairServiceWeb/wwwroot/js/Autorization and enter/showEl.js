@@ -36,5 +36,11 @@
             $('#infAccessories').show();
             $('#infDevice').show();
         }
+        else {
+            $('<link>')
+                .appendTo('head')
+                .attr({ type: 'text/css', rel: 'stylesheet' })
+                .attr('href', '/css/client.css');
+        }
     })
 });

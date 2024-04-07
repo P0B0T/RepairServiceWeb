@@ -40,9 +40,9 @@ h1 {
     font-size: 1.3em
 }
 
-.nav-item:hover {
-    color: #9b9b9a;
-}
+    .nav-item:hover {
+        color: #9b9b9a;
+    }
 
 p, label, #navbarDropdown {
     color: black
@@ -144,8 +144,8 @@ span {
     background-color: #9b9b9a;
     border: 0.001em solid black;
     color: green;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 0.2em;
+    border-radius: 0.1em;
     text-align: center;
 }
 
@@ -187,15 +187,15 @@ span {
     justify-content: flex-start;
 }
 
-.divRows > div:nth-child(n+2) {
-    margin-left: 2em
-}
+    .divRows > div:nth-child(n+2) {
+        margin-left: 2em
+    }
 
-.divRows > div:last-child {
-    display: flex;
-    flex-direction: column;
-    justify-content: center
-}
+    .divRows > div:last-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
 
 .counter::before {
     counter-increment: counter;
@@ -227,20 +227,20 @@ hr {
     margin: 0;
 }
 
-.dropdown-menu li {
-    background-color: #9b9b9a;
-    border-left: solid black;
-    border-right: solid black;
-    padding: 0.5em;
-}
+    .dropdown-menu li {
+        background-color: #9b9b9a;
+        border-left: solid black;
+        border-right: solid black;
+        padding: 0.5em;
+    }
 
-.dropdown-menu li:first-child {
-    border-top: solid black
-}
+        .dropdown-menu li:first-child {
+            border-top: solid black
+        }
 
-.dropdown-menu li:last-child {
-    border-bottom: solid black
-}
+        .dropdown-menu li:last-child {
+            border-bottom: solid black
+        }
 
 .filterEl {
     width: 15em;
@@ -296,7 +296,7 @@ span {
 }
 
 @media (prefers-color-scheme: dark) {
-    body {
+    body, select option, .filterEl option {
         background-color: #1c1c1c
     }
 
@@ -324,13 +324,9 @@ span {
         background-color: transparent
     }
 
-    select option {
-        background-color: #1c1c1c
-    }
-
-    input::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-    }
+        input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
 
     .modalBackground, #popup {
         background-color: black;
@@ -355,17 +351,13 @@ span {
         border-right: solid gray
     }
 
-    .dropdown-menu li:first-child {
-        border-top: solid gray
-    }
+        .dropdown-menu li:first-child {
+            border-top: solid gray
+        }
 
-    .dropdown-menu li:last-child, .modal-header {
-        border-bottom: solid gray
-    }
-
-    .filterEl option {
-        background-color: #1c1c1c
-    }
+        .dropdown-menu li:last-child, .modal-header {
+            border-bottom: solid gray
+        }
 
     input[type=file]::file-selector-button {
         color: gray;

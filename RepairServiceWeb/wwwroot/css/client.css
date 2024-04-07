@@ -1,0 +1,96 @@
+﻿nav, footer {
+    background-color: #e5e5e5
+}
+
+.modalBackground, body {
+    background-color: #1A7E90
+}
+
+.modal-header {
+    border-bottom: 0.1em solid #e5e5e5
+}
+
+p, a {
+    color: black
+}
+
+.greetings, h2, label, h3 {
+    color: #e5e5e5
+}
+
+button, .counter::before {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5
+}
+
+select, input, textarea {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5;
+    background-color: transparent
+}
+
+span {
+    color: darkred
+}
+
+#overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#popup {
+    background-color: #e5e5e5;
+    border: 0.001em solid #e5e5e5;
+    color: green
+}
+
+::placeholder {
+    color: #90908e
+}
+
+hr {
+    border-top: 0.3em solid #e5e5e5
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #0b363e
+    }
+
+    nav, footer {
+        background-color: #4e4e51
+    }
+
+    button, .buttonAdd, .divGet {
+        color: gray;
+        border-color: gray;
+        border-radius: 0.3em
+    }
+
+    h2, h3, label, p {
+        color: gray
+    }
+
+    select, input, textarea {
+        color: gray;
+        border: 0.1em solid gray;
+        background-color: transparent
+    }
+
+    .modalBackground {
+        background-color: #0b363e;
+        border: 0.001em solid gray
+    }
+
+    #popup {
+        background-color: gray;
+        border: 0.001em solid gray
+    }
+
+    ::placeholder {
+        color: #50504f
+    }
+
+    hr {
+        border-top: 0.3em solid gray
+    }
+}
