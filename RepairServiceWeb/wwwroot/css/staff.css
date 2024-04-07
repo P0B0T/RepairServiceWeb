@@ -1,0 +1,166 @@
+﻿nav, footer, .nav-item:hover, .dropdown-menu {
+    background-color: #6610ee
+}
+
+.modalBackground, body {
+    background-color: #4F51DA
+}
+
+.modal-header {
+    border-bottom: 0.1em solid #e5e5e5
+}
+
+.nav-item, .dropdown-item, p, label, #navbarDropdown, a, h2, h3, .navbar, h5 {
+    color: #e5e5e5
+}
+
+button, .counter::before {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5
+}
+
+input, textarea {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5;
+    background-color: transparent
+}
+
+select {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5;
+    background-color: #4F51DA
+}
+
+.divGet {
+    border: 0.1em solid #e5e5e5
+}
+
+span {
+    color: darkred
+}
+
+.buttonAdd {
+    border: 0.1em solid #e5e5e5
+}
+
+#overlay {
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+#popup {
+    background-color: #4F51DA;
+    border: 0.001em solid #e5e5e5;
+    color: green
+}
+
+.borderBlack {
+    border: 0.1em solid #e5e5e5
+}
+
+::placeholder {
+    color: #383837
+}
+
+.searchRes {
+    background-color: #6278FF
+}
+
+hr {
+    border-top: 0.3em solid #e5e5e5
+}
+
+.dropdown-menu li {
+    background-color: #4F51DA;
+    border-left: solid #e5e5e5;
+    border-right: solid #e5e5e5
+}
+
+    .dropdown-menu li:first-child {
+        border-top: solid #e5e5e5
+    }
+
+    .dropdown-menu li:last-child {
+        border-bottom: solid #e5e5e5
+    }
+
+input[type=file]::file-selector-button {
+    border-right: 0.1em solid #e5e5e5;
+    color: #383837
+}
+
+button:hover {
+    color: black !important
+}
+
+@media (prefers-color-scheme: dark) {
+    body, select option, .filterEl option {
+        background-color: #010D47
+    }
+
+    h1, .pFooter {
+        color: #e5e5e5
+    }
+
+    nav, footer, .dropdown-menu, .nav-item:hover {
+        background-color: #7425F0
+    }
+
+    button, .buttonAdd, .divGet {
+        color: gray;
+        border-color: gray;
+    }
+
+    h2, h3, label, p {
+        color: gray
+    }
+
+    select, input, textarea {
+        color: gray;
+        border: 0.1em solid gray;
+        background-color: transparent
+    }
+
+        input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+    .modalBackground, #popup {
+        background-color: #010D47;
+        border: 0.001em solid gray
+    }
+
+    ::placeholder {
+        color: #50504f
+    }
+
+    .searchRes {
+        background-color: #011365
+    }
+
+    hr {
+        border-top: 0.3em solid gray
+    }
+
+    .dropdown-menu li {
+        background-color: #010D47;
+        border-left: solid gray;
+        border-right: solid gray
+    }
+
+        .dropdown-menu li:first-child {
+            border-top: solid gray
+        }
+
+        .dropdown-menu li:last-child, .modal-header {
+            border-bottom: solid gray
+        }
+
+    input[type=file]::file-selector-button {
+        color: gray;
+        border-right: 0.1em solid gray
+    }
+
+    button:hover {
+        color: gray !important
+    }
+}

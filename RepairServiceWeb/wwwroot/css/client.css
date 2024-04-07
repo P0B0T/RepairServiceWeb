@@ -23,7 +23,7 @@ button, .counter::before {
     border: 0.1em solid #e5e5e5
 }
 
-select, input, textarea {
+input, textarea {
     color: #e5e5e5;
     border: 0.1em solid #e5e5e5;
     background-color: transparent
@@ -49,6 +49,10 @@ span {
 
 hr {
     border-top: 0.3em solid #e5e5e5
+}
+
+button:hover {
+    color: black !important
 }
 
 @media (prefers-color-scheme: dark) {

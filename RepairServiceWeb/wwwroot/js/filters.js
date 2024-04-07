@@ -1,4 +1,24 @@
-﻿$('#filterAccessories').on('submit', function (event) {
+﻿function isAdmin() {
+    var permissionId = getCookie('permissions');
+    var isAdmin = false;
+
+    $.ajax({
+        url: '/Autorization/GetRoleName',
+        method: 'GET',
+        data: { permissionId: permissionId },
+        async: false,
+        success: function (response) {
+            if (response.success) {
+                var permissionValue = response.data.toLowerCase();
+                isAdmin = permissionValue.includes('admin') || permissionValue.includes('админ');
+            }
+        }
+    });
+
+    return isAdmin;
+}
+
+$('#filterAccessories').on('submit', function (event) {
     event.preventDefault();
 
     var name = $('input[name="Name"]').val();
@@ -35,7 +55,9 @@
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Accessories/GetAccessories', data: '${item.id}', title: 'Информация о запчасти' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Accessories/GetAccessories', data: '${item.id}', title: 'Информация о запчасти' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
@@ -86,8 +108,9 @@ $('#filterSuppliers').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Suppliers/GetSuppliers', data: '${item.id}', title: 'Информация о поставщике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
-                arr.push('</form>');
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Suppliers/GetSuppliers', data: '${item.id}', title: 'Информация о поставщике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</div>');
                 arr.push('</div>');
                 arr.push('<hr />');
@@ -135,7 +158,9 @@ $('#filterOrderAccessories').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/OrderAccessories/GetOrderAccessories', data: '${item.id}', title: 'Информация о заказе' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/OrderAccessories/GetOrderAccessories', data: '${item.id}', title: 'Информация о заказе' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
@@ -182,7 +207,9 @@ $('#filterClients').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Clients/GetClients', data: '${item.id}', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Clients/GetClients', data: '${item.id}', title: 'Информация о клиенте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
@@ -237,7 +264,9 @@ $('#filterStaff').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Staff/GetStaff', data: '${item.id}', title: 'Информация о сотруднике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Staff/GetStaff', data: '${item.id}', title: 'Информация о сотруднике' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
@@ -289,7 +318,9 @@ $('#filterDevices').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Devices/GetDevices', data: '${item.id}', title: 'Информация об устройстве' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Devices/GetDevices', data: '${item.id}', title: 'Информация об устройстве' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
@@ -344,7 +375,9 @@ $('#filterRepairs').on('submit', function (event) {
                 arr.push('</div>');
                 arr.push('<div>');
                 arr.push('<form>');
-                arr.push(`<button type="button" onclick="openModal({ url: '/Repairs/GetRepairs', data: '${item.id}', title: 'Информация о ремонте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                if (isAdmin()) {
+                    arr.push(`<button type="button" onclick="openModal({ url: '/Repairs/GetRepairs', data: '${item.id}', title: 'Информация о ремонте' })" data-toggle="ajax-modal" data-target="#Modal">Посмотреть</button>`);
+                }
                 arr.push('</form>');
                 arr.push('</div>');
                 arr.push('</div>');
