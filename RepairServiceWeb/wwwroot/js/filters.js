@@ -1,5 +1,6 @@
 ﻿function isAdmin() {
     var permissionId = getCookie('permissions');
+
     var isAdmin = false;
 
     $.ajax({

@@ -6,7 +6,9 @@
     <title>@ViewData["Title"]</title>
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <link id="clientCssLink" rel="stylesheet" href="/css/client.css" asp-append-version="true" disabled />
+    <link id="staffCssLink" rel="stylesheet" href="/css/staff.css" asp-append-version="true" disabled />
     <link rel="stylesheet" href="~/css/btnColor.css" asp-append-version="true" />
 </head>
 <body>
@@ -42,6 +44,16 @@
                 </div>
                 <a class="nav-item nav-link staffInf" href="/Roles/GetAllRoles">Роли</a>
                 <a class="nav-item nav-link staffInf" href="/Staff/GetAllStaff">Сотрудники</a>
+            </div>
+            <div style="margin-left: auto" class="nav-item dropdown theme">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Темы
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <button class="dropdown-item btnTheme">Стандартная</button>
+                    <button class="dropdown-item btnTheme">Клиент</button>
+                    <button class="dropdown-item btnTheme">Сотрудник</button>
+                </div>
             </div>
             <a type="button" onclick="openAutorization()" data-toggle="ajax-modal" data-target="#Modal" style="margin-left: auto" class="nav-item nav-link">
                 <svg style="margin-left: 0.25em" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -142,6 +154,7 @@
     <script src="~/js/Autorization and enter/showEl.js" asp-append-version="true"></script>
     <script src="~/js/PersonalCabinet/adjustMargin.js" asp-append-version="true"></script>
     <script src="~/js/PersonalCabinet/getInf.js" asp-append-version="true"></script>
+    <script src="~/js/switchTheme.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

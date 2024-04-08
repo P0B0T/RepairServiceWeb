@@ -275,7 +275,7 @@ span {
     font-weight: 700
 }
 
-.buttonInf, .staffInf, .elemInf, .confInf, #workersEl, #infDevice, #infAccessories, #addDevicesButton {
+.buttonInf, .staffInf, .elemInf, .confInf, #workersEl, #infDevice, #infAccessories, #addDevicesButton, .theme {
     display: none
 }
 

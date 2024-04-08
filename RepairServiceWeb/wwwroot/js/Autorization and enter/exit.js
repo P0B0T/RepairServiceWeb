@@ -5,6 +5,8 @@
         deleteCookie("userId");
         deleteCookie("login");
         deleteCookie("password");
+
+        localStorage.clear();
     });
 });
 

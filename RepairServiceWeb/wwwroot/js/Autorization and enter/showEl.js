@@ -18,12 +18,10 @@
             $('.staffInf').show();
             $('.confInf').show();
             $('#workersEl').show();
+            $('.theme').show();
         }
         else if (permissionValue.includes('ресепшен') || permissionValue.includes('reception')) {
-            $('<link>')
-                .appendTo('head')
-                .attr({ type: 'text/css', rel: 'stylesheet' })
-                .attr('href', '/css/staff.css');
+            $("#staffCssLink").attr("disabled", false);
             $('.navbar-nav').show();
             $('.elemInf').show();
             $('#addDevicesButton').show();
@@ -49,10 +47,7 @@
             $('#infDevice').show();
         }
         else {
-            $('<link>')
-                .appendTo('head')
-                .attr({ type: 'text/css', rel: 'stylesheet' })
-                .attr('href', '/css/client.css');
+            $("#clientCssLink").attr("disabled", false);
         }
     })
 });
