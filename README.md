@@ -15,4 +15,4 @@
 Проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE](https://github.com/P0B0T/RepairServiceWeb/blob/master/LICENSE.md). 
 ## Обратная связь
 - **[Telegram](https://t.me/P0B0T)**
-- [Noobmine1@yandex.ru](mailto:Noobmine1@yandex.ru)
+- Email: Noobmine1@yandex.ru
