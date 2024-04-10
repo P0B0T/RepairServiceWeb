@@ -9,7 +9,7 @@
             setCookie('login', data.login);
             setCookie('password', data.password);
 
-            window.location.href = '/PersonalCabinet/PersonalCabinet?userId=' + data.userId + '&login=' + data.login + '&password=' + data.password;
+            window.location.href = '/PersonalCabinet/PersonalCabinet'
         }).fail((error) => {
             $("#error-message").text(error.responseText);
         });

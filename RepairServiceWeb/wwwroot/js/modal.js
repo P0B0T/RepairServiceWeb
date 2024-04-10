@@ -52,7 +52,7 @@ function openAutorization() {
     var password = getCookie('password');
 
     if (userId) {
-        window.location.href = '/PersonalCabinet/PersonalCabinet?userId=' + userId + '&login=' + login + '&password=' + password
+        window.location.href = '/PersonalCabinet/PersonalCabinet'
     } else {
         const modal = $('#autorization');
 

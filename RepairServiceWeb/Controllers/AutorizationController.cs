@@ -24,13 +24,13 @@ namespace RepairServiceWeb.Controllers
 
         public async Task<IActionResult> Enter(string login, string password)
         {
-            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Login == login && x.Password == password);
+            var client = await _context.Clients.FirstOrDefaultAsync(x => EF.Functions.Collate(x.Login, "SQL_Latin1_General_CP1_CS_AS") == login && EF.Functions.Collate(x.Password, "SQL_Latin1_General_CP1_CS_AS") == password);
 
             var staff = new Staff();
 
             if (client == null)
             {
-                staff = await _context.Staff.FirstOrDefaultAsync(x => x.Login == login && x.Password == password);
+                staff = await _context.Staff.FirstOrDefaultAsync(x => EF.Functions.Collate(x.Login, "SQL_Latin1_General_CP1_CS_AS") == login && EF.Functions.Collate(x.Password, "SQL_Latin1_General_CP1_CS_AS") == password);
 
                 if (staff == null)
                     return BadRequest("Неверный логин или пароль");

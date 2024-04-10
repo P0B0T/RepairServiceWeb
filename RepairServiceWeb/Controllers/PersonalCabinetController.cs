@@ -23,9 +23,11 @@ namespace RepairServiceWeb.Controllers
             _roleCheckerService = roleCheckerService;
         }
 
-        public async Task<IActionResult> PersonalCabinet(int? userId, string login = "", string password = "")
+        public async Task<IActionResult> PersonalCabinet()
         {
-            if (userId == null && login == "" && password == "")
+            var (userId, login, password) = Cookies();
+
+            if (userId == null && string.IsNullOrEmpty(login) && string.IsNullOrEmpty(password))
                 return Redirect("/");
 
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == userId && x.Login == login && x.Password == password);
@@ -38,8 +40,10 @@ namespace RepairServiceWeb.Controllers
             return View((client != null) ? client : staff);
         }
 
-        public async Task<IActionResult> GetRepairs(int? userId, string login = "", string password = "")
+        public async Task<IActionResult> GetRepairs()
         {
+            var (userId, login, password) = Cookies();
+
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultStaff = await _roleCheckerService.Check(Request, "staff", "сотрудник");
             var resultClient = await _roleCheckerService.Check(Request, "client", "клиент");
@@ -57,8 +61,10 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
-        public async Task<IActionResult> GetDevices(int? userId, string login = "", string password = "")
+        public async Task<IActionResult> GetDevices()
         {
+            var (userId, login, password) = Cookies();
+
             var resultClient = await _roleCheckerService.Check(Request, "client", "клиент");
 
             if (resultClient is UnauthorizedResult)
@@ -72,8 +78,10 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
-        public async Task<IActionResult> GetOrderAccessories(int? userId, string login = "", string password = "")
+        public async Task<IActionResult> GetOrderAccessories()
         {
+            var (userId, login, password) = Cookies();
+
             var resultClient = await _roleCheckerService.Check(Request, "client", "клиент");
 
             if (resultClient is UnauthorizedResult)
@@ -85,6 +93,20 @@ namespace RepairServiceWeb.Controllers
                 return Json(new { success = true, filteredData = response.Data });
 
             return Json(new { success = false, error = $"{response.Description}" });
+        }
+
+        private (int?, string?, string?) Cookies()
+        {
+            var userId = Request.Cookies["userId"];
+            var login = Request.Cookies["login"];
+            var password = Request.Cookies["password"];
+
+            int? userIdInt = null;
+
+            if (userId != null)
+                userIdInt = int.Parse(userId);
+
+            return (userIdInt, login, password);
         }
     }
 }
