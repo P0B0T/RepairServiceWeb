@@ -56,6 +56,11 @@
     </div>
 </div>
 
+@if (Model == null || !Model.Any())
+{
+    <p>Тут пока ничего нет (</p>
+}
+
 <div id="divOutput">
     @foreach (var item in Model)
     {

@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using RepairServiceWeb.Controllers;
 using RepairServiceWeb.DAL;
+using RepairServiceWeb.Domain.Entity;
 using System.Text.Json.Serialization;
 
 namespace RepairServiceWeb
@@ -61,6 +63,39 @@ namespace RepairServiceWeb
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Autorization}/{action=Index}/{id?}");
+
+            using (var serviceScope = app.Services.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.EnsureCreated();
+
+                if (!context.Roles.Any(r => r.Role1.ToLower().Contains("admin") || r.Role1.ToLower().Contains("админ")))
+                {
+                    // Create the Administrator role
+                    context.Roles.Add(new Role { Role1 = "Administrator" });
+                    context.SaveChanges();
+                }
+
+                var adminRoleId = context.Roles.FirstOrDefault(r => r.Role1.ToLower().Contains("admin") || r.Role1.ToLower().Contains("админ"))?.Id;
+
+                // Check if the staff member already exists
+                if (!context.Staff.Any(s => s.RoleId == adminRoleId))
+                {
+                    // Create the Administrator staff member
+                    context.Staff.Add(new Staff 
+                    { 
+                        Name = "Admin", 
+                        Surname = "Admin",
+                        Post = "Admin",
+                        Salary = 0,
+                        DateOfEmployment = default,
+                        RoleId = adminRoleId.Value,
+                        Login = "Admin",
+                        Password = "admin"
+                    });
+                    context.SaveChanges();
+                }
+            }
 
             app.Run();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RepairServiceWeb.DAL;
+using RepairServiceWeb.Domain.Entity;
 using RepairServiceWeb.Domain.ViewModels;
 using RepairServiceWeb.Service.Interfaces;
 
@@ -34,7 +35,10 @@ namespace RepairServiceWeb.Controllers
             var response = await _deviceService.GetAll();
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
-                return View(response.Data.ToList());
+                if (response.Data != null)
+                    return View(response.Data.ToList());
+                else
+                    return View(new List<Device>());
 
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }

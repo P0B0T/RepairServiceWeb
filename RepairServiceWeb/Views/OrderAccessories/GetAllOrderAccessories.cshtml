@@ -6,7 +6,7 @@
 
 @model IEnumerable<OrderAccessory>
 
-<h2>Заказы запчастей</h2>
+<h2>Список заказов запчастей</h2>
 
 <div class="divControl">
     <div class="dropdown">
@@ -77,6 +77,11 @@
         </form>
     </div>
 </div>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Тут пока ничего нет (</p>
+}
 
 <div id="divOutput">
     @foreach (var item in Model)

@@ -7,6 +7,7 @@ namespace RepairServiceWeb.DAL
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         public DbSet<Accessory> Accessories { get; set; }

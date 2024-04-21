@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using RepairServiceWeb.Domain.Entity;
 using RepairServiceWeb.Domain.ViewModels;
 using RepairServiceWeb.Service.Interfaces;
 
@@ -24,13 +26,15 @@ namespace RepairServiceWeb.Controllers
             if (resultAdmin is UnauthorizedResult)
                 if (resultReception is UnauthorizedResult)
                     return Redirect("/");
+            var response = await _suppliersService.GetAll();
 
-            var responce = await _suppliersService.GetAll();
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                if (response.Data != null)
+                    return View(response.Data.ToList());
+                else
+                    return View(new List<Supplier>());
 
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                return View(responce.Data.ToList());
-
-            return View("~/Views/Shared/Error.cshtml", $"{responce.Description}");
+            return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
         [HttpGet]
