@@ -33,7 +33,13 @@
             </li>
             <li>
                 <div>
-                    <input name="clientFullName" class="filterEl" type="text" placeholder="Введите ФИО клиента" />
+                    <select name="clientFullName" class="filterEl">
+                        <option value="">-Выберите клиента-</option>
+                            @foreach (var item in Model.Select(m => m.Client.FullName).Distinct())
+                            {
+                            <option value="@item">@item</option>
+                            }
+                    </select>
                 </div>
             </li>
             <li>
