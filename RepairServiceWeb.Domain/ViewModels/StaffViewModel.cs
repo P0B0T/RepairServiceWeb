@@ -43,7 +43,7 @@ namespace RepairServiceWeb.Domain.ViewModels
         public string Login { get; set; } = null!;
 
         [Display(Name = "Пароль:")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?])[A-Za-z\d@$!%*?]{10,}$",
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#_])[A-Za-z\d@$!%*?#_]{10,}$",
             ErrorMessage = "Пароль должен содержать как минимум 10 символов, включая хотя бы одну заглавную букву (en), одну строчную букву (en), одну цифру и один специальный символ (& - не использовать).")]
         public string Password { get; set; } = null!;
 
@@ -78,17 +78,11 @@ namespace RepairServiceWeb.Domain.ViewModels
         {
             List<ValidationResult> errors = new List<ValidationResult>();
 
-            DateOnly startOfYear = DateOnly.FromDateTime(DateTime.Today);
-            startOfYear = new DateOnly(startOfYear.Year, 1, 1);
-
             if (Password != RepeatPassword)
                 errors.Add(new ValidationResult("Пароли должны совпадать.", new[] { nameof(RepeatPassword) }));
 
-            if (Date_of_employment < startOfYear || Date_of_employment > DateOnly.FromDateTime(DateTime.Today))
-                errors.Add(new ValidationResult("Дата приёма на работу должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_of_employment) }));
-
-            if (Password.Contains('&'))
-                errors.Add(new ValidationResult("Символ '&' не должен содержаться в пароле.", new[] { nameof(Password) }));
+            if (Date_of_employment > DateOnly.FromDateTime(DateTime.Today))
+                errors.Add(new ValidationResult("Дата приёма на работу должна быть не раньше сегодняшней даты.", new[] { nameof(Date_of_employment) }));
 
             return errors;
         }

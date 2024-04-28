@@ -33,11 +33,8 @@ namespace RepairServiceWeb.Domain.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            DateOnly startOfYear = DateOnly.FromDateTime(DateTime.Today);
-            startOfYear = new DateOnly(startOfYear.Year, 1, 1);
-
-            if (Date_order < startOfYear || Date_order > DateOnly.FromDateTime(DateTime.Today))
-                yield return new ValidationResult("Дата заказа должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_order) });
+            if (Date_order > DateOnly.FromDateTime(DateTime.Today))
+                yield return new ValidationResult("Дата заказа должна быть не раньше сегодняшней даты.", new[] { nameof(Date_order) });
         }
     }
 }

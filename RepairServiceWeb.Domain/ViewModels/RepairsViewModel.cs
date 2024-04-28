@@ -37,16 +37,13 @@ namespace RepairServiceWeb.Domain.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            DateOnly startOfYear = DateOnly.FromDateTime(DateTime.Today);
-            startOfYear = new DateOnly(startOfYear.Year, 1, 1);
-
             List<ValidationResult> errors = new List<ValidationResult>();
 
-            if (Date_of_admission < startOfYear || Date_of_admission > DateOnly.FromDateTime(DateTime.Today))
-                errors.Add(new ValidationResult("Дата поступления должна быть не позднее текущего года и не раньше сегодняшней даты.", new[] { nameof(Date_of_admission) }));
+            if (Date_of_admission > DateOnly.FromDateTime(DateTime.Today))
+                errors.Add(new ValidationResult("Дата поступления должна быть не раньше сегодняшней даты.", new[] { nameof(Date_of_admission) }));
 
             if (End_date < Date_of_admission || End_date > DateOnly.FromDateTime(DateTime.Today))
-                errors.Add(new ValidationResult("Дата окончания должна быть не раньше даты поступления и не раньше сегодняшней даты.", new[] { nameof(End_date) }));
+                errors.Add(new ValidationResult("Дата окончания должна быть не раньше даты поступления и не позднее сегодняшней даты.", new[] { nameof(End_date) }));
 
             return errors;
         }
