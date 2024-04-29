@@ -237,6 +237,7 @@ namespace RepairServiceWeb.Service.Implementations
                 if (file != null)
                 {
                     fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/StaffPhoto", fileName);
 
                     var existingPhotos = _staffRepository.GetAll().Where(x => x.Photo.Contains(fileName));
 
@@ -244,9 +245,8 @@ namespace RepairServiceWeb.Service.Implementations
                     {
                         var count = existingPhotos.Count() + 1;
                         fileName = Path.GetFileNameWithoutExtension(fileName) + "(" + count.ToString() + ")" + Path.GetExtension(fileName);
+                        path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/StaffPhoto", fileName);
                     }
-
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/StaffPhoto", fileName);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
@@ -326,6 +326,7 @@ namespace RepairServiceWeb.Service.Implementations
                     {
                         var count = existingPhotos.Count() + 1;
                         fileName = Path.GetFileNameWithoutExtension(fileName) + "(" + count.ToString() + ")" + Path.GetExtension(fileName);
+                        path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/StaffPhoto", fileName);
                     }
 
                     using (var stream = new FileStream(path, FileMode.Create))
