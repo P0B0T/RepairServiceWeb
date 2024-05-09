@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _orderAccessoriesRepository = orderAccessoriesRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка заказов запчастей
+        /// </summary>
+        /// <returns>Список заказов запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetAll()
         {
             try
@@ -51,6 +55,15 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка заказов запчастей
+        /// </summary>
+        /// <param name="clientFullName"> - фио клиента</param>
+        /// <param name="accessoryName"> - название запчасти</param>
+        /// <param name="count"> - количество запчастей</param>
+        /// <param name="date"> - дата заказа</param>
+        /// <param name="status"> - статус заказа</param>
+        /// <returns>Отфильтрованный список заказов запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetFiltered(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "")
         {
             try
@@ -105,6 +118,13 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка заказов запчастей по пользователю
+        /// </summary>
+        /// <param name="userId"> - код пользователя</param>
+        /// <param name="login"> - логин</param>
+        /// <param name="password"> - пароль</param>
+        /// <returns>Отфильтрованный список заказов запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetFilteredByUser(int? userId, string login = "", string password = "")
         {
             try
@@ -140,6 +160,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения заказа по коду
+        /// </summary>
+        /// <param name="id"> - код заказа</param>
+        /// <returns>Информация о заказе или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<OrderAccessoriesViewModel>> Get(int id)
         {
             try
@@ -158,6 +183,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных заказа в ViewModel
                 var data = new OrderAccessoriesViewModel()
                 {
                     Id = orderAccessories.Id,
@@ -187,6 +213,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения заказов по названию запчасти
+        /// </summary>
+        /// <param name="name"> - название запчасти</param>
+        /// <returns>Список найденных заказов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<OrderAccessory>>> GetByName(string name)
         {
             try
@@ -222,6 +253,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления заказа
+        /// </summary>
+        /// <param name="id"> - код заказа</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -257,10 +293,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания заказа
+        /// </summary>
+        /// <param name="orderAccessoriesViewModel"> - ViewModel</param>
+        /// <returns>Добавленный заказ</returns>
         public async Task<IBaseResponse<OrderAccessory>> Create(OrderAccessoriesViewModel orderAccessoriesViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var orderAccessories = new OrderAccessory()
                 {
                     ClientId = orderAccessoriesViewModel.ClientId,
@@ -291,6 +333,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования заказа
+        /// </summary>
+        /// <param name="id"> - код заказа</param>
+        /// <param name="orderAccessoriesViewModel"> - ViewModel</param>
+        /// <returns>Изменённый заказ или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<OrderAccessory>> Edit(int id, OrderAccessoriesViewModel orderAccessoriesViewModel)
         {
             try
@@ -307,6 +355,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 orderAccessories.ClientId = orderAccessoriesViewModel.ClientId;
                 orderAccessories.AccessoriesId = orderAccessoriesViewModel.AccessoriesId;
                 orderAccessories.Count = orderAccessoriesViewModel.Count;

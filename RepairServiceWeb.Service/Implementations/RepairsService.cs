@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _repairsRepository = repairsRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка ремонтов
+        /// </summary>
+        /// <returns>Список ремонтов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Repair>>> GetAll()
         {
             try
@@ -52,6 +56,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка ремонтов
+        /// </summary>
+        /// <param name="clientFullName"> - фио клиента</param>
+        /// <param name="staffFullName"> - фио сотрудника</param>
+        /// <returns>Отфильтрованный список ремонтов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Repair>>> GetFiltered(string clientFullName = "", string staffFullName = "")
         {
             try
@@ -95,6 +105,13 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка ремонтов по пользователю
+        /// </summary>
+        /// <param name="userId"> - код пользователя</param>
+        /// <param name="login"> - логин</param>
+        /// <param name="password"> - пароль</param>
+        /// <returns>Отфильтрованный список ремонтов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Repair>>> GetFilteredByUser(int? userId, string login = "", string password = "")
         {
             try
@@ -142,6 +159,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения ремонта по коду
+        /// </summary>
+        /// <param name="id"> - код ремонта</param>
+        /// <returns>Информация о ремонте или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<RepairsViewModel>> Get(int id)
         {
             try
@@ -161,6 +183,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных ремонта в ViewModel
                 var data = new RepairsViewModel()
                 {
                     Id = repairs.Id,
@@ -191,6 +214,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения ремонтов по модели устройства
+        /// </summary>
+        /// <param name="name"> - модель устройства</param>
+        /// <returns>Список найденных ремонтов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Repair>>> GetByName(string name)
         {
             try
@@ -227,6 +255,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления ремонта
+        /// </summary>
+        /// <param name="id"> - код ремонта</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -262,10 +295,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания ремонта
+        /// </summary>
+        /// <param name="repairsViewModel"> - ViewModel</param>
+        /// <returns>Добавленный ремонт</returns>
         public async Task<IBaseResponse<Repair>> Create(RepairsViewModel repairsViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var repairs = new Repair()
                 {
                     Id = repairsViewModel.Id,
@@ -298,6 +337,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования ремонта
+        /// </summary>
+        /// <param name="id"> - код ремонта</param>
+        /// <param name="repairsViewModel"> - ViewModel</param>
+        /// <returns>Изменённый ремонт или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Repair>> Edit(int id, RepairsViewModel repairsViewModel)
         {
             try
@@ -314,6 +359,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 repairs.DeviceId = repairsViewModel.DeviceId;
                 repairs.StaffId = repairsViewModel.StaffId;
                 repairs.DateOfAdmission = repairsViewModel.Date_of_admission;

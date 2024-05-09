@@ -1,10 +1,13 @@
-﻿var userId = getCookie('userId');
+﻿// Получение значений куки
+var userId = getCookie('userId');
 var login = getCookie('login');
 var password = getCookie('password');
 
+// Обработчик клика на кнопку "Мои ремонты"
 $('.myRepairsButton').click(function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Предотвращение стандартного поведения кнопки
 
+    // Отправка AJAX-запроса на сервер для получения данных о ремонтах пользователя
     $.ajax({
         url: '/PersonalCabinet/GetRepairs',
         method: 'GET',
@@ -14,13 +17,18 @@ $('.myRepairsButton').click(function (e) {
             password: password
         },
         success: function (data) {
+
+            // Если запрос успешен, обновляем содержимое страницы
             if (data.success) {
                 $('#divOutput').empty();
                 var arr = [];
 
+                // Если данных нет, выводим сообщение
                 if (data.filteredData == null) {
                     arr.push('<p>Ничего нет (</p>')
                 } else {
+
+                    // В противном случае, выводим информацию о каждом ремонте
                     data.filteredData.forEach(function (item) {
                         arr.push('<div class="divRows counter">');
                         arr.push('<div style="width: 20em">');
@@ -58,9 +66,11 @@ $('.myRepairsButton').click(function (e) {
     });
 });
 
+// Обработчик клика на кнопку "Мои устройства"
 $('#myDevicesButton').click(function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Предотвращение стандартного поведения кнопки
 
+    // Отправка AJAX-запроса на сервер для получения данных об устройствах пользователя
     $.ajax({
         url: '/PersonalCabinet/GetDevices',
         method: 'GET',
@@ -70,13 +80,18 @@ $('#myDevicesButton').click(function (e) {
             password: password
         },
         success: function (data) {
+
+            // Если запрос успешен, обновляем содержимое страницы
             if (data.success) {
                 $('#divOutput').empty();
                 var arr = [];
 
+                // Если данных нет, выводим сообщение
                 if (data.filteredData == null) {
                     arr.push('<p>Ничего нет (</p>')
                 } else {
+
+                    // В противном случае, выводим информацию о каждом устройстве
                     data.filteredData.forEach(function (item) {
                         arr.push('<div class="divRows counter">');
                         arr.push('<div style="width: 27em">');
@@ -110,9 +125,11 @@ $('#myDevicesButton').click(function (e) {
     });
 });
 
+// Обработчик клика на кнопку "Мои заказы"
 $('#myOrderAccessories').click(function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Предотвращение стандартного поведения кнопки
 
+    // Отправка AJAX-запроса на сервер для получения данных о заказах пользователя
     $.ajax({
         url: '/PersonalCabinet/GetOrderAccessories',
         method: 'GET',
@@ -122,13 +139,18 @@ $('#myOrderAccessories').click(function (e) {
             password: password
         },
         success: function (data) {
+
+            // Если запрос успешен, обновляем содержимое страницы
             if (data.success) {
                 $('#divOutput').empty();
                 var arr = [];
 
+                // Если данных нет, выводим сообщение
                 if (data.filteredData == null) {
                     arr.push('<p>Ничего нет (</p>')
                 } else {
+
+                    // В противном случае, выводим информацию о каждом заказе
                     data.filteredData.forEach(function (item) {
                         arr.push(`<h3>${item.accessories.name}</h3>`);
                         arr.push('<div class="divRows counter">');
@@ -139,7 +161,7 @@ $('#myOrderAccessories').click(function (e) {
                         arr.push(`<label>${item.cost} руб.</label> <br />`);
                         arr.push('<label><b>Дата заказа:</b></label>');
                         var date = new Date(item.dateOrder);
-                        var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });   // Отображаем дату в российском формате 
                         arr.push(`<label>${formattedDate}</label> <br />`);
                         arr.push('<label><b>Статус:</b></label>');
                         arr.push(`<label>${item.statusOrder}</label>`);

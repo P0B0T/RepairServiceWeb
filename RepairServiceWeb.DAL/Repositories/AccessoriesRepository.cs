@@ -12,6 +12,10 @@ namespace RepairServiceWeb.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Метод добавления записи в таблицу "Запчасти"
+        /// </summary>
+        /// <param name="entity" - информация о запчасти></param>
         public async Task<bool> Create(Accessory entity)
         {
             await _context.Accessories.AddAsync(entity);
@@ -20,6 +24,10 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод удаления записи из таблицы "Запчасти"
+        /// </summary>
+        /// <param name="entity" - информация о запчасти></param>
         public async Task<bool> Delete(Accessory entity)
         {
             _context.Accessories.Remove(entity);
@@ -28,11 +36,18 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод для получения всех данных из таблицы "Запчасти"
+        /// </summary>
         public IQueryable<Accessory> GetAll()
         {
             return _context.Accessories;
         }
 
+        /// <summary>
+        /// Метод для обновления данных в таблице "Запчасти"
+        /// </summary>
+        /// <param name="entity" - информация о запчасти></param>
         public async Task<Accessory> Update(Accessory entity)
         {
             _context.Accessories.Update(entity);

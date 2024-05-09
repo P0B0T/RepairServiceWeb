@@ -20,15 +20,20 @@ namespace RepairServiceWeb.Controllers
            _roleCheckerService = roleCheckerService;
         }
 
+        /// <summary>
+        /// Метод для получения списка ремонтов
+        /// </summary>
+        /// <returns>Представление с инструментами взаимодействия со списком</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllRepairs()
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _repairsService.GetAll();
 
@@ -41,11 +46,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для получения информации о ремонте по его id
+        /// </summary>
+        /// <param name="id" - код ремонта></param>
+        /// <returns>Частичное представление с инструментами взаимодействия с информацией</returns>
         [HttpGet]
         public async Task<IActionResult> GetRepairs(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -57,15 +68,21 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для получения информации о ремонте по модели устройства
+        /// </summary>
+        /// <param name="name" - модель устройства></param>
+        /// <returns>Ответ в формате Json, содержащий модель найденного устройства</returns>
         [HttpGet]
         public async Task<IActionResult> GetRepairsByName(string name)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _repairsService.GetByName(name);
 
@@ -75,15 +92,22 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка ремонтов
+        /// </summary>
+        /// <param name="clientFullName" - фио клиента></param>
+        /// <param name="staffFullName" - фио сотрудника></param>
+        /// <returns>Ответ в формате Json, содержащий список найденных ремонтов</returns>
         [HttpGet]
         public async Task<IActionResult> GetFilteredRepairs(string clientFullName = "", string staffFullName = "")
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _repairsService.GetFiltered(clientFullName, staffFullName);
 
@@ -93,10 +117,16 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
+        /// <summary>
+        /// Метод для удаления ремонта
+        /// </summary>
+        /// <param name="id" - код ремонта></param>
+        /// <returns>Перенаправление на представление со списком всех ремонтов</returns>
         public async Task<IActionResult> DeleteRepairs(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -108,11 +138,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для проверки наличия ремонта для дальнейшего редактирования существующего или добавления нового
+        /// </summary>
+        /// <param name="id" - код ремонта></param>
+        /// <returns>Если код = 0, то выводит частичное представление добавления ремонта, если нет, то редактирования</returns>
         [HttpGet]
         public async Task<IActionResult> AddOrEditRepairs(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -127,9 +163,9 @@ namespace RepairServiceWeb.Controllers
             {
                 var repair = response.Data;
 
-                var devices = _context.Devices.Where(d => d.ClientId == repair.Device.ClientId).ToList();
+                var devices = _context.Devices.Where(d => d.ClientId == repair.Device.ClientId).ToList(); // Получение списка устройств по коду клиента
 
-                ViewBag.DevicesList = new SelectList(devices, "Id", "Model");
+                ViewBag.DevicesList = new SelectList(devices, "Id", "Model"); // Заполнение ViewBag списком устройств
 
                 return PartialView(response.Data);
             }
@@ -137,11 +173,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для добавления или редактирования ремонта
+        /// </summary>
+        /// <param name="model" - ViewModel></param>
+        /// <returns>Если Get-версия метода вернула код = 0, то добавляет новый ремонт, иначе редактирует существующую</returns>
         [HttpPost]
         public async Task<IActionResult> AddOrEditRepairs(RepairsViewModel model)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -167,24 +209,33 @@ namespace RepairServiceWeb.Controllers
             return RedirectToAction("GetAllRepairs");
         }
 
+        /// <summary>
+        /// Метод для получения устройств конкретного пользователя
+        /// </summary>
+        /// <param name="clientId" - код клиента></param>
+        /// <returns>Список устройств в формате Json</returns>
         public async Task<IActionResult> GetDevices(int clientId)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
-            var devices = _context.Devices.Where(d => d.ClientId == clientId).ToList();
+            var devices = _context.Devices.Where(d => d.ClientId == clientId).ToList(); // Получение списка устройств по коду клиента
 
             return Json(devices);
         }
 
+        /// <summary>
+        /// Метод для заполнения ViewBags
+        /// </summary>
         private void FillViewBag()
         {
-            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
+            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName"); // Заполнение ViewBag списком клиентов
 
-            var workers = _context.Staff.Where(x => x.Role.Role1.ToLower() == "сотрудник" || x.Role.Role1.ToLower() == "employee");
-            ViewBag.StaffList = new SelectList(workers.ToList(), "Id", "FullName");
+            var workers = _context.Staff.Where(x => x.Role.Role1.ToLower() == "сотрудник" || x.Role.Role1.ToLower() == "employee"); // Получение списка сотрудников
+            ViewBag.StaffList = new SelectList(workers.ToList(), "Id", "FullName"); // Заполнение ViewBag списком сотрудников
         }
     }
 }

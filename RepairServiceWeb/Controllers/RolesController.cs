@@ -15,30 +15,20 @@ namespace RepairServiceWeb.Controllers
             _roleCheckerService = roleCheckerService;
         }
 
-        private async Task<StatusCodeResult> CheckRole()
-        {
-            var permissionId = int.Parse(Request.Cookies["permissions"]);
-
-            var responce = await _rolesService.GetRoleName(permissionId);
-
-            string data = responce.Data.ToLower();
-
-            if (responce.StatusCode == Domain.Enum.StatusCode.OK)
-                if (!data.Contains("admin") && !data.Contains("админ") && !data.Contains("human resources") && !data.Contains("отдел кадров"))
-                    return Unauthorized();
-
-            return Ok();
-        }
-
+        /// <summary>
+        /// Метод для получения списка ролей
+        /// </summary>
+        /// <returns>Представление с инструментами взаимодействия со списком</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllRoles()
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultHumanResourceDepartment is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не отдел кадров, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultHumanResourceDepartment is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _rolesService.GetAll();
 
@@ -48,15 +38,21 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для получения информации о роли по её id
+        /// </summary>
+        /// <param name="id" - код роли></param>
+        /// <returns>Частичное представление с инструментами взаимодействия с информацией</returns>
         [HttpGet]
         public async Task<IActionResult> GetRoles(int id)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultHumanResourceDepartment is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не отдел кадров, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultHumanResourceDepartment is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _rolesService.Get(id);
 
@@ -66,14 +62,20 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для удаления роли
+        /// </summary>
+        /// <param name="id" - код роли></param>
+        /// <returns>Перенаправление на представление со списком всех ролей</returns>
         public async Task<IActionResult> DeleteRoles(int id)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultHumanResourceDepartment is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не отдел кадров, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultHumanResourceDepartment is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _rolesService.Delete(id);
 
@@ -83,15 +85,21 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для проверки наличия роли для дальнейшего редактирования существующего или добавления новой
+        /// </summary>
+        /// <param name="id" - код роли></param>
+        /// <returns>Если код = 0, то выводит частичное представление добавления роли, если нет, то редактирования</returns>
         [HttpGet]
         public async Task<IActionResult> AddOrEditRoles(int id)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultHumanResourceDepartment is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не отдел кадров, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultHumanResourceDepartment is UnauthorizedResult)
+                return Redirect("/");
 
             if (id == 0)
                 return PartialView();
@@ -104,15 +112,21 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для добавления или редактирования роли
+        /// </summary>
+        /// <param name="model" - ViewModel></param>
+        /// <returns>Если Get-версия метода вернула код = 0, то добавляет новую роль, иначе редактирует существующую</returns>
         [HttpPost]
         public async Task<IActionResult> AddOrEditRoles(RolesViewModel model)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultHumanResourceDepartment = await _roleCheckerService.Check(Request, "human resources", "отдел кадров");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultHumanResourceDepartment is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ и не отдел кадров, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultHumanResourceDepartment is UnauthorizedResult)
+                return Redirect("/");
 
             if (!ModelState.IsValid)
                 return View(model);

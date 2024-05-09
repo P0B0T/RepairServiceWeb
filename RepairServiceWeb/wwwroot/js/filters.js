@@ -1,14 +1,18 @@
 ﻿function isAdmin() {
-    var permissionId = getCookie('permissions');
+    
+    var permissionId = getCookie('permissions');    // Получение идентификатора прав из куки
 
     var isAdmin = false;
 
+    // Отправка AJAX-запроса на сервер для получения имени роли пользователя
     $.ajax({
         url: '/Autorization/GetRoleName',
         method: 'GET',
         data: { permissionId: permissionId },
         async: false,
         success: function (response) {
+
+            // Если запрос успешен, проверяем, является ли пользователь администратором
             if (response.success) {
                 var permissionValue = response.data.toLowerCase();
                 isAdmin = permissionValue.includes('admin') || permissionValue.includes('админ');
@@ -16,29 +20,37 @@
         }
     });
 
-    return isAdmin;
+    return isAdmin; // Возвращаем результат проверки
 }
 
+// Обработчик события отправки формы фильтрации аксессуаров
 $('#filterAccessories').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var name = $('input[name="Name"]').val();
     var manufacturer = $('select[name="manufacturer"]').val();
     var supplier = $('select[name="supplier"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных аксессуаров
     $.ajax({
         url: '/Accessories/GetFilteredAccessories',
         method: 'GET',
         data: { name: name, manufacturer: manufacturer, supplier: supplier },
 
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Ничего нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом аксессуаре
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 30em">');
@@ -73,24 +85,31 @@ $('#filterAccessories').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации поставщиков
 $('#filterSuppliers').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
-    var address = $('input[name="address"]').val();
+    var address = $('input[name="address"]').val(); // Получение значения поля адреса
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных поставщиков
     $.ajax({
         url: '/Suppliers/GetFilteredSuppliers',
         method: 'GET',
         data: { address: address },
 
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Ничего нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом поставщике
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 22em">');
@@ -129,27 +148,35 @@ $('#filterSuppliers').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации заказов аксессуаров
 $('#filterOrderAccessories').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var clientFullName = $('select[name="clientFullName"]').val();
     var accessoryName = $('select[name="accessoryName"]').val();
     var count = $('input[name="count"]').val();
     var date = $('input[name="date"]').val();
     var status = $('select[name="status"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных заказов аксессуаров
     $.ajax({
         url: '/OrderAccessories/GetFilteredOrderAccessories',
         method: 'GET',
         data: { clientFullName: clientFullName, accessoryName: accessoryName, count: count, date: date, status: status },
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Ничего нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом заказе
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 30em">');
@@ -163,7 +190,7 @@ $('#filterOrderAccessories').on('submit', function (event) {
                     arr.push(`<label>${item.cost} руб.</label> <br />`);
                     arr.push('<label><b>Дата заказа:</b></label>');
                     var date = new Date(item.dateOrder);
-                    var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });    // Получаем дату в российском формате
                     arr.push(`<label>${formattedDate}</label> <br />`);
                     arr.push('<label><b>Статус:</b></label>');
                     arr.push(`<label>${item.statusOrder}</label>`);
@@ -184,24 +211,32 @@ $('#filterOrderAccessories').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации клиентов
 $('#filterClients').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var fullName = $('input[name="fullName"]').val();
     var address = $('input[name="address"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных клиентов
     $.ajax({
         url: '/Clients/GetFilteredClients',
         method: 'GET',
         data: { fullName: fullName, address: address },
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Никого нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом клиенте
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 30em">');
@@ -237,26 +272,34 @@ $('#filterClients').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации сотрудников
 $('#filterStaff').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var fullName = $('input[name="fullName"]').val();
     var experiance = $('input[name="experiance"]').val();
     var post = $('select[name="post"]').val();
     var role = $('select[name="role"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных сотрудников
     $.ajax({
         url: '/Staff/GetFilteredStaff',
         method: 'GET',
         data: { fullName: fullName, experiance: experiance, post: post, role: role },
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Никого нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом сотруднике
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 27em">');
@@ -273,7 +316,7 @@ $('#filterStaff').on('submit', function (event) {
                     arr.push(`<label>${item.salary} руб.</label> <br />`);
                     arr.push('<label><b>Дата принятия на работу:</b></label>');
                     var date = new Date(item.dateOfEmployment);
-                    var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });    // Получаем дату в российском формате
                     arr.push(`<label>${formattedDate}</label> <br />`);
                     arr.push('<label><b>Роль:</b></label>');
                     arr.push(`<label>${item.role.role1}</label> <br /> <br />`);
@@ -298,25 +341,33 @@ $('#filterStaff').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации устройств
 $('#filterDevices').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var manufacturer = $('select[name="manufacturer"]').val();
     var type = $('input[name="type"]').val();
     var clientFullName = $('select[name="clientFullName"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных устройств
     $.ajax({
         url: '/Devices/GetFilteredDevices',
         method: 'GET',
         data: { manufacturer: manufacturer, type: type, clientFullName: clientFullName },
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Ничего нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом устройстве
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 27em">');
@@ -356,24 +407,32 @@ $('#filterDevices').on('submit', function (event) {
     });
 });
 
+// Обработчик события отправки формы фильтрации ремонтов
 $('#filterRepairs').on('submit', function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Предотвращение стандартного поведения формы
 
+    // Получение значений полей формы
     var clientFullName = $('select[name="clientFullName"]').val();
     var staffFullName = $('select[name="staffFullName"]').val();
 
+    // Отправка AJAX-запроса на сервер для получения отфильтрованных ремонтов
     $.ajax({
         url: '/Repairs/GetFilteredRepairs',
         method: 'GET',
         data: { clientFullName: clientFullName, staffFullName: staffFullName },
     }).done(function (data) {
+
+        // Если запрос успешен, обновляем содержимое страницы
         if (data.success) {
             $('#divOutput').empty();
             var arr = [];
 
+            // Если данных нет, выводим сообщение
             if (data.filteredData == null) {
                 arr.push('<p>Ничего нет (</p>')
             } else {
+
+                // В противном случае, выводим информацию о каждом ремонте
                 data.filteredData.forEach(function (item) {
                     arr.push('<div class="divRows counter">');
                     arr.push('<div style="width: 20em">');

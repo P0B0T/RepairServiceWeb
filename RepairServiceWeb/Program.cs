@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using RepairServiceWeb.Controllers;
 using RepairServiceWeb.DAL;
 using RepairServiceWeb.Domain.Entity;
 using System.Text.Json.Serialization;
@@ -15,16 +13,20 @@ namespace RepairServiceWeb
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Получение строки подключения к базе данных
             var connection = builder.Configuration.GetConnectionString("MSSQLSERVER");
+
+            // Добавление контекста базы данных в сервисы
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(connection));
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            // Инициализация репозиториев и сервисов
             builder.Services.InitializeRepositories();
             builder.Services.InitializeServices();
 
+            // Настройка аутентификации
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -41,15 +43,15 @@ namespace RepairServiceWeb
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            // Добавление авторизации
             builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -66,25 +68,24 @@ namespace RepairServiceWeb
 
             using (var serviceScope = app.Services.CreateScope())
             {
+                // Получение контекста базы данных
                 var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                context.Database.EnsureCreated();
 
-                if (!context.Roles.Any(r => r.Role1.ToLower().Contains("admin") || r.Role1.ToLower().Contains("админ")))
+                // Проверка, была ли база данных только что создана
+                if (context.Database.EnsureCreated())
                 {
-                    // Create the Administrator role
+                    // Если база данных только что создана:
+                    // добавляем роль администратора;
                     context.Roles.Add(new Role { Role1 = "Administrator" });
                     context.SaveChanges();
-                }
 
-                var adminRoleId = context.Roles.FirstOrDefault(r => r.Role1.ToLower().Contains("admin") || r.Role1.ToLower().Contains("админ"))?.Id;
+                    // получаем ID роли администратора;
+                    var adminRoleId = context.Roles.FirstOrDefault(r => r.Role1.ToLower().Contains("admin") || r.Role1.ToLower().Contains("админ"))?.Id;
 
-                // Check if the staff member already exists
-                if (!context.Staff.Any(s => s.RoleId == adminRoleId))
-                {
-                    // Create the Administrator staff member
-                    context.Staff.Add(new Staff 
-                    { 
-                        Name = "Admin", 
+                    // добавляем сотрудника с ролью администратора.
+                    context.Staff.Add(new Staff
+                    {
+                        Name = "Admin",
                         Surname = "Admin",
                         Post = "Admin",
                         Salary = 0,

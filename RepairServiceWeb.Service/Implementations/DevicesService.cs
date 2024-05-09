@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RepairServiceWeb.DAL.Interfaces;
-using RepairServiceWeb.DAL.Repositories;
 using RepairServiceWeb.Domain.Entity;
 using RepairServiceWeb.Domain.Enum;
 using RepairServiceWeb.Domain.Response;
@@ -19,6 +18,10 @@ namespace RepairServiceWeb.Service.Implementations
             _devicesRepository = devicesRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка устройств
+        /// </summary>
+        /// <returns>Список устройств или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Device>>> GetAll()
         {
             try
@@ -52,6 +55,13 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка устройств
+        /// </summary>
+        /// <param name="manufacturer"> - производитель устройства</param>
+        /// <param name="type"> - тип устройства</param>
+        /// <param name="clientFullName"> - фио клиента</param>
+        /// <returns>Отфильтрованный список устройств или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Device>>> GetFiltered(string manufacturer = "", string type = "", string clientFullName = "")
         {
             try
@@ -94,6 +104,13 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка устрйоств по пользвоателю
+        /// </summary>
+        /// <param name="userId"> - код пользователя</param>
+        /// <param name="login"> - логин</param>
+        /// <param name="password"> - пароль</param>
+        /// <returns>Отфильтрованный список устройств или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Device>>> GetFilteredByUser(int? userId, string login = "", string password = "")
         {
             try
@@ -128,6 +145,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения устройства по коду
+        /// </summary>
+        /// <param name="id"> - код устройства</param>
+        /// <returns>Информация об устройстве или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<DevicesViewModel>> Get(int id)
         {
             try
@@ -145,6 +167,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных запчасти в ViewModel
                 var data = new DevicesViewModel()
                 {
                     Id = devices.Id,
@@ -174,6 +197,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения устройств по названию
+        /// </summary>
+        /// <param name="name"> - название устрйоства</param>
+        /// <returns>Список найденных устройств или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Device>>> GetByName(string name)
         {
             try
@@ -208,6 +236,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления устройства
+        /// </summary>
+        /// <param name="id"> - код устройства</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -252,6 +285,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания устройства
+        /// </summary>
+        /// <param name="devicesViewModel"> - ViewModel</param>
+        /// <returns>Добавленное устройство</returns>
         public async Task<IBaseResponse<Device>> Create(DevicesViewModel devicesViewModel, IFormFile? file = null)
         {
             try
@@ -278,6 +316,7 @@ namespace RepairServiceWeb.Service.Implementations
                     }
                 }
 
+                // Перенос данных из ViewModel
                 var devices = new Device()
                 {
                     Model = devicesViewModel.ModelDevice,
@@ -308,6 +347,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования устройства
+        /// </summary>
+        /// <param name="id"> - код устройства</param>
+        /// <param name="devicesViewModel"> - ViewModel</param>
+        /// <returns>Изменённое устройство или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Device>> Edit(int id, DevicesViewModel devicesViewModel, IFormFile? file = null)
         {
             try
@@ -355,6 +400,7 @@ namespace RepairServiceWeb.Service.Implementations
                     }
                 }
 
+                // Перенос данных из ViewModel
                 devices.Model = devicesViewModel.ModelDevice;
                 devices.Manufacturer = devicesViewModel.Manufacturer;
                 devices.Type = devicesViewModel.Type;

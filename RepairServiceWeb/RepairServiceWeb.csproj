@@ -16,8 +16,4 @@
     <ProjectReference Include="..\RepairServiceWeb.Service\RepairServiceWeb.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\StaffPhoto\" />
-  </ItemGroup>
-
 </Project>

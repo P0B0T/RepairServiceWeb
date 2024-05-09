@@ -12,6 +12,10 @@ namespace RepairServiceWeb.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Метод добавления записи в таблицу "Поставщики"
+        /// </summary>
+        /// <param name="entity" - информация о поставщиках></param>
         public async Task<bool> Create(Supplier entity)
         {
             await _context.Suppliers.AddAsync(entity);
@@ -20,6 +24,10 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод удаления записи из таблицы "Поставщики"
+        /// </summary>
+        /// <param name="entity" - информация о поставщиках></param>
         public async Task<bool> Delete(Supplier entity)
         {
             _context.Suppliers.Remove(entity);
@@ -28,11 +36,18 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод для получения всех данных из таблицы "Поставщики"
+        /// </summary>
         public IQueryable<Supplier> GetAll()
         {
             return _context.Suppliers;
         }
 
+        /// <summary>
+        /// Метод для обновления данных в таблице "Поставщики"
+        /// </summary>
+        /// <param name="entity" - информация о поставщиках></param>
         public async Task<Supplier> Update(Supplier entity)
         {
             _context.Suppliers.Update(entity);

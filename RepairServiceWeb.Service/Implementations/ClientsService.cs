@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _clientsRepository = clientsRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка клиентов
+        /// </summary>
+        /// <returns>Список клиентов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Client>>> GetAll()
         {
             try
@@ -50,6 +54,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка клиентов
+        /// </summary>
+        /// <param name="fullName"> - фио клиента</param>
+        /// <param name="address"> - адрес клиента</param>
+        /// <returns>Отфильтрованный список клиентов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Client>>> GetFiltered(string fullName = "", string address = "")
         {
             try
@@ -91,6 +101,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения клиента по коду
+        /// </summary>
+        /// <param name="id"> - код клиента</param>
+        /// <returns>Информация о клиенте или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<ClientsViewModel>> Get(int id)
         {
             try
@@ -108,6 +123,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных клиента в ViewModel
                 var data = new ClientsViewModel()
                 {
                     Id = clients.Id,
@@ -139,6 +155,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения клиентов по фио
+        /// </summary>
+        /// <param name="name"> - фио клиента</param>
+        /// <returns>Список найденных клиентов или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Client>>> GetByName(string name)
         {
             try
@@ -173,6 +194,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления клиента
+        /// </summary>
+        /// <param name="id"> - код клиента</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -208,10 +234,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания клиента
+        /// </summary>
+        /// <param name="clientsViewModel"> - ViewModel</param>
+        /// <returns>Добавленный клиент</returns>
         public async Task<IBaseResponse<Client>> Create(ClientsViewModel clientsViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var clients = new Client()
                 {
                     Name = clientsViewModel.Name,
@@ -244,6 +276,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования клиента
+        /// </summary>
+        /// <param name="id"> - код клиента</param>
+        /// <param name="clientsViewModel"> - ViewModel</param>
+        /// <returns>Изменённый клиент или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Client>> Edit(int id, ClientsViewModel clientsViewModel)
         {
             try
@@ -260,6 +298,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 clients.Name = clientsViewModel.Name;
                 clients.Surname = clientsViewModel.Surname;
                 clients.Patronymic = clientsViewModel.Patronymic;

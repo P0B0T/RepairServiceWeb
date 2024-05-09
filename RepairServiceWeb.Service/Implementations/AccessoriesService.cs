@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _accessoriesRepository = accessoriesRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка запчастей
+        /// </summary>
+        /// <returns>Список запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Accessory>>> GetAll()
         {
             try
@@ -50,6 +54,13 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка запчастей
+        /// </summary>
+        /// <param name="name"> - название запчасти</param>
+        /// <param name="manufacturer"> - производитель запчасти</param>
+        /// <param name="supplier"> - поставщик запчасти</param>
+        /// <returns>Отфильтрованный список запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Accessory>>> GetFiltered(string name = "", string manufacturer = "", string supplier = "")
         {
             try
@@ -95,6 +106,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения запчасти по коду
+        /// </summary>
+        /// <param name="id"> - код запчасти</param>
+        /// <returns>Информация о запчасти или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<AccessoriesViewModel>> Get(int id)
         {
             try
@@ -112,6 +128,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных запчасти в ViewModel
                 var data = new AccessoriesViewModel()
                 {
                     Id = accessories.Id,
@@ -139,6 +156,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения запчастей по названию
+        /// </summary>
+        /// <param name="name"> - название запчасти</param>
+        /// <returns>Список найденных запчастей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Accessory>>> GetByName(string name)
         {
             try
@@ -173,6 +195,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления запчасти
+        /// </summary>
+        /// <param name="id"> - код запчасти</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -208,10 +235,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания запчасти
+        /// </summary>
+        /// <param name="accessoriesViewModel"> - ViewModel</param>
+        /// <returns>Добавленная запчасть</returns>
         public async Task<IBaseResponse<Accessory>> Create(AccessoriesViewModel accessoriesViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var accessories = new Accessory()
                 {
                     Name = accessoriesViewModel.Name,
@@ -240,6 +273,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования запчасти
+        /// </summary>
+        /// <param name="id"> - код запчасти</param>
+        /// <param name="accessoriesViewModel"> - ViewModel</param>
+        /// <returns>Изменённая запчасть или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Accessory>> Edit(int id, AccessoriesViewModel accessoriesViewModel)
         {
             try
@@ -256,6 +295,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 accessories.Name = accessoriesViewModel.Name;
                 accessories.Description = accessoriesViewModel.Description;
                 accessories.Manufacturer = accessoriesViewModel.Manufacturer;

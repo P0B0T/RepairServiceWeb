@@ -8,6 +8,9 @@ namespace RepairServiceWeb
 {
     public static class Initializer
     {
+        /// <summary>
+        /// Метод для инициализации репозиториев
+        /// </summary>
         public static void InitializeRepositories(this IServiceCollection services)
         {
             services.AddScoped<IBaseRepository<Accessory>, AccessoriesRepository>();
@@ -20,6 +23,9 @@ namespace RepairServiceWeb
             services.AddScoped<IBaseRepository<Role>, RolesRepository>();
         }
 
+        /// <summary>
+        /// Метод для инициализации сервисов
+        /// </summary>
         public static void InitializeServices(this IServiceCollection services)
         {
             services.AddScoped<IAccessoriesService, AccessoriesService>();

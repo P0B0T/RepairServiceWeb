@@ -20,7 +20,7 @@ namespace RepairServiceWeb.Controllers
             "В пути",
             "Ожидает получения",
             "Получен"
-        };
+        }; // Коллекция статусов заказа
 
         public OrderAccessoriesController(IOrderAccessoriesService orderAccessoriesService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
@@ -29,15 +29,20 @@ namespace RepairServiceWeb.Controllers
             _roleCheckerService = roleCheckerService;
         }
 
+        /// <summary>
+        /// Метод для получения списка заказов запчастей
+        /// </summary>
+        /// <returns>Представление с инструментами взаимодействия со списком</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllOrderAccessories()
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ, не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _orderAccessoriesService.GetAll();
 
@@ -50,11 +55,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для получения информации о заказе запчасти по его id
+        /// </summary>
+        /// <param name="id" - код устройства></param>
+        /// <returns>Частичное представление с инструментами взаимодействия с информацией</returns>
         [HttpGet]
         public async Task<IActionResult> GetOrderAccessories(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -66,15 +77,21 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для получения информации о заказе по названию запчасти
+        /// </summary>
+        /// <param name="name" - название устройства></param>
+        /// <returns>Ответ в формате Json, содержащий название запчасти</returns>
         [HttpGet]
         public async Task<IActionResult> GetOrderAccessoriesByName(string name)
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ, не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _orderAccessoriesService.GetByName(name);
 
@@ -84,15 +101,25 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка заказов запчастей
+        /// </summary>
+        /// <param name="clientFullName" - фио клиента></param>
+        /// <param name="accessoryName" - название запчасти></param>
+        /// <param name="count" - количество запчастей в заказе></param>
+        /// <param name="date" - дата заказа></param>
+        /// <param name="status" - статус заказа></param>
+        /// <returns>Ответ в формате Json, содержащий список найденных заказов запчастей</returns>
         [HttpGet]
         public async Task<IActionResult> GetFilteredOrderAccessories(string clientFullName = "", string accessoryName = "", int? count = null, DateOnly date = default, string status = "")
         {
+            // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
 
-            if (resultAdmin is UnauthorizedResult)
-                if (resultReception is UnauthorizedResult)
-                    return Redirect("/");
+            // Если пользователь не админ, не ресепшен, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+                return Redirect("/");
 
             var response = await _orderAccessoriesService.GetFiltered(clientFullName, accessoryName, count, date, status);
 
@@ -102,10 +129,16 @@ namespace RepairServiceWeb.Controllers
             return Json(new { success = false, error = $"{response.Description}" });
         }
 
+        /// <summary>
+        /// Метод для удаления заказа
+        /// </summary>
+        /// <param name="id" - код заказа></param>
+        /// <returns>Перенаправление на представление со списком всех заказов запчастей</returns>
         public async Task<IActionResult> DeleteOrderAccessories(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -117,11 +150,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для проверки наличия заказа для дальнейшего редактирования существующего или добавления нового
+        /// </summary>
+        /// <param name="id" - код заказа></param>
+        /// <returns>Если код = 0, то выводит частичное представление добавления заказа, если нет, то редактирования</returns>
         [HttpGet]
         public async Task<IActionResult> AddOrEditOrderAccessories(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -138,11 +177,17 @@ namespace RepairServiceWeb.Controllers
             return View("~/Views/Shared/Error.cshtml", $"{response.Description}");
         }
 
+        /// <summary>
+        /// Метод для добавления или редактирования заказа
+        /// </summary>
+        /// <param name="model" - ViewModel></param>
+        /// <returns>Если Get-версия метода вернула код = 0, то добавляет новый заказ запчасти, иначе редактирует существующую</returns>
         [HttpPost]
         public async Task<IActionResult> AddOrEditOrderAccessories(OrderAccessoriesViewModel model)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
 
+            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
             if (resultAdmin is UnauthorizedResult)
                 return Redirect("/");
 
@@ -161,11 +206,14 @@ namespace RepairServiceWeb.Controllers
             return RedirectToAction("GetAllOrderAccessories");
         }
 
+        /// <summary>
+        /// Метод для заполнения ViewBags
+        /// </summary>
         private void FillViewBag()
         {
-            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName");
-            ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name");
-            ViewBag.StatusList = new SelectList(statusList);
+            ViewBag.ClientsList = new SelectList(_context.Clients.ToList(), "Id", "FullName"); // Заполенение ViewBag списком клиентов
+            ViewBag.AcessoriesList = new SelectList(_context.Accessories.ToList(), "Id", "Name"); // Заполенение ViewBag списком запчастей
+            ViewBag.StatusList = new SelectList(statusList); // Заполенение ViewBag списком статусов
         }
     }
 }

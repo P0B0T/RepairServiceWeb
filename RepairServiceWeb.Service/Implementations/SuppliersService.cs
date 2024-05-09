@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _suppliersRepository = suppliersRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка поставщиков
+        /// </summary>
+        /// <returns>Список поставщиков или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Supplier>>> GetAll()
         {
             try
@@ -49,6 +53,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка поставщиков
+        /// </summary>
+        /// <param name="address"> - адрес поставщика</param>
+        /// <returns>Отфильтрованный список поставщиков или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Supplier>>> GetFiltered(string address = "")
         {
             try
@@ -85,6 +94,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения поставщика по коду
+        /// </summary>
+        /// <param name="id"> - код поставщика</param>
+        /// <returns>Информация о поставщике или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<SuppliersViewModel>> Get(int id)
         {
             try
@@ -101,6 +115,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных поставщика в ViewModel
                 var data = new SuppliersViewModel()
                 {
                     Id = suppliers.Id,
@@ -127,6 +142,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения поставщика по названию компании
+        /// </summary>
+        /// <param name="name"> - название компании поставщика</param>
+        /// <returns>Список найденных поставщиков или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Supplier>>> GetByName(string name)
         {
             try
@@ -160,6 +180,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления поставщика
+        /// </summary>
+        /// <param name="id"> - код поставщика</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -195,10 +220,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания поставщика
+        /// </summary>
+        /// <param name="suppliersViewModel"> - ViewModel</param>
+        /// <returns>Добавленный поставщик</returns>
         public async Task<IBaseResponse<Supplier>> Create(SuppliersViewModel suppliersViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var suppliers = new Supplier()
                 {
                     CompanyName = suppliersViewModel.Company_name,
@@ -226,6 +257,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования поставщика
+        /// </summary>
+        /// <param name="id"> - код поставщика</param>
+        /// <param name="suppliersViewModel"> - ViewModel</param>
+        /// <returns>Изменённый поставщик или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Supplier>> Edit(int id, SuppliersViewModel suppliersViewModel)
         {
             try
@@ -242,6 +279,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 suppliers.CompanyName = suppliersViewModel.Company_name;
                 suppliers.ContactPerson = suppliersViewModel.Contact_person;
                 suppliers.PhoneNumber = suppliersViewModel.Phone_number;

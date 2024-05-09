@@ -18,6 +18,10 @@ namespace RepairServiceWeb.Service.Implementations
             _staffRepository = staffRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка сотрудников
+        /// </summary>
+        /// <returns>Список сотрудников или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Staff>>> GetAll()
         {
             try
@@ -51,6 +55,14 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения отфильтрованного списка сотрудников
+        /// </summary>
+        /// <param name="fullName"> - фио сотрудника</param>
+        /// <param name="experiance"> - стаж сотрудника</param>
+        /// <param name="post"> - должность сотрудника</param>
+        /// <param name="role"> - роль сотрудника</param>
+        /// <returns>Отфильтрованный список сотрудников или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Staff>>> GetFiltered(string fullName = "", int? experiance = null, string post = "", string role = null)
         {
             try
@@ -100,6 +112,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения сотрудника по коду
+        /// </summary>
+        /// <param name="id"> - код сотрудника</param>
+        /// <returns>Информация о сотруднике или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<StaffViewModel>> Get(int id)
         {
             try
@@ -117,6 +134,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных сотрудника в ViewModel
                 var data = new StaffViewModel()
                 {
                     Id = staff.Id,
@@ -150,6 +168,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения сотрудника по фио
+        /// </summary>
+        /// <param name="name"> - фио сотрудника</param>
+        /// <returns>Список найденных сотрудника или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Staff>>> GetByName(string name)
         {
             try
@@ -184,6 +207,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления сотрудника
+        /// </summary>
+        /// <param name="id"> - код сотрудника</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -228,6 +256,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания сотрудника
+        /// </summary>
+        /// <param name="staffViewModel"> - ViewModel</param>
+        /// <returns>Добавленный сотрудник</returns>
         public async Task<IBaseResponse<Staff>> Create(StaffViewModel staffViewModel, IFormFile? file = null)
         {
             try
@@ -254,6 +287,7 @@ namespace RepairServiceWeb.Service.Implementations
                     }
                 }
 
+                // Перенос данных из ViewModel
                 var staff = new Staff()
                 {
                     Name = staffViewModel.Name,
@@ -288,6 +322,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования сотрудника
+        /// </summary>
+        /// <param name="id"> - код сотрудника</param>
+        /// <param name="staffViewModel"> - ViewModel</param>
+        /// <returns>Изменённый сотрудник или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Staff>> Edit(int id, StaffViewModel staffViewModel, IFormFile? file = null)
         {
             try
@@ -335,6 +375,7 @@ namespace RepairServiceWeb.Service.Implementations
                     }
                 }
 
+                // Перенос данных из ViewModel
                 staff.Name = staffViewModel.Name;
                 staff.Surname = staffViewModel.Surname;
                 staff.Patronymic = staffViewModel.Patronymic;

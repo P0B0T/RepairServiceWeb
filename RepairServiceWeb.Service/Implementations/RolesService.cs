@@ -17,6 +17,10 @@ namespace RepairServiceWeb.Service.Implementations
             _roleRepository = roleRepository;
         }
 
+        /// <summary>
+        /// Метод для получения списка ролей
+        /// </summary>
+        /// <returns>Список ролей или сообщение "Элементы не найдены"</returns>
         public async Task<IBaseResponse<IEnumerable<Role>>> GetAll()
         {
             try
@@ -49,6 +53,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для получения роли по коду
+        /// </summary>
+        /// <param name="id"> - код роли</param>
+        /// <returns>Информация о роли или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<RolesViewModel>> Get(int id)
         {
             try
@@ -65,6 +74,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных роли в ViewModel
                 var data = new RolesViewModel()
                 {
                     Id = roles.Id,
@@ -88,6 +98,11 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для удаления роли
+        /// </summary>
+        /// <param name="id"> - код роли</param>
+        /// <returns>"Успех" или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<bool>> Delete(int id)
         {
             try
@@ -123,10 +138,16 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для создания роли
+        /// </summary>
+        /// <param name="rolesViewModel"> - ViewModel</param>
+        /// <returns>Добавленная роль</returns>
         public async Task<IBaseResponse<Role>> Create(RolesViewModel rolesViewModel)
         {
             try
             {
+                // Перенос данных из ViewModel
                 var roles = new Role()
                 {
                     Role1 = rolesViewModel.Role1,
@@ -151,6 +172,12 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
+        /// <summary>
+        /// Метод для редактирования роли
+        /// </summary>
+        /// <param name="id"> - код роли</param>
+        /// <param name="rolesViewModel"> - ViewModel</param>
+        /// <returns>Изменённая роль или сообщение "Элемент не найден"</returns>
         public async Task<IBaseResponse<Role>> Edit(int id, RolesViewModel rolesViewModel)
         {
             try
@@ -167,6 +194,7 @@ namespace RepairServiceWeb.Service.Implementations
                     };
                 }
 
+                // Перенос данных из ViewModel
                 roles.Role1 = rolesViewModel.Role1;
                 roles.Description = rolesViewModel.Description;
 
@@ -188,12 +216,17 @@ namespace RepairServiceWeb.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<string>> GetRoleName(int? permissionId)
+        /// <summary>
+        /// Метод для получения названия роли
+        /// </summary>
+        /// <param name="id"> - код роли</param>
+        /// <returns>Название роли или сообщение "Элемент не найден"</returns>
+        public async Task<IBaseResponse<string>> GetRoleName(int? id)
         {
             try
             {
                 var roles = await _roleRepository.GetAll()
-                                                 .FirstOrDefaultAsync(x => x.Id == permissionId);
+                                                 .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (roles == null)
                 {

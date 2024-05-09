@@ -12,6 +12,10 @@ namespace RepairServiceWeb.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Метод добавления записи в таблицу "Сотрудники"
+        /// </summary>
+        /// <param name="entity" - информация о сотруднике></param>
         public async Task<bool> Create(Staff entity)
         {
             await _context.Staff.AddAsync(entity);
@@ -20,6 +24,10 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод удаления записи из таблицы "Сотрудники"
+        /// </summary>
+        /// <param name="entity" - информация о сотруднике></param>
         public async Task<bool> Delete(Staff entity)
         {
             _context.Staff.Remove(entity);
@@ -28,11 +36,18 @@ namespace RepairServiceWeb.DAL.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Метод для получения всех данных из таблицы "Сотрудники"
+        /// </summary>
         public IQueryable<Staff> GetAll()
         {
             return _context.Staff;
         }
 
+        /// <summary>
+        /// Метод для обновления данных в таблице "Сотрудники"
+        /// </summary>
+        /// <param name="entity" - информация о сотруднике></param>
         public async Task<Staff> Update(Staff entity)
         {
             _context.Staff.Update(entity);
