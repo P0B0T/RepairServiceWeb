@@ -30,12 +30,17 @@
             <span asp-validation-for="@Model.Date_of_admission"></span> <br />
 
             <label asp-for="@Model.End_date"></label>
-            <input placeholder="Выберите дату" required type="date" asp-for="@Model.End_date" />
+            <input placeholder="Выберите дату" type="date" asp-for="@Model.End_date" />
             <span asp-validation-for="@Model.End_date"></span> <br />
 
             <label asp-for="@Model.Cost"></label>
             <input placeholder="Введите цену" required step="0.01" type="number" asp-for="@Model.Cost" asp-format="{0:0.##}" />
             <span asp-validation-for="@Model.Cost"></span>
+
+            <label asp-for="@Model.Status"></label>
+            <select asp-for="@Model.Status" required asp-items="ViewBag.StatusList">
+                <option value="">-Выберите статус-</option>
+            </select> <br />
         </div> <br />
 
         <label asp-for="@Model.Description_of_problem"></label> <br />

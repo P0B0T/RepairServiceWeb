@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RepairServiceWeb.Domain.Entity.Accessory" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAgAIAAAAAAABQAAAAABAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Entity\Accessory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Client" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACIAACAAAIAAEAAAQAQARAAABAACAAAQAAAAAAA=</HashCode>
+      <FileName>Entity\Client.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Device" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACgCAAAAAAAAQCAAgAAAAAAAAAEAAAAAAQgAAAAAAAQ=</HashCode>
+      <FileName>Entity\Device.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.OrderAccessory" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAIAAQgIAAABQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Entity\OrderAccessory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Repair" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAgAAAAAAABBgACAAAAACEAAAEAAAAAA=</HashCode>
+      <FileName>Entity\Repair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Role" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAACAAAAAAACAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Entity\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Staff" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACIAAAAAQKAAEAAABAQADAAABAACAAARAAAAAAA=</HashCode>
+      <FileName>Entity\Staff.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Entity.Supplier" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAACAAAAAABIAAQAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Supplier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.Response.BaseResponse&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAABAAIAAAAAAAAAA=</HashCode>
+      <FileName>Response\BaseResponse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.AccessoriesViewModel" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAgAIAAAAAAABQAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>ViewModels\AccessoriesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.ClientsViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACIAACCAAIAAEAAAAAQABAAAAAACAAAQAAAAAkA=</HashCode>
+      <FileName>ViewModels\ClientsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.DevicesViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgSAAEAAACAACAAgAAAAAAAAAAAAAAAAQAAAAAAAAQ=</HashCode>
+      <FileName>ViewModels\DevicesViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.OrderAccessoriesViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAICAIAAAgIAAABQAAAACAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>ViewModels\OrderAccessoriesViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.RepairsViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAACAAgAAAAAAABAAAiAAAAACEAAAYAgAAAA=</HashCode>
+      <FileName>ViewModels\RepairsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.RolesViewModel" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>ViewModels\RolesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.StaffViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACIQAACAAKAAEAAABAQADAAABAACAAAQAAAAAEA=</HashCode>
+      <FileName>ViewModels\StaffViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Domain.ViewModels.SuppliersViewModel" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAgAAAAAAAAAAAACABAAAAAAAgA=</HashCode>
+      <FileName>ViewModels\SuppliersViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="RepairServiceWeb.Domain.Interfaces.IUser" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAIAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Domain.Response.IBaseResponse&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAABAAIAAAAAAAAAA=</HashCode>
+      <FileName>Response\BaseResponse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

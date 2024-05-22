@@ -105,6 +105,7 @@ namespace RepairServiceWeb.DAL
                 entity.Property(e => e.DescriptionOfProblem)
                     .HasMaxLength(500)
                     .HasColumnName("Description_of_problem");
+                entity.Property(e => e.Status).HasMaxLength(50);
                 entity.Property(e => e.EndDate).HasColumnName("End_date");
 
                 entity.HasOne(d => d.Device).WithMany(p => p.Repairs)

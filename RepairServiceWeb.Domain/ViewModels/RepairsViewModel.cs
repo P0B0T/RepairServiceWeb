@@ -17,7 +17,7 @@ namespace RepairServiceWeb.Domain.ViewModels
         public DateOnly Date_of_admission { get; set; }
 
         [Display(Name = "Дата окончания:")]
-        public DateOnly End_date { get; set; }
+        public DateOnly? End_date { get; set; }
 
         [Display(Name = "Стоимость:")]
         [Range(1, 1000000, ErrorMessage = "Стоимость ремонта должна быть больше 0 и меньше 1 000 000.")]
@@ -30,6 +30,9 @@ namespace RepairServiceWeb.Domain.ViewModels
         [Display(Name = "Описание проделанной работы:")]
         [StringLength(500, MinimumLength = 10, ErrorMessage = "Описание проделанной работы должно быть от 10 до 500 символов.")]
         public string Descriprion_of_work_done { get; set; } = null!;
+
+        [Display(Name = "Статус ремонта:")]
+        public string? Status { get; set; } = null!;
 
         public virtual Staff? Staff { get; set; }
 
@@ -44,6 +47,9 @@ namespace RepairServiceWeb.Domain.ViewModels
 
             if (End_date < Date_of_admission || End_date > DateOnly.FromDateTime(DateTime.Today))
                 errors.Add(new ValidationResult("Дата окончания должна быть не раньше даты поступления и не позднее сегодняшней даты.", new[] { nameof(End_date) }));
+
+            if (Status == "Выполнен" && End_date == null)
+                errors.Add(new ValidationResult("Для выполненых ремонтов обязательна дата окончания.", new[] { nameof(End_date) }));
 
             return errors;
         }

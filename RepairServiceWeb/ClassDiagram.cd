@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RepairServiceWeb.Controllers.AccessoriesController" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIBQAAAAAAAAAAAAQCAAACAAgAAAAAAEQ=</HashCode>
+      <FileName>Controllers\AccessoriesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.AutorizationController" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAABAAAAAAAAAAAAAAEAAAAAAEAAAAQAgA=</HashCode>
+      <FileName>Controllers\AutorizationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.ClientsController" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAQACBAAAAQAAAABAAIAAAAAAAAgAgAAAAAA=</HashCode>
+      <FileName>Controllers\ClientsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.DevicesController" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAEAAAAAFAAAAAAAAAAAAABAgAAEAAgAAAAAAQA=</HashCode>
+      <FileName>Controllers\DevicesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.OrderAccessoriesController" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CABAAAAAAIAABAAIABAAAIAAAAABAAAAAAgAIAAAQAA=</HashCode>
+      <FileName>Controllers\OrderAccessoriesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.PersonalCabinetController" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAABAAAAAIAAAEBAAAAAAAiIABAAQAA=</HashCode>
+      <FileName>Controllers\PersonalCabinetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.RepairsController" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAABAAhAAAAAAAAAEBAAAAgAAgQIAAAABA=</HashCode>
+      <FileName>Controllers\RepairsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.RolesController" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAEAAAAAAAAEAAAAAAgAAAAAAAAAAAAAgAAAAAAAg=</HashCode>
+      <FileName>Controllers\RolesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.StaffController" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAIAABAAAgEAEAAEAAAAAAoAAACAAAA=</HashCode>
+      <FileName>Controllers\StaffController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Controllers.SuppliersController" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAICAAAQAAAAAAAAAABAAgBQAAAAAA=</HashCode>
+      <FileName>Controllers\SuppliersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.AutorizationOptions" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQQAAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutorizationOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Initializer" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Initializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairServiceWeb.Program" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

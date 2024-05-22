@@ -13,6 +13,14 @@ namespace RepairServiceWeb.Controllers
         private readonly IRoleCheckerService _roleCheckerService;
         private readonly ApplicationDbContext _context;
 
+        List<string> statusList = new List<string>()
+        {
+            "Принят в работу",
+            "Выполняется",
+            "Ожидание запчастей",
+            "Выполнен"
+        }; // коллекция статусов ремонта
+
         public RepairsController(IRepairsService repairsService, ApplicationDbContext context, IRoleCheckerService roleCheckerService)
         {
             _repairsService = repairsService;
@@ -236,6 +244,8 @@ namespace RepairServiceWeb.Controllers
 
             var workers = _context.Staff.Where(x => x.Role.Role1.ToLower() == "сотрудник" || x.Role.Role1.ToLower() == "employee"); // Получение списка сотрудников
             ViewBag.StaffList = new SelectList(workers.ToList(), "Id", "FullName"); // Заполнение ViewBag списком сотрудников
+
+            ViewBag.StatusList = new SelectList(statusList); // Заполнение ViewBag списком возможных статусов
         }
     }
 }

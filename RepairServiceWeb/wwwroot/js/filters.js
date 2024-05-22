@@ -451,8 +451,10 @@ $('#filterRepairs').on('submit', function (event) {
                     var date = new Date(item.endDate);
                     var formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
                     arr.push(`<label>${formattedDate}</label> <br />`);
-                    arr.push('<label><b>Цена:</b></label>');
+                    arr.push('<label><b>Стоимость:</b></label>');
                     arr.push(`<label>${item.cost} руб.</label> <br />`);
+                    arr.push('<label><b>Статус:</b></label>');
+                    arr.push(`<label>${item.status}</label> <br />`);
                     arr.push('</div>');
                     arr.push('<div style="margin-top: 2em; width: 20em">');
                     arr.push('<label><b>Описание проблемы:</b></label>');

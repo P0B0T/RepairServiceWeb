@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RepairServiceWeb.Service.Implementations.AccessoriesService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIABgAAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\AccessoriesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.ClientsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAAAAAAAEAAEAKAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\ClientsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.DevicesService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAEABgAAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\DevicesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.OrderAccessoriesService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAEABgAAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\OrderAccessoriesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.RepairsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAEABgAAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\RepairsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.RoleCheckerService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Implementations\RoleCheckerService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.RolesService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAEAAEACAgAAAAAQAAA=</HashCode>
+      <FileName>Implementations\RolesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.StaffService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABhAAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\StaffService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RepairServiceWeb.Service.Implementations.SuppliersService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgQAAAAAAAAAEAAEACAgAAAAAAAAg=</HashCode>
+      <FileName>Implementations\SuppliersService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IAccessoriesService" Collapsed="true">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IAccessoriesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IBaseService&lt;T&gt;" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAAg=</HashCode>
+      <FileName>Interfaces\IBaseService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IClientsService" Collapsed="true">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IClientsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IDevicesService" Collapsed="true">
+    <Position X="14" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDevicesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IOrderAccessoriesService" Collapsed="true">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOrderAccessoriesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IRepairsService" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IRepairsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IRoleCheckerService" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IRoleCheckerService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IRolesService" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAEAAEACAgAAAAAQAAA=</HashCode>
+      <FileName>Interfaces\IRolesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.IStaffService" Collapsed="true">
+    <Position X="5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IStaffService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RepairServiceWeb.Service.Interfaces.ISuppliersService" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABgAAAAAAAAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ISuppliersService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

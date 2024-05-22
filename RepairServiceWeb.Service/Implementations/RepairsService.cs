@@ -121,7 +121,8 @@ namespace RepairServiceWeb.Service.Implementations
                                                               .Include(x => x.Device)
                                                               .Include(x => x.Device.Client)
                                                               .ToListAsync())
-                                                              .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password);
+                                                              .Where(x => x.Device.Client.Id == userId && x.Device.Client.Login == login && x.Device.Client.Password == password)
+                                                              .OrderByDescending(x => x.Id);
 
                 var staffRepairs = (IQueryable<Repair>)null;
 
@@ -131,7 +132,8 @@ namespace RepairServiceWeb.Service.Implementations
                                                      .Include(x => x.Staff)
                                                      .Include(x => x.Device)
                                                      .Include(x => x.Device.Client)
-                                                     .Where(x => x.Staff.Id == userId && x.Staff.Login == login && x.Staff.Password == password);
+                                                     .Where(x => x.Staff.Id == userId && x.Staff.Login == login && x.Staff.Password == password)
+                                                     .OrderByDescending(x => x.Id);
                 }
 
                 if (!clientsRepairs.Any() && !staffRepairs.Any())
@@ -194,6 +196,7 @@ namespace RepairServiceWeb.Service.Implementations
                     Cost = repairs.Cost,
                     Description_of_problem = repairs.DescriptionOfProblem,
                     Descriprion_of_work_done = repairs.DescriprionOfWorkDone,
+                    Status = repairs.Status,
                     Staff = repairs.Staff,
                     Device = repairs.Device
                 };
@@ -315,6 +318,7 @@ namespace RepairServiceWeb.Service.Implementations
                     Cost = repairsViewModel.Cost,
                     DescriptionOfProblem = repairsViewModel.Description_of_problem,
                     DescriprionOfWorkDone = repairsViewModel.Descriprion_of_work_done,
+                    Status = repairsViewModel.Status,
                     Staff = repairsViewModel.Staff,
                     Device = repairsViewModel.Device
                 };
@@ -367,6 +371,7 @@ namespace RepairServiceWeb.Service.Implementations
                 repairs.Cost = repairsViewModel.Cost;
                 repairs.DescriptionOfProblem = repairsViewModel.Description_of_problem;
                 repairs.DescriprionOfWorkDone = repairsViewModel.Descriprion_of_work_done;
+                repairs.Status = repairsViewModel.Status;
 
                 await _repairsRepository.Update(repairs);
 
