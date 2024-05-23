@@ -17,8 +17,8 @@
 </div>
 
 <div class="divCenter">
-    <form>
+    <form id="repairButtonsForm">
         <button type="button" onclick="openModal({ url: '/Repairs/AddOrEditRepairs', data: '@Model.Id', title: 'Редактирование ремонта' })" data-toggle="ajax-modal" data-target="Modal">Редактировать</button>
-        <button type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/Repairs/DeleteRepairs', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
+        <button id="delRepairButton" type="button" style="margin-left: 6em" onclick="openConfirm({ url: '/Repairs/DeleteRepairs', data: '@Model.Id' })" data-toggle="ajax-modal" data-target="Modal">Удалить</button>
     </form>
 </div>

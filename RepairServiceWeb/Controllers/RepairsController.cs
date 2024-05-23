@@ -38,9 +38,10 @@ namespace RepairServiceWeb.Controllers
             // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+            // Если пользователь не админ, не ресепшен и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _repairsService.GetAll();
@@ -62,10 +63,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRepairs(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
+            // Проверка роли пользователя
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult)
+            // Если пользователь не админ и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _repairsService.Get(id);
@@ -87,9 +90,10 @@ namespace RepairServiceWeb.Controllers
             // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+            // Если пользователь не админ, не ресепшен и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _repairsService.GetByName(name);
@@ -112,9 +116,10 @@ namespace RepairServiceWeb.Controllers
             // Проверка роли пользователя
             var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
             var resultReception = await _roleCheckerService.Check(Request, "reception", "ресепшен");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ и не ресепшен, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult)
+            // Если пользователь не админ, не ресепшен и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultReception is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             var response = await _repairsService.GetFiltered(clientFullName, staffFullName);
@@ -154,10 +159,12 @@ namespace RepairServiceWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditRepairs(int id)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
+            // Проверка роли пользователя
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult)
+            // Если пользователь не админ и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             FillViewBag();
@@ -189,10 +196,12 @@ namespace RepairServiceWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrEditRepairs(RepairsViewModel model)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
+            // Проверка роли пользователя
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult)
+            // Если пользователь не админ и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             FillViewBag();
@@ -224,10 +233,12 @@ namespace RepairServiceWeb.Controllers
         /// <returns>Список устройств в формате Json</returns>
         public async Task<IActionResult> GetDevices(int clientId)
         {
-            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ"); // Проверка роли пользователя
+            // Проверка роли пользователя
+            var resultAdmin = await _roleCheckerService.Check(Request, "admin", "админ");
+            var resultManager = await _roleCheckerService.Check(Request, "manager", "менеджер");
 
-            // Если пользователь не админ, то происходит перенаправление на стартовую страницу
-            if (resultAdmin is UnauthorizedResult)
+            // Если пользователь не админ и не менеджер, то происходит перенаправление на стартовую страницу
+            if (resultAdmin is UnauthorizedResult && resultManager is UnauthorizedResult)
                 return Redirect("/");
 
             var devices = _context.Devices.Where(d => d.ClientId == clientId).ToList(); // Получение списка устройств по коду клиента

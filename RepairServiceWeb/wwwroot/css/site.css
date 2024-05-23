@@ -275,7 +275,7 @@ span {
     font-weight: 700
 }
 
-.buttonInf, .staffInf, .elemInf, .confInf, #workersEl, #infDevice, #infAccessories, #addDevicesButton, .theme {
+.buttonInf, .staffInf, .elemInf, .confInf, #workersEl, #infDevice, #infAccessories, #addDevicesButton, .theme, .repairsInf, #delRepairButton {
     display: none
 }
 
@@ -293,6 +293,12 @@ span {
     position: fixed;
     bottom: 6em;
     right: 2em;
+}
+
+#repairButtonsForm {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
 }
 
 @media (prefers-color-scheme: dark) {
