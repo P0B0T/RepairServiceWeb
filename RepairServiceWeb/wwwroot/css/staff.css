@@ -58,7 +58,7 @@ span {
 }
 
 ::placeholder {
-    color: #383837
+    color: #99999a
 }
 
 .searchRes {
@@ -83,11 +83,6 @@ hr {
         border-bottom: solid #e5e5e5
     }
 
-input[type=file]::file-selector-button {
-    border-right: 0.1em solid #e5e5e5;
-    color: #383837
-}
-
 button:hover {
     color: black !important
 }
@@ -106,17 +101,17 @@ button:hover {
     }
 
     button, .buttonAdd, .divGet {
-        color: gray;
-        border-color: gray;
+        color: lightgray;
+        border-color: lightgray;
     }
 
     h2, h3, label, p {
-        color: gray
+        color: lightgray
     }
 
     select, input, textarea {
-        color: gray;
-        border: 0.1em solid gray;
+        color: lightgray;
+        border: 0.1em solid lightgray;
         background-color: transparent
     }
 
@@ -126,11 +121,11 @@ button:hover {
 
     .modalBackground, #popup {
         background-color: #010D47;
-        border: 0.001em solid gray
+        border: 0.001em solid lightgray
     }
 
     ::placeholder {
-        color: #50504f
+        color: #5c5c5b
     }
 
     .searchRes {
@@ -138,29 +133,38 @@ button:hover {
     }
 
     hr {
-        border-top: 0.3em solid gray
+        border-top: 0.3em solid lightgray
     }
 
     .dropdown-menu li {
         background-color: #010D47;
-        border-left: solid gray;
-        border-right: solid gray
+        border-left: solid lightgray;
+        border-right: solid lightgray
     }
 
         .dropdown-menu li:first-child {
-            border-top: solid gray
+            border-top: solid lightgray
         }
 
         .dropdown-menu li:last-child, .modal-header {
-            border-bottom: solid gray
+            border-bottom: solid lightgray
         }
 
     input[type=file]::file-selector-button {
-        color: gray;
-        border-right: 0.1em solid gray
+        color: lightgray;
+        border-right: 0.1em solid lightgray
     }
 
     button:hover {
-        color: gray !important
+        color: lightgray !important
+    }
+
+    button.btnTheme:hover {
+        color: black !important
+    }
+
+    .counter::before {
+        border: 0.1em solid lightgray;
+        color: lightgray
     }
 }

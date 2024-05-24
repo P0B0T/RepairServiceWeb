@@ -1,8 +1,8 @@
-﻿nav, footer {
+﻿nav, footer, .nav-item:hover, .dropdown-menu {
     background-color: #e5e5e5
 }
 
-.modalBackground, body {
+.modalBackground, body, select option {
     background-color: #1A7E90
 }
 
@@ -10,11 +10,15 @@
     border-bottom: 0.1em solid #e5e5e5
 }
 
-p, a {
+.dropdown-item:hover {
+    background-color: #acacac
+}
+
+.pFooter {
     color: black
 }
 
-.greetings, h2, label, h3 {
+.greetings, h2, label, h3, p, h5 {
     color: #e5e5e5
 }
 
@@ -24,6 +28,12 @@ button, .counter::before {
 }
 
 input, textarea {
+    color: #e5e5e5;
+    border: 0.1em solid #e5e5e5;
+    background-color: transparent
+}
+
+select {
     color: #e5e5e5;
     border: 0.1em solid #e5e5e5;
     background-color: transparent
@@ -44,7 +54,7 @@ span {
 }
 
 ::placeholder {
-    color: #90908e
+    color: #b6b6b5
 }
 
 hr {
@@ -55,46 +65,58 @@ button:hover {
     color: black !important
 }
 
+.buttonAdd, .divGet {
+    border: 0.1em solid #e5e5e5
+}
+
 @media (prefers-color-scheme: dark) {
-    body {
+    body, select option {
         background-color: #0b363e
     }
 
-    nav, footer {
+    nav, footer, .dropdown-menu, .nav-item:hover {
         background-color: #4e4e51
     }
 
     button, .buttonAdd, .divGet {
-        color: gray;
-        border-color: gray;
+        color: lightgray;
+        border-color: lightgray;
         border-radius: 0.3em
     }
 
     h2, h3, label, p {
-        color: gray
+        color: lightgray
     }
 
     select, input, textarea {
-        color: gray;
-        border: 0.1em solid gray;
+        color: lightgray;
+        border: 0.1em solid lightgray;
         background-color: transparent
     }
 
     .modalBackground {
         background-color: #0b363e;
-        border: 0.001em solid gray
+        border: 0.001em solid lightgray
     }
 
     #popup {
-        background-color: gray;
-        border: 0.001em solid gray
+        background-color: lightgray;
+        border: 0.001em solid lightgray
+    }
+
+    button:hover {
+        color: lightgray !important
+    }
+
+    button.btnTheme:hover {
+        color: black !important
     }
 
     ::placeholder {
-        color: #50504f
+        color: #656562
     }
 
     hr {
-        border-top: 0.3em solid gray
+        border-top: 0.3em solid lightgray
     }
 }

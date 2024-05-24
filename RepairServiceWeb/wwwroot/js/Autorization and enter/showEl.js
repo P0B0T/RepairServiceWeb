@@ -39,7 +39,6 @@
             $('.navbar-nav').show();
             $('.elemInf').show();
             $('.repairsInf').show();
-            $('.confInf').show();
             $('#addDevicesButton').show();
         }
         else if (permissionValue.includes('human resources') || permissionValue.includes('отдел кадров')) {
