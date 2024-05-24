@@ -87,6 +87,11 @@ button:hover {
     color: black !important
 }
 
+span {
+    color: #69020a;
+    font-weight: bold
+}
+
 @media (prefers-color-scheme: dark) {
     body, select option, .filterEl option {
         background-color: #010D47
@@ -94,6 +99,10 @@ button:hover {
 
     h1, .pFooter {
         color: #e5e5e5
+    }
+
+    span {
+        color: red;
     }
 
     nav, footer, .dropdown-menu, .nav-item:hover {

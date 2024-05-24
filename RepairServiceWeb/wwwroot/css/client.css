@@ -69,6 +69,11 @@ button:hover {
     border: 0.1em solid #e5e5e5
 }
 
+span {
+    color: darkred;
+    font-weight: bold
+}
+
 @media (prefers-color-scheme: dark) {
     body, select option {
         background-color: #0b363e
@@ -76,6 +81,10 @@ button:hover {
 
     nav, footer, .dropdown-menu, .nav-item:hover {
         background-color: #4e4e51
+    }
+
+    span {
+        color: red;
     }
 
     button, .buttonAdd, .divGet {
